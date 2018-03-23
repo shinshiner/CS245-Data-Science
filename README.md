@@ -2,7 +2,7 @@
 
 SJTU2 CS45 Data Science
 
-## Requirements
+## 1. Requirements
 
 * [Python 2.7](https://www.python.org/)
 * [ipython](http://ipython.org/)
@@ -11,7 +11,9 @@ SJTU2 CS45 Data Science
 * [pandas](http://pandas.pydata.org/)
 * [matplotlib](https://matplotlib.org/)
 
-## [Adult](https://github.com/shinshiner/CS245-Data-Science/tree/master/Adult)
+## 2. Contents
+
+### [Adult](https://github.com/shinshiner/CS245-Data-Science/tree/master/Adult)
 
 分析并可视化Adult数据集
 
