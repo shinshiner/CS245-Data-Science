@@ -1,0 +1,10 @@
+\begin{thebibliography}{1}
+
+\bibitem{levine2016learning}
+Sergey Levine, Peter Pastor, Alex Krizhevsky, and Deirdre Quillen.
+\newblock Learning hand-eye coordination for robotic grasping with large-scale
+  data collection.
+\newblock In {\em International Symposium on Experimental Robotics}, pages
+  173--184. Springer, 2016.
+
+\end{thebibliography}
