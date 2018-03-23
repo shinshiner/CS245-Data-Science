@@ -11,10 +11,12 @@ SJTU2 CS45 Data Science
 * [pandas](http://pandas.pydata.org/)
 * [matplotlib](https://matplotlib.org/)
 
-## Adult
+## [Adult](https://github.com/shinshiner/CS245-Data-Science/tree/master/Adult)
 
-分析并可视化adult数据集
+分析并可视化Adult数据集
 
 ## Reference
 
 * [Morvan's tutorial](https://morvanzhou.github.io/tutorials/data-manipulation/)
+* [pandas](http://pandas.pydata.org/)
+* [matplotlib](https://matplotlib.org/)
