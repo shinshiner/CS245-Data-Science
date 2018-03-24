@@ -65,38 +65,36 @@ CS245, Data Science Foundation, Chaojun Lu, Autumn 2017 \vspace{1mm} \\
 \vspace{-1.5\baselineskip}
 \section{Introduction} % or Problem Description ?
 
+Currently, data science is becoming ubiquitous in our society and showing its essentiality in many domains (e.g. medical industry~\cite{medical1, medical2}, finance~\cite{finance}, social media~\cite{media1, media2}). With the rapid evolution and wide applications of data science, a series of efficient packages have been constantly developed~\cite{numpy, pandas, matplotlib, sklearn}. Utilizing these packages skillfully is of great importance nowadays. In this project, I tend to conduct an exploration over the \textit{Adult} dataset and visualize the results with some of these packages.
+
 \vspace{-1\baselineskip}
-\section{Approaches~\cite{levine2016learning}}
-	In sentiment analysis with lexicon-based polarity identification, the orientations of some opinion words might heavily depend on its context. For instance, consider the word \emph{long}:
-\begin{itemize}
-	\item The battery life is \emph{long}.
-	\item The time taken to focus is \emph{long}.
-\end{itemize}
+\section{Approaches}
 
-	Opinion word \emph{long} for battery life is positive, while \emph{long} for time to focus is negative. This problem is inevitable when using lexicon-based polarity identification, which ignores the context information.
-
-\section{Experiments}
-
-
-\section{Conclusion}
+The \textit{Adult} dataset is in the format of .CSV with 16281 lines, each line contains some basic information (age, job, gender and etc) of an adults. I explore and extract the information hidden in the data with the following steps:
 \begin{enumerate}
-	\item Apply the regular lexicon-based polarity identification method on the corpus and filter the adjectives with ambiguous meanings. The remaining ones are treated as absolute ground truth in later training.
-	\item Redefine a lexicon to be a word pair in the form of \emph{<object, adjective>},
-and apply the revised lexicon-based polarity identification method on it, where
-\begin{itemize}
-	\item The polarity of positive words: +1, negative word: -1, neutral words: 0.
-	\item The words classified by the regular lexicon-based polarity identification method in step 1, and the labeled lexicons in the seed dataset serve as ground truth when training. 
-	\item When aggregating opinions, the equation
-	\begin{equation}
-		score(f_i, s) = \sum_{op_j \in s} \frac{op_{j}.so}{d(op_j, f_i)},
-	\end{equation}
-	where $op_j$ is an opinion word (either a ground truth or a induced lexicon) in $s$, and $d(op_j, f_i)$ is the distance between the closest words in $op_j$ and $f_i$. $op_{j}.so$ is the orientation or the opinion score of $op_j$. 
-\end{itemize}
-	\item To make the model more accurate and robust, we further take the context and conjunctions(and, but, however ...) into consideration in long comments, which form links between sentences in each comment. Especially, the same word can appear in different sentences(e.g. ``The battery life is long, but the time taken to focus is long''). Therefore, we can add the sentimental scores of nearby sentences with some weights to the target sentence factored by the conjunctive adverb. A Na\''{i}ve design is that, if there are $n$ conjunctive adverbs(e.g. \emph{but}, \emph{however}), $op_j$ will be multiplied by a adjusting factor ${(-1)}^{n}$. A hand-engineered algorithm could possibly solve this problem, but it would be better to tackle the task by training a neural network.
-	\item After training, for each word we receive a score $\in [-1, 1]$, and some thresholds should be defined correspondingly to classify them into three classes.
+\item Read the data with \textit{pandas}~\cite{pandas} and reconstruct it as \textit{DataFrame} type.
+
+\item Select a target item (e.g. work time per week) to conduct analysis.
+
+\item Select two items to explore the relation between them.
+
+\item Visualize all analysis results with \textit{matplotlib}~\cite{matplotlib} and \textit{pandas}.
 \end{enumerate}
 
-\section{Acknowledgement}
+
+\section{Experiments}
+\subsection{The Distribution of Single Item}
+
+\subsection{The Relation between Two Items}
+
+
+\section{Conclusion and Discussion}
+In this project, I carry out the visualization and exploration of \textit{Adult} dataset and discover some interesting phenomenons reflected from it.
+
+According to the results of above analysis, the distribution of each item has some kinds of ralation with others. Thus, I think I can train a model to predict target items from other items in my future learning process.
+
+Ultimately, I tend to express my sincere thanks to Professor Chaojun Lu for his patient explanation and guidance in lectures! Thank you!
+{\small
 
 \renewcommand{\refname}{References}
 \bibliographystyle{ieeetr}
