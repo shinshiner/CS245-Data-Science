@@ -74,24 +74,43 @@ The \textit{Adult} dataset is in the format of .CSV with 16281 lines, each line 
 \begin{enumerate}
 \item Read the data with \textit{pandas}~\cite{pandas} and reconstruct it as \textit{DataFrame} type.
 
-\item Select a target item (e.g. work time per week) to conduct analysis.
+\item Select a target attribute (e.g. work time per week) to conduct analysis.
 
-\item Select two items to explore the relation between them.
+\item Select two attributes to explore the relation between them.
 
 \item Visualize all analysis results with \textit{matplotlib}~\cite{matplotlib} and \textit{pandas}.
 \end{enumerate}
 
 
 \section{Experiments}
-\subsection{The Distribution of Single Item}
 
-\subsection{The Relation between Two Items}
+\subsection{Experiments Setup}
+
+Since the data is organized as .CSV format, it is easy to be recogbnized by \textit{pandas}. I first construct the dataset as a \textit{DataFrame} with 16281 lines and 15 columns, each line denotes the information of an adult while each column represents an attribute.
+
+\subsection{The Distribution of Single Attribute}
+
+Generally speaking, it is of great importance to get the distribution of some attributes in the data. I hence explore some of them and visualize the results with different figure types.
+
+\begin{enumerate}
+\item The distribution of educational level in the dataset is shown in fig. \ref{fig::education_level}.
+
+The result shows 
+
+\item Select a target attribute (e.g. work time per week) to conduct analysis.
+
+\item Select two attributes to explore the relation between them.
+
+\item Visualize all analysis results with \textit{matplotlib}~\cite{matplotlib} and \textit{pandas}.
+\end{enumerate}
+
+\subsection{The Relation between Two Attributes}
 
 
 \section{Conclusion and Discussion}
 In this project, I carry out the visualization and exploration of \textit{Adult} dataset and discover some interesting phenomenons reflected from it.
 
-According to the results of above analysis, the distribution of each item has some kinds of ralation with others. Thus, I think I can train a model to predict target items from other items in my future learning process.
+According to the results of above analysis, the distribution of each attribute has some kinds of ralation with others. Thus, I think I can train a model to predict target attributes from others in my future learning process.
 
 Ultimately, I tend to express my sincere thanks to Professor Chaojun Lu for his patient explanation and guidance in lectures! Thank you!
 {\small
