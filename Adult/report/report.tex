@@ -73,16 +73,16 @@ Currently, data science is becoming ubiquitous in our society and showing its es
 \section{Approaches}
 
 The \textit{Adult} dataset is in the format of .CSV with 16281 lines, each line contains some basic information (age, job, gender and etc) of an adults. I explore and extract the information hidden in the data with the following steps:
+
 \begin{enumerate}
-\item Read the data with \textit{pandas}~\cite{pandas} and reconstruct it as \textit{DataFrame} type.
+\item Read the data with \textit{pandas}~\cite{pandas} and reconstruct it as a \textit{DataFrame} type variable.
 
-\item Select a target attribute (e.g. work time per week) to conduct analysis.
+\item Select a target attribute (e.g. work time per week) to conduct some analyses.
 
-\item Select two attributes to explore the relation between them.
+\item Select two attributes to explore the relations between them.
 
-\item Visualize all analysis results with \textit{matplotlib}~\cite{matplotlib} and \textit{pandas}.
+\item Visualize all analyses results with \textit{matplotlib}~\cite{matplotlib} and \textit{pandas}.
 \end{enumerate}
-
 
 \section{Experiments}
 
@@ -95,9 +95,13 @@ Since the data is organized as .CSV format, it is easy to be recogbnized by \tex
 Basically, it is of great importance to get the distribution of some attributes in the data. I hence explore some of them and visualize the results with different figure types.
 
 \begin{enumerate}
-\item The distribution of educational level in the dataset is shown in fig. \ref{fig::education_level}.
+\item The distribution of educational background in the dataset is shown in Fig. \ref{fig::education_level}.
 
 The result shows the educational background of many adults are high school or college, occupying more than half of the proportion. Only a few people owns bad educational background(e.g. preschool).
+
+\item In the meantime, I also plot the distribution of schooling years in Fig. \ref{fig::education_time}.
+
+Indeed, the schooling years are extremely related to educational background, the two distributions are hence quite similar.
 
 \item The distribution of family relations can refer to fig. \ref{fig::family}.
 
@@ -111,17 +115,23 @@ This Kernel Density Estimation(KDE) figure shows that most adults work 40 hours 
 
 \begin{figure}[htbp]
 	\centering
-	\subfigure[Education Distribution]{
+	\subfigure[Distribution of Educational Background]{
 		\label{fig::education_level}
 	    \includegraphics[width=0.48\linewidth, height=0.35\linewidth]{img/education_dis.pdf}
-	}	
-	\subfigure[Family Distribution]{
+	}
+	\subfigure[Distribution of Schooling Years]{
+		\label{fig::education_time}
+  		\includegraphics[width=0.48\linewidth, height=0.35\linewidth]{img/education_time.pdf}
+	}
+	\hspace{0.06\linewidth}
+	\subfigure[Distribution of Family Conditions]{
 		\label{fig::family}
 	    \includegraphics[width=0.44\linewidth, height=0.4\linewidth]{img/family_dis.pdf}
 	}
-	\subfigure[Work Time Distribution]{
+	\hspace{0.03\linewidth}
+	\subfigure[Distribution of Work Time]{
 		\label{fig::work_time}
-		\includegraphics[width=0.6\linewidth]{img/worktime_dis.pdf}
+		\includegraphics[width=0.49\linewidth, height=0.44\linewidth]{img/worktime_dis.pdf}
 	}
 	\caption{The Distribution of Some Single Attributes.}
 	\label{fig:"single_dis}
@@ -180,7 +190,7 @@ Different from my intuition, the result indicates that time-consuming jobs are f
 \section{Conclusion and Discussion}
 In this project, I carry out the visualization and exploration of \textit{Adult} dataset and discover some interesting phenomenons reflected from it.
 
-According to the results of above analysis, the distribution of each attribute has some kinds of relation with others. Thus, I think I can train a model to decode this relation as some weights and predict target attributes from others in my future learning process.
+According to the results of above analyses, the distribution of each attribute has some kinds of relation with others. Thus, I think I can train a model to decode this relation as some weights and predict target attributes from others in my future learning process.
 
 Ultimately, I tend to express my sincere thanks to Professor Chaojun Lu for his patient explanation and guidance in lectures! Thank you!
 {\small
