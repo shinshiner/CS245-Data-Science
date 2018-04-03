@@ -67,19 +67,19 @@ CS245, Data Science Foundation, Chaojun Lu, Autumn 2017 \vspace{1mm} \\
 \renewcommand{\figurename}{Figure}
 \section{Introduction} % or Problem Description ?
 
-Currently, data science is becoming ubiquitous in our society and showing its essentiality in many domains (e.g. medical industry~\cite{medical1, medical2}, finance~\cite{finance}, social media~\cite{media1, media2}). With the rapid evolution and wide applications of data science, a series of efficient packages have been constantly developed~\cite{numpy, pandas, matplotlib, sklearn}. Utilizing these packages skillfully is of great importance nowadays. In this project, I tend to conduct an exploration over the \textit{Adult} dataset and visualize the results with some of these packages.
+Currently, data science is becoming ubiquitous in our society and showing its essentiality in many domains (e.g. medical industry~\cite{medical1, medical2}, finance~\cite{finance}, social media~\cite{media1, media2}). With the rapid evolution and wide applications of data science, a series of efficient packages have been constantly developed~\cite{numpy, pandas, matplotlib, sklearn}. Utilizing these packages skillfully is of great importance nowadays. In this project, I tend to conduct some explorations over the \textit{Adult} dataset and visualize the results with some of these packages.
 
-\vspace{-1\baselineskip}
+%\vspace{-1\baselineskip}
 \section{Approaches}
 
-The \textit{Adult} dataset is in the format of .CSV with 16281 lines, each line contains some basic information (age, job, gender and etc) of an adults. I explore and extract the information hidden in the data with the following steps:
+The \textit{Adult} dataset is in the format of .CSV with 16281 lines, each line contains some basic information (age, job, gender and etc) of an adult. I explore and extract the information hidden in the data with the following steps:
 
 \begin{enumerate}
 \item Read the data with \textit{pandas}~\cite{pandas} and reconstruct it as a \textit{DataFrame} type variable.
 
-\item Select a target attribute (e.g. work time per week) to conduct some analyses.
+\item Select a target attribute (e.g. work time per week) to carry out some analyses.
 
-\item Select two attributes to explore the relations between them.
+\item Select two attributes to explore the implicit relations between them.
 
 \item Visualize all analyses results with \textit{matplotlib}~\cite{matplotlib} and \textit{pandas}.
 \end{enumerate}
@@ -88,28 +88,28 @@ The \textit{Adult} dataset is in the format of .CSV with 16281 lines, each line 
 
 \subsection{Experiments Setup}
 
-Since the data is organized as .CSV format, it is easy to be recogbnized by \textit{pandas}. I first construct the dataset as a \textit{DataFrame} with 16281 lines and 15 columns, each line denotes the information of an adult while each column represents an attribute.
+Since the data is organized as .CSV format, it is easy to be recognized by \textit{pandas}. I first construct the dataset as a \textit{DataFrame} with 16281 lines and 15 columns, each line denotes the information of an adult while each column represents an attribute.
 
 \subsection{The Distribution of Single Attribute}
 
-Basically, it is of great importance to get the distribution of some attributes in the data. I hence explore some of them and visualize the results with different figure types.
+Basically, it is of great significance to figure out the distribution of some attributes in the data. I hence explore some of them and visualize the results with corresponding figure types \footnote{More figures can refer to Appendix \ref{app}}.
 
 \begin{enumerate}
-\item The distribution of educational background in the dataset is shown in Fig. \ref{fig::education_level}.
+\item The distribution of \textbf{educational background} in the dataset is shown in Fig. \ref{fig::education_level}.
 
-The result shows the educational background of many adults are high school or college, occupying more than half of the proportion. Only a few people owns bad educational background(e.g. preschool).
+The result shows the educational background of many adults are high school or college, occupying more than half of the proportion. Only a few people owns bad educational background (e.g. preschool).
 
-\item In the meantime, I also plot the distribution of schooling years in Fig. \ref{fig::education_time}.
+\item In the meantime, I also plot the distribution of \textbf{schooling years} in Fig. \ref{fig::education_time}.
 
 Indeed, the schooling years are extremely related to educational background, the two distributions are hence quite similar.
 
-\item The distribution of family relations can refer to fig. \ref{fig::family}.
+\item The distribution of \textbf{family relations} can refer to Fig. \ref{fig::family}.
 
-The result indicates more than half of the adults have set up a family, while there still exist many adults remain unmarried or not in family.
+The result indicates more than half of the adults have set up a family, while there still exist many adults remain unmarried or not in family, which surprises me a little.
 
-\item The weekly working time distribution can be found in fig. \ref{fig::work_time}.
+\item The distribution of \textbf{working time per week} can be found in Fig. \ref{fig::work_time}.
 
-This Kernel Density Estimation(KDE) figure shows that most adults work 40 hours per week, and a few people also work more than 60 hours per week. I will conduct some deep explorations in Sec. \ref{sec::salary_vs_edu}.
+This Kernel Density Estimation(KDE) figure shows that most adults work about 40 hours per week, and a few people also work more than 60 hours per week. To find out more hidden information, I will conduct some deep explorations in Sec. \ref{sec::worktime_vs_edu} and Sec. \ref{sec::job_vs_worktime}.
 
 \end{enumerate}
 
@@ -124,7 +124,7 @@ This Kernel Density Estimation(KDE) figure shows that most adults work 40 hours 
   		\includegraphics[width=0.48\linewidth, height=0.35\linewidth]{img/education_time.pdf}
 	}
 	\hspace{0.06\linewidth}
-	\subfigure[Distribution of Family Conditions]{
+	\subfigure[Distribution of Family Relations]{
 		\label{fig::family}
 	    \includegraphics[width=0.44\linewidth, height=0.4\linewidth]{img/family_dis.pdf}
 	}
@@ -141,9 +141,9 @@ This Kernel Density Estimation(KDE) figure shows that most adults work 40 hours 
 \label{sec::relation}
 Generally speaking, it is not enough to extract only the distribution of single attribute. Therefore, in this section, I would explore some relations between two attributes.
 
-\subsubsection{Salary v.s. Educational Background}
+\subsubsection{Salary vs. Educational Background}
 \label{sec::salary_vs_edu}
-I tend to start with the relation between salary and educational backgound. The salary in \textit{Adult} dataset is divided into two catagories: \textit{more than 50K} and \textit{less or equal to 50K}. The following two bar figures (Fig. \ref{fig::single_salary}) represent the distribution of educational background under different salary.
+I tend to start with the relation between salary and educational backgound. The salary in \textit{Adult} dataset is divided into two catagories: \textit{more than 50K} and \textit{less or equal to 50K}. The following two bar figures (Fig. \ref{fig::single_salary}) represent the distribution of educational background under different salary conditions.
 
 \begin{figure}[H]
 	\centering
@@ -159,29 +159,29 @@ I tend to start with the relation between salary and educational backgound. The 
 	\label{fig::single_salary}
 \end{figure}
 
-One of the main points implied in the two distribution is that higher education brings higher salary, which conforms to common sense.
+One of the main points implied by the two distributions is that higher education brings higher salary, which conforms to common sense. Nevertheless, there also exist some people enjoying high salary with low educational background, which illustrates that educational background can not completely determine a person.
 
-\subsubsection{Work Time v.s. Educational Background}
-
-I also compare the work time per week among three degrees: HS-grad, bachelor and master. (Fig. \ref{fig::worktime_vs})
+\subsubsection{Work Time vs. Educational Background}
+\label{sec::worktime_vs_edu}
+Additionally, I also compare the work time per week among three degrees: HS-grad, bachelor and master. (Fig. \ref{fig::worktime_vs})
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.75\linewidth]{img/work_time_com1.pdf}
+	\includegraphics[width=0.73\linewidth]{img/work_time_com1.pdf}
 	\caption{The work time per week among different degrees.}
 	\label{fig::worktime_vs}
 \end{figure}
 
-As is shown in Fig. \ref{fig::worktime_vs}, people with a higher degree tend to invest more time in their work.
+As is shown in Fig. \ref{fig::worktime_vs}, people with a higher degree tend to invest more time in their work, which probably due to the love for their work or enormous work pressure.
 
-\subsubsection{Job Catagories v.s. Work Time}
-
-I am curious about the jobs that take people more than 50 hours a week. Therefore, I plot the distribution of such jobs (Fig. \ref{fig::job}).
+\subsubsection{Job Catagories vs. Work Time}
+\label{sec::job_vs_worktime}
+I am curious about the jobs that take people more than 50 hours a week. Therefore, I plot the distribution of such jobs as a pie figure (Fig. \ref{fig::job}).
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.75\linewidth]{img/job_dis.pdf}
-	\caption{The job catagories that take people more than 50 hours a week.}
+	\caption{The jobs that take people more than 50 hours a week.}
 	\label{fig::job}
 \end{figure}
 
@@ -198,5 +198,36 @@ Ultimately, I tend to express my sincere thanks to Professor Chaojun Lu for his 
 \renewcommand{\refname}{References}
 \bibliographystyle{ieeetr}
 \bibliography{bio}
+
+\newpage
+\section*{Appendix}
+\appendix
+
+\section{Distribution of Other Attributes}
+In this appendix part, I would show all distributions of other attributes in \textit{Adult} dataset \footnote{Due to political problems, I am not going to plot country attribute.}.
+\label{app}
+
+\begin{figure}[H]
+	\centering
+	\subfigure[Distribution of Gender]{
+	    \includegraphics[width=0.483\linewidth, height=0.32\linewidth]{img/app_gender.pdf}
+	}	
+	\subfigure[Distribution of Age]{
+	    \includegraphics[width=0.483\linewidth, height=0.32\linewidth]{img/app_age.pdf}
+	}
+	\subfigure[Distribution of Capital Gains]{
+	    \includegraphics[width=0.483\linewidth, height=0.32\linewidth]{img/app_in.pdf}
+	}
+	\subfigure[Distribution of Capital Loss]{
+	    \includegraphics[width=0.483\linewidth, height=0.32\linewidth]{img/app_out.pdf}
+	}
+	\subfigure[Distribution of Work Categories]{
+  		\includegraphics[width=0.483\linewidth, height=0.32\linewidth]{img/app_job_cat.pdf}
+	}
+	\subfigure[Distribution of Race]{
+  		\includegraphics[width=0.483\linewidth, height=0.32\linewidth]{img/app_race.pdf}
+	}
+	\caption{Distribution of Other Attributes.}
+\end{figure}
 %========================================================================
 \end{document}

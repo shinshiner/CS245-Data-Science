@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017/W32TeX) (preloaded format=xelatex 2017.11.22)  3 APR 2018 01:51
+This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017/W32TeX) (preloaded format=xelatex 2017.11.22)  3 APR 2018 09:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1909,11 +1909,34 @@ Package gensymb Warning: Not defining \micro.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-[1
+LaTeX Font Info:    Try loading font information for U+msa on input line 95.
+(c:/texlive/2017/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 95.
+
+(c:/texlive/2017/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Font shape `U/lasy/b/n' in size <8> not available
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 95.
+LaTeX Font Info:    Font shape `U/lasy/b/n' in size <6> not available
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 95.
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 95.
+
+(c:/texlive/2017/texmf-dist/tex/latex/jknapltx/ursfs.fd
+File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
+)
+LaTeX Font Info:    Font shape `U/lasy/b/n' in size <7> not available
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 95.
+LaTeX Font Info:    Font shape `U/lasy/b/n' in size <5> not available
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 95.
+ [1
 
 ]
 File: img/education_dis.pdf Graphic file (type QTm)
- <use  "img/education_dis.pdf" >
+
+<use  "img/education_dis.pdf" >
 File: img/education_time.pdf Graphic file (type QTm)
  <use  "img/education_time.pdf" >
 File: img/family_dis.pdf Graphic file (type QTm)
@@ -1929,9 +1952,9 @@ File: img/education_dis_more50k.pdf Graphic file (type QTm)
 <use  "img/education_dis_more50k.pdf" >
 File: img/work_time_com1.pdf Graphic file (type QTm)
  <use  "img/work_time_com1.pdf" >
+[3]
 File: img/job_dis.pdf Graphic file (type QTm)
-
-<use  "img/job_dis.pdf" > [3] (./report.bbl [4]
+ <use  "img/job_dis.pdf" > (./report.bbl [4]
 \g__fontspec_family_FangSong_int=\count276
 .................................................
 . fontspec info: "no-font-shape"
@@ -1967,35 +1990,32 @@ LaTeX Font Warning: Font shape `TU/pcr/m/n' undefined
 . <->"FangSong/OT:script=hani;language=DFLT;"
 . - 'small caps'  (m/sc) with NFSS spec.: 
 .................................................
-LaTeX Font Info:    Try loading font information for U+msa on input line 28.
-(c:/texlive/2017/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Try loading font information for U+msb on input line 28.
+) [5]
+File: img/app_gender.pdf Graphic file (type QTm)
+ <use  "img/app_gender.pdf" >
+File: img/app_age.pdf Graphic file (type QTm)
+ <use  "img/app_age.pdf" >
+File: img/app_in.pdf Graphic file (type QTm)
 
-(c:/texlive/2017/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-LaTeX Font Info:    Font shape `U/lasy/b/n' in size <8> not available
-(Font)              Font shape `U/lasy/m/n' tried instead on input line 28.
-LaTeX Font Info:    Font shape `U/lasy/b/n' in size <6> not available
-(Font)              Font shape `U/lasy/m/n' tried instead on input line 28.
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 28.
+<use  "img/app_in.pdf" >
+File: img/app_out.pdf Graphic file (type QTm)
+ <use  "img/app_out.pdf" >
+File: img/app_job_cat.pdf Graphic file (type QTm)
 
-(c:/texlive/2017/texmf-dist/tex/latex/jknapltx/ursfs.fd
-File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
-))
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 202.
- [5]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 202.
+<use  "img/app_job_cat.pdf" >
+File: img/app_race.pdf Graphic file (type QTm)
+ <use  "img/app_race.pdf" >
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 233.
+ [6]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 233.
  (./report.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 202.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 202.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 233.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 233.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 202.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 233.
  )
 (\end occurred inside a group at level 2)
 
@@ -2003,12 +2023,12 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 202.
 ### simple group (level 1) entered at line 1061 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 30800 strings out of 493005
- 563865 string characters out of 6137955
- 663669 words of memory out of 5000000
- 34352 multiletter control sequences out of 15000+600000
- 12579 words of font info for 80 fonts, out of 8000000 for 9000
+ 30869 strings out of 493005
+ 564825 string characters out of 6137955
+ 664071 words of memory out of 5000000
+ 34401 multiletter control sequences out of 15000+600000
+ 20812 words of font info for 118 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 57i,7n,68p,10478b,4621s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 57i,8n,68p,10478b,4622s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on report.pdf (5 pages).
+Output written on report.pdf (6 pages).
