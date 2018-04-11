@@ -10,12 +10,17 @@ SJTU2 CS45 Data Science
 * [numpy](http://www.numpy.org/)
 * [pandas](http://pandas.pydata.org/)
 * [matplotlib](https://matplotlib.org/)
+* [sklearn](http://scikit-learn.org/stable/)
 
 ## 2. Contents
 
 ### [Adult](https://github.com/shinshiner/CS245-Data-Science/tree/master/Adult)
 
 分析并可视化Adult数据集
+
+### [Iris](https://github.com/shinshiner/CS245-Data-Science/tree/master/Iris)
+
+探索Iris数据集
 
 ## Reference
 
