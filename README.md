@@ -11,6 +11,8 @@ SJTU2 CS45 Data Science
 * [pandas](http://pandas.pydata.org/)
 * [matplotlib](https://matplotlib.org/)
 * [sklearn](http://scikit-learn.org/stable/)
+* stats
+* xlwt
 
 ## 2. Contents
 
