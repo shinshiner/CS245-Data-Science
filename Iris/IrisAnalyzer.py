@@ -33,6 +33,27 @@ class IrisAnalyzer(object):
 
         print('----------analyzer started------------')
 
+    def run(self):
+        self.basic_att()
+        self.char_analysis()
+        self.corr_analysis()
+        
+        self.wbk.save('results.xls')
+        print('----------results saved------------')
+
+    def basic_att(self):
+        with open('basic_att.txt', 'w') as f:
+            f.write(self.iris.DESCR + '\n\n')
+
+            f.write('Type of data: ' + str(type(self.data)) + '\n\n')
+            f.write('Shape of data: ' + str(self.data.shape) + '\n\n')
+            f.write('Feature names: ' + str(self.iris.feature_names) + '\n\n')
+
+            f.write('Target: ' + str(self.target) + '\n\n')
+            f.write('Type of target: ' + str(type(self.target)) + '\n\n')
+            f.write('Shape of target: ' + str(self.target.shape) + '\n\n')
+            f.write('Target names: ' + str(self.iris.target_names) + '\n\n')
+
     def char_analysis(self):
         for i in range(self.data.shape[1]):
             char_data = self.data[:,i]
@@ -55,17 +76,9 @@ class IrisAnalyzer(object):
             # corr between characters and target
             self.corr_sheet.write(j + 2, i + 1, np.corrcoef(char_data, self.target)[0][1])
 
-    def __del__(self):
-        self.wbk.save('results.xls')
-        print('----------results saved------------')
-
 def debug():
     pass
 
-def main():
-    ia = IrisAnalyzer()
-    ia.char_analysis()
-    ia.corr_analysis()
-
 if __name__ == '__main__':
-    main()
+    ia = IrisAnalyzer()
+    ia.run()
