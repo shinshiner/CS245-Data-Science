@@ -34,6 +34,7 @@ class IrisAnalyzer(object):
         print('----------analyzer started------------')
 
     def run(self):
+        # starting to analyze Iris dataset
         self.basic_att()
         self.char_analysis()
         self.corr_analysis()
@@ -42,6 +43,7 @@ class IrisAnalyzer(object):
         print('----------results saved------------')
 
     def basic_att(self):
+        # get basic attributes of Iris dataset
         with open('basic_att.txt', 'w') as f:
             f.write(self.iris.DESCR + '\n\n')
 
@@ -55,6 +57,7 @@ class IrisAnalyzer(object):
             f.write('Target names: ' + str(self.iris.target_names) + '\n\n')
 
     def char_analysis(self):
+        # analyzing each of characters
         for i in range(self.data.shape[1]):
             char_data = self.data[:,i]
             for j, m in enumerate(self.metrics.keys()):
@@ -66,6 +69,7 @@ class IrisAnalyzer(object):
                     self.char_sheet.write(j + 1, i + 1, self.metrics[m](char_data, p=0.75))
 
     def corr_analysis(self):
+        # analyzing the correlationships
         for i in range(self.data.shape[1]):
             char_data = self.data[:, i]
 
@@ -77,6 +81,7 @@ class IrisAnalyzer(object):
             self.corr_sheet.write(j + 2, i + 1, np.corrcoef(char_data, self.target)[0][1])
 
 def debug():
+    # just used to debug, ignore it
     pass
 
 if __name__ == '__main__':

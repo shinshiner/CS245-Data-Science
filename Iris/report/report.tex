@@ -22,6 +22,7 @@
 \usepackage{caption}
 \usepackage{fontspec}
 \usepackage{booktabs}
+\usepackage{listings}
 \setmainfont{Times New Roman}
 
 \newtheorem{theorem}{Theorem}[section]
@@ -31,9 +32,6 @@
 \newtheorem{exercise}{Exercise}[section]
 \newtheorem*{solution}{Solution}
 \theoremstyle{definition}
-
-
-\renewcommand{\thefootnote}{\fnsymbol{footnote}}
 
 \newcommand{\postscript}[2]
  {\setlength{\epsfxsize}{#2\hsize}
@@ -51,8 +49,6 @@
 \makeatletter \renewenvironment{proof}[1][Proof] {\par\pushQED{\qed}\normalfont\topsep6\p@\@plus6\p@\relax\trivlist\item[\hskip\labelsep\bfseries#1\@addpunct{.}]\ignorespaces}{\popQED\endtrivlist\@endpefalse} \makeatother
 \makeatletter
 \renewenvironment{solution}[1][Solution] {\par\pushQED{\qed}\normalfont\topsep6\p@\@plus6\p@\relax\trivlist\item[\hskip\labelsep\bfseries#1\@addpunct{.}]\ignorespaces}{\popQED\endtrivlist\@endpefalse} \makeatother
-
-
 
 \begin{document}
 \noindent
@@ -72,18 +68,22 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 	
 	\item 探索各特征的最小值、最大值、均值、中位数、标准差；
 	
-	\item 探索各特征之间，以及特征与目标之间的相关性（相关系数）
+	\item 探索各特征之间，以及特征与目标之间的相关性（相关系数）。
 \end{enumerate}
 
 \section{解决方案}
 
+\subsection{数据集及其基本属性的获取}
 
+\subsection{各特征的分析}
+
+\subsection{相关性分析}
 
 \section{结果展示}
 
 \subsection{Iris数据集基本属性}
 
-\begin{table}[htbp]
+\begin{table}[H]
 	\renewcommand\arraystretch{1.35}
 	\caption{Iris数据集基本属性}
 	\label{tab:iris_basic}
@@ -93,6 +93,7 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 		\centering
 		属性 & 值 \\
 		\hline
+		实例的数据个数 & 150 \\
 		实例的数据类型 & numpy.ndarray \\
 		实例的数据维数 & (150, 4) \\
 		特征名 & 萼片长度，萼片宽度，花瓣长度，花瓣宽度 (单位均为cm) \\
@@ -104,9 +105,11 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 
 \subsection{各特征的数值描述}
 
-\begin{table}[htbp]
+详细结果可参见表 \ref{tab:iris_att} (考虑到有些统计量无单位，因此在表格中不把单位显式地表示出，各特征单位均为cm)。
+
+\begin{table}[H]
 	\renewcommand\arraystretch{1.35}
-	\caption{Iris数据集各特征的数值描述\protect\footnote{ 考虑到有些统计量无单位，因此在表格中不把单位显式地表示出，各特征单位均为cm}}
+	\caption{Iris数据集各特征的数值描述}
 	\label{tab:iris_att}
 	\centering
 	
@@ -128,7 +131,7 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 
 \subsection{各特征及特征与目标之间的相关性}
 
-\begin{table}[htbp]
+\begin{table}[H]
 	\renewcommand\arraystretch{1.35}
 	\caption{Iris数据集各特征及特征与目标之间的相关性}
 	\label{tab:iris_co}
@@ -145,6 +148,168 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 		目标 & 0.783 & -0.420 & 0.949 & 0.956 \\
 	\end{tabular}
 \end{table}
+
+\begin{appendix}
+	\section{附录}
+	\subsection{Iris数据集的其余基本属性}
+	
+	\subsubsection{Iris数据集的基本描述}
+		\begin{lstlisting}[frame=shadowbox, breaklines=True, title=Iris数据集基本描述]
+Notes
+-----
+Data Set Characteristics:
+    :Number of Instances: 150 (50 in each of three classes)
+    :Number of Attributes: 4 numeric, predictive attributes and the class
+    :Attribute Information:
+        - sepal length in cm
+        - sepal width in cm
+        - petal length in cm
+        - petal width in cm
+        - class:
+                - Iris-Setosa
+                - Iris-Versicolour
+                - Iris-Virginica
+    :Summary Statistics:
+
+    ============== ==== ==== ======= ===== ====================
+                    Min  Max   Mean    SD   Class Correlation
+    ============== ==== ==== ======= ===== ====================
+    sepal length:   4.3  7.9   5.84   0.83    0.7826
+    sepal width:    2.0  4.4   3.05   0.43   -0.4194
+    petal length:   1.0  6.9   3.76   1.76    0.9490  (high!)
+    petal width:    0.1  2.5   1.20  0.76     0.9565  (high!)
+    ============== ==== ==== ======= ===== ====================
+
+    :Missing Attribute Values: None
+    :Class Distribution: 33.3% for each of 3 classes.
+    :Creator: R.A. Fisher
+    :Donor: Michael Marshall (MARSHALL%PLU@io.arc.nasa.gov)
+    :Date: July, 1988
+
+This is a copy of UCI ML iris datasets.
+http://archive.ics.uci.edu/ml/datasets/Iris
+
+The famous Iris database, first used by Sir R.A Fisher
+
+This is perhaps the best known database to be found in the
+pattern recognition literature.  Fisher's paper is a classic in the field and
+is referenced frequently to this day.  (See Duda & Hart, for example.)  The
+data set contains 3 classes of 50 instances each, where each class refers to a
+type of iris plant.  One class is linearly separable from the other 2; the
+latter are NOT linearly separable from each other.
+
+References
+----------
+   - Fisher,R.A. "The use of multiple measurements in taxonomic problems"
+     Annual Eugenics, 7, Part II, 179-188 (1936); also in "Contributions to
+     Mathematical Statistics" (John Wiley, NY, 1950).
+   - Duda,R.O., & Hart,P.E. (1973) Pattern Classification and Scene Analysis.
+     (Q327.D83) John Wiley & Sons.  ISBN 0-471-22361-1.  See page 218.
+   - Dasarathy, B.V. (1980) "Nosing Around the Neighborhood: A New System
+     Structure and Classification Rule for Recognition in Partially Exposed
+     Environments".  IEEE Transactions on Pattern Analysis and Machine
+     Intelligence, Vol. PAMI-2, No. 1, 67-71.
+   - Gates, G.W. (1972) "The Reduced Nearest Neighbor Rule".  IEEE Transactions
+     on Information Theory, May 1972, 431-433.
+   - See also: 1988 MLC Proceedings, 54-64.  Cheeseman et al"s AUTOCLASS II
+     conceptual clustering system finds 3 classes in the data.
+   - Many, many more ...
+		\end{lstlisting}
+		
+	\subsection{主要代码}
+		\begin{lstlisting}[numbers=left, language=Python, frame=shadowbox, breaklines=True, title=Iris数据集探索代码]
+from sklearn import datasets
+import stats
+import numpy as np
+import xlwt
+
+class IrisAnalyzer(object):
+    def __init__(self):
+        # iris data
+        self.iris = datasets.load_iris()
+        self.data = self.iris.data
+        self.target = self.iris.target
+        print(self.iris.DESCR)
+
+        # save results as excel tables
+        self.wbk = xlwt.Workbook()
+        self.char_sheet = self.wbk.add_sheet('各特征分析')
+        self.corr_sheet = self.wbk.add_sheet('相关分析')
+        self.metrics = {'max': np.max, 'min': np.min, 'avg': np.mean,
+                    'median': np.median, 'ptp': np.ptp,
+                    'std': np.std, 'var': np.var, 'q1': stats.quantile,
+                    'q3': stats.quantile}
+
+        # initialize the excel tables
+        for i, name in enumerate(self.iris.feature_names):
+            self.char_sheet.write(0, i + 1, name)
+        for i, m in enumerate(self.metrics.keys()):
+            self.char_sheet.write(i + 1, 0, m)
+        for i, name in enumerate(self.iris.feature_names):
+            self.corr_sheet.write(0, i + 1, name)
+        for i, m in enumerate(self.iris.feature_names):
+            self.corr_sheet.write(i + 1, 0, m)
+        self.corr_sheet.write(i + 2, 0, 'target')
+
+        print('----------analyzer started------------')
+
+    def run(self):
+        # starting to analyze Iris dataset
+        self.basic_att()
+        self.char_analysis()
+        self.corr_analysis()
+
+        self.wbk.save('results.xls')
+        print('----------results saved------------')
+
+    def basic_att(self):
+        # get basic attributes of Iris dataset
+        with open('basic_att.txt', 'w') as f:
+            f.write(self.iris.DESCR + '\n\n')
+
+            f.write('Type of data: ' + str(type(self.data)) + '\n\n')
+            f.write('Shape of data: ' + str(self.data.shape) + '\n\n')
+            f.write('Feature names: ' + str(self.iris.feature_names) + '\n\n')
+
+            f.write('Target: ' + str(self.target) + '\n\n')
+            f.write('Type of target: ' + str(type(self.target)) + '\n\n')
+            f.write('Shape of target: ' + str(self.target.shape) + '\n\n')
+            f.write('Target names: ' + str(self.iris.target_names) + '\n\n')
+
+    def char_analysis(self):
+        # analyzing each of characters
+        for i in range(self.data.shape[1]):
+            char_data = self.data[:,i]
+            for j, m in enumerate(self.metrics.keys()):
+                if not m in ['q1', 'q3']:
+                    self.char_sheet.write(j + 1, i + 1, self.metrics[m](char_data))
+                elif m == 'q1':
+                    self.char_sheet.write(j + 1, i + 1, self.metrics[m](char_data, p=0.25))
+                elif m == 'q3':
+                    self.char_sheet.write(j + 1, i + 1, self.metrics[m](char_data, p=0.75))
+
+    def corr_analysis(self):
+        # analyzing the correlationships
+        for i in range(self.data.shape[1]):
+            char_data = self.data[:, i]
+
+            # corr among characters
+            for j in range(self.data.shape[1]):
+                self.corr_sheet.write(j + 1, i + 1, np.corrcoef(char_data, self.data[:, j])[0][1])
+
+            # corr between characters and target
+            self.corr_sheet.write(j + 2, i + 1, np.corrcoef(char_data, self.target)[0][1])
+
+def debug():
+    # just used to debug, ignore it
+    pass
+
+if __name__ == '__main__':
+    ia = IrisAnalyzer()
+    ia.run()
+		\end{lstlisting}
+	
+\end{appendix}
 
 %========================================================================
 \end{document}
