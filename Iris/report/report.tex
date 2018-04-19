@@ -1,0 +1,150 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{ctex}
+\usepackage{amsmath,amscd,amsbsy,amssymb,latexsym,url,bm,amsthm}
+\usepackage{epsfig,graphicx,subfigure}
+\usepackage{enumitem,balance}
+\usepackage{wrapfig}
+\usepackage{mathrsfs, euscript}
+\usepackage[usenames]{xcolor}
+\usepackage{hyperref}
+\usepackage[vlined,ruled,commentsnumbered,linesnumbered]{algorithm2e}
+\usepackage{float}
+\usepackage{array}
+\usepackage{diagbox}
+\usepackage{color}
+\usepackage{indentfirst}
+\usepackage{fancyhdr}
+\usepackage{gensymb}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{aurical}
+\usepackage{times}
+\usepackage{caption}
+\usepackage{fontspec}
+\usepackage{booktabs}
+\setmainfont{Times New Roman}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{exercise}{Exercise}[section]
+\newtheorem*{solution}{Solution}
+\theoremstyle{definition}
+
+
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+\newcommand{\postscript}[2]
+ {\setlength{\epsfxsize}{#2\hsize}
+  \centerline{\epsfbox{#1}}}
+
+\renewcommand{\baselinestretch}{1.0}
+
+\setlength{\oddsidemargin}{-0.365in}
+\setlength{\evensidemargin}{-0.365in}
+\setlength{\topmargin}{-0.3in}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\textheight}{10.1in}
+\setlength{\textwidth}{7in}
+\makeatletter \renewenvironment{proof}[1][Proof] {\par\pushQED{\qed}\normalfont\topsep6\p@\@plus6\p@\relax\trivlist\item[\hskip\labelsep\bfseries#1\@addpunct{.}]\ignorespaces}{\popQED\endtrivlist\@endpefalse} \makeatother
+\makeatletter
+\renewenvironment{solution}[1][Solution] {\par\pushQED{\qed}\normalfont\topsep6\p@\@plus6\p@\relax\trivlist\item[\hskip\labelsep\bfseries#1\@addpunct{.}]\ignorespaces}{\popQED\endtrivlist\@endpefalse} \makeatother
+
+
+
+\begin{document}
+\noindent
+%==========================================================
+\noindent\framebox[\linewidth]{\shortstack[c]{
+\Large{\emph{探索}Iris\emph{（鸢尾花）数据集}}\vspace{1mm}\\
+CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
+叶泽林 515030910468}}
+\vspace{-1.5\baselineskip}
+
+\section{问题描述}
+
+统计学主要研究事物的数量方面，目的是探索数据集的数量特征。而统计学中的描述统计学借助图表或概括性的数值将数据集展示为清晰可理解的形式。在之前的研究中，已经使用了图表对Adults数据集进行了探索和可视化展示，这次研究的主要目标是探索Iris数据集，并通过一些概括性的数值对其进行展示，详细目标如下：
+
+\begin{enumerate}
+	\item 探索Iris数据集的基本属性（如数据集总体描述、数据维数、特征名称等）；
+	
+	\item 探索各特征的最小值、最大值、均值、中位数、标准差；
+	
+	\item 探索各特征之间，以及特征与目标之间的相关性（相关系数）
+\end{enumerate}
+
+\section{解决方案}
+
+
+
+\section{结果展示}
+
+\subsection{Iris数据集基本属性}
+
+\begin{table}[htbp]
+	\renewcommand\arraystretch{1.35}
+	\caption{Iris数据集基本属性}
+	\label{tab:iris_basic}
+	\centering
+	
+	\begin{tabular}{c|c}
+		\centering
+		属性 & 值 \\
+		\hline
+		实例的数据类型 & numpy.ndarray \\
+		实例的数据维数 & (150, 4) \\
+		特征名 & 萼片长度，萼片宽度，花瓣长度，花瓣宽度 (单位均为cm) \\
+		实例的类别值 & 0,1,2 \\
+		实例的类别维数 & (150,) \\
+		类别名称 & setosa(清风藤), versicolor(云芝), virginica(锦葵) \\
+	\end{tabular}
+\end{table}
+
+\subsection{各特征的数值描述}
+
+\begin{table}[htbp]
+	\renewcommand\arraystretch{1.35}
+	\caption{Iris数据集各特征的数值描述\protect\footnote{ 考虑到有些统计量无单位，因此在表格中不把单位显式地表示出，各特征单位均为cm}}
+	\label{tab:iris_att}
+	\centering
+	
+	\begin{tabular}{c|cccc}
+		\centering
+		 & 萼片长度 & 萼片宽度 & 花瓣长度 & 花瓣宽度 \\
+		\hline
+		最小值 & 4.3 & 2.0 & 1.0 & 0.1 \\
+		最大值 & 7.9 & 4.4 & 6.9 & 2.5 \\
+		均值 & 5.843 & 3.054 & 3.759 & 1.120 \\
+		中位数 & 5.80 & 3.00 & 4.35 & 1.30 \\
+		标准差 & 0.825 & 0.432 & 1.759 & 0.761 \\
+		方差 & 0.681 & 0.187 & 3.092 & 0.579 \\
+		极差 & 3.6 & 2.4 & 5.9 & 2.4 \\
+		下四分位数 & 5.1 & 2.8 & 1.6 & 0.3 \\
+		上四分位数 & 6.4 & 3.3 & 5.1 & 1.8 \\
+	\end{tabular}
+\end{table}
+
+\subsection{各特征及特征与目标之间的相关性}
+
+\begin{table}[htbp]
+	\renewcommand\arraystretch{1.35}
+	\caption{Iris数据集各特征及特征与目标之间的相关性}
+	\label{tab:iris_co}
+	\centering
+	
+	\begin{tabular}{c|cccc}
+		\centering
+		 & 萼片长度 & 萼片宽度 & 花瓣长度 & 花瓣宽度 \\
+		\hline
+		萼片长度 & 1.000 & -0.109 & 0.872 & 0.818 \\
+		萼片宽度 & -0.109 & 1.000 & -0.421 & 0.357 \\
+		花瓣长度 & 0.872 & -0.421 & 1.000 & 0.963 \\
+		花瓣宽度 & 0.818 & -0.357 & 0.963 & 1.000 \\
+		目标 & 0.783 & -0.420 & 0.949 & 0.956 \\
+	\end{tabular}
+\end{table}
+
+%========================================================================
+\end{document}

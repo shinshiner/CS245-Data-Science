@@ -37,7 +37,7 @@ class IrisAnalyzer(object):
         self.basic_att()
         self.char_analysis()
         self.corr_analysis()
-        
+
         self.wbk.save('results.xls')
         print('----------results saved------------')
 
