@@ -58,11 +58,10 @@
 \Large{\emph{探索}Iris\emph{（鸢尾花）数据集}}\vspace{1mm}\\
 CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 叶泽林 515030910468}}
-\vspace{-1.5\baselineskip}
 
 \section{问题描述}
 
-统计学主要研究事物的数量方面，目的是探索数据集的数量特征。而统计学中的描述统计学借助图表或概括性的数值将数据集展示为清晰可理解的形式。在之前的研究中，已经使用了图表对Adults数据集进行了探索和可视化展示，这次研究的主要目标是探索Iris数据集，并通过一些概括性的数值对其进行展示，详细目标如下：
+统计学主要从数量方面研究事物，目的是探索事物（一般为数据集）的数量特征。统计学中的描述统计学借助图表或概括性的数值将数据集展示为清晰可理解的形式。在之前的研究中，我已经使用了图表对Adults数据集进行了探索和可视化展示，这次研究的主要目标是探索Iris数据集，并通过一些概括性的数值对其进行展示，详细目标如下：
 
 \begin{enumerate}
 	\item 探索Iris数据集的基本属性（如数据集总体描述、数据维数、特征名称等）；
@@ -72,11 +71,13 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 	\item 探索各特征之间，以及特征与目标之间的相关性（相关系数）。
 \end{enumerate}
 
-\section{解决方案}
+\section{解决方案\protect\footnote{本次作业的所有代码实现可参见附录 \ref{apd:code}}}
 
 \subsection{数据集及其基本属性的获取}
+\label{sec:app_basic}
 
-Iris数据集也称鸢尾花卉数据集，是一个常用的多重变量分析数据集，已集成在Python的scikit-learn模块下。安装好相应模块后，只需在命令行输入以下命令即可读取Iris数据集：
+Iris数据集也称鸢尾花卉数据集，是一个经典且常用的多重变量分析数据集，已集成在Python的scikit-learn模块下，无需另外下载。使用pip或其余包管理器安装好scikit-learn模块后，只需在命令行输入以下命令即可读取Iris数据集：
+\vspace{0.01\linewidth}
 
 \begin{lstlisting}[language=Python,
 numbers=left,
@@ -87,27 +88,46 @@ from sklearn import datasets
 iris = datasets.load_iris()
 \end{lstlisting}
 
-数据集获取完毕后，只需要调用数据集对象的一系列方法即可获得其基本属性，详细结果可参见 \ref{sec:iris_basic} 小节。
+\vspace{0.01\linewidth}
+数据集获取完毕后，只需要调用数据集对象iris的一系列方法即可获得其基本属性（见下方示例代码），详细结果可参见 \ref{sec:iris_basic} 小节。
+\vspace{0.01\linewidth}
+
+\begin{lstlisting}[language=Python,
+numbers=left,
+keywordstyle=\color{blue!70},
+frame=shadowbox,
+breaklines=True]
+print(iris.DESCR)
+print(iris.target)
+print(iris.data.shape)
+print(iris.feature_names)
+print(iris.target_names)
+\end{lstlisting}
 
 \subsection{各特征的分析}
 \label{sec:app_attri}
 
-通过第一步的分析，我已经确定Iris所有观测实例的特征数据为numpy.ndarray类型，而对于数值分析（如求平均值、方差等），numpy模块已经提供了简便且高效的函数，因此这一部分的分析可以分为两步：
+通过第一步的分析，我已经确定Iris所有观测实例的特征数据为numpy.ndarray类型，而对于数值分析（如求平均值、方差等），numpy模块已经提供了简便且高效的函数，因此这一部分的分析可以分为三步：
 
 \begin{enumerate}
 	\item 从Iris对象中提取出所有实例的某个特征；
 	
-	\item  使用numpy模块中的函数求得该特征的最小值、最大值、均值等。
+	\item 使用numpy模块中的函数求得该特征的最小值、最大值、均值等；
+	
+	\item 展示求得的结果，并据此做进一步的分析。
 \end{enumerate}
 
 \subsection{相关性分析}
 
-这一部分的分析方法和 \ref{sec:app_attri} 小节基本相同，仍然是使用numpy模块中的函数求得各特征之间、以及特征与目标之间的相关系数，从而分析其相关性，详细结果可参见 \ref{sec:iris_coff} 小节。
+这一部分的分析方法和 \ref{sec:app_attri} 小节基本相同，仍然是使用numpy模块中的函数求得各特征之间、以及特征与目标之间的相关系数，从而分析其相关性。分析中我采用一般的相关系数判别标准，即取绝对值后，0-0.09为没有相关性，0.1-0.3为弱相关，0.3-0.5为中等相关，0.5-1.0为强相关。分析的详细结果可参见 \ref{sec:iris_coff} 小节。
 
 \section{结果展示}
 
 \subsection{Iris数据集基本属性}
 \label{sec:iris_basic}
+
+使用 \ref{sec:app_basic} 小节里描述的方法，可以获得Iris数据集的所有重要属性。在这次探索中，我主要获取了Iris中与数据类型、结构以及名称相关的属性（如实例的数据维数、类别名称等），具体结果可参见下表（Iris数据集官方提供的基本描述可参见附录 \ref{apd:iris_basic}）。
+
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
 	\caption{Iris数据集基本属性}
@@ -118,19 +138,28 @@ iris = datasets.load_iris()
 		\centering
 		属性 & 值 \\
 		\hline
+		作者 & R.A. Fisher \\
+		创建时间 & 1988.7 \\
 		实例的数据个数 & 150 \\
 		实例的数据类型 & numpy.ndarray \\
 		实例的数据维数 & (150, 4) \\
-		特征名 & 萼片长度，萼片宽度，花瓣长度，花瓣宽度 (单位均为cm) \\
+		类别的数据类型 & numpy.ndarray \\
 		实例的类别值 & 0,1,2 \\
 		实例的类别维数 & (150,) \\
-		类别名称 & setosa(山鸢尾), versicolor(杂色鸢尾), virginica(维吉尼亚鸢尾) \\
+		每类的实例个数 & 50 \\
+		特征数值详情 & 正实数，单位为cm \\
+		特征名 & 萼片长度，萼片宽度，花瓣长度，花瓣宽度 \\
+		类别名称 & setosa（山鸢尾），versicolor（杂色鸢尾），virginica（维吉尼亚鸢尾） \\
 	\end{tabular}
 \end{table}
 
+结果显示，Iris数据集包含150个鸢尾花实例，每个实例拥有4个特征，分别表示萼片长度，萼片宽度，花瓣长度以及花瓣宽度（单位均为cm），按照numpy.ndarray的格式存储；分类目标有3类，为setosa（山鸢尾），versicolor（杂色鸢尾）和virginica（维吉尼亚鸢尾），分别使用0，1，2表示。
+
+由此可知，Iris属于规模极小、数据格式简单的多重变量分析数据集，是实验简单分类器算法以及机器学习入门实践的良好选择。了解数据集的基本属性和数据结构，可以方便之后的探索和分析。
+
 \subsection{各特征的数值描述}
 
-详细结果可参见表 \ref{tab:iris_att} (考虑到有些统计量无单位，因此在表格中不把单位显式地表示出，各特征单位均为cm)。
+这一小节展示了Iris数据集中各特征的数值描述。除计算基本的最小值，最大值，均值，中位数，标准差外，我还通过python的stats模块计算了各特征的上、下四分位数，从而更好地了解数据分布。详细结果可参见表 \ref{tab:iris_att} （考虑到有些统计量无单位，因此在表格中不把单位显式地表示出，各特征单位均为cm）。
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
@@ -154,8 +183,12 @@ iris = datasets.load_iris()
 	\end{tabular}
 \end{table}
 
+从结果来看，萼片宽度这一特征有着最小的方差，分布最为紧密，而花瓣长度的分布最为稀疏。其余数值属性（如最大值、均值等）更多的是反映该特征本身的性质，不适用于对比性的分析，因此仅将其列在表格中，不做进一步的对比分析。
+
 \subsection{各特征及特征与目标之间的相关性}
 \label{sec:iris_coff}
+
+这一小节展示了对Iris数据集中相关性的探索结果。我将各特征之间及特征与目标之间的相关系数组成表格（见表 \ref{tab:iris_co}），由于相关系数与两变量的排列顺序无关，即$corrcoef(X, Y) = corrcoef(Y, X)$，因此表格呈现类似于对称矩阵的分布。
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
@@ -175,11 +208,17 @@ iris = datasets.load_iris()
 	\end{tabular}
 \end{table}
 
+由上表可知，花瓣长度与花瓣宽度这两个特征和鸢尾花种类有极强的相关性；萼片长度与鸢尾花种类的相关性较之稍弱，但也 属于强相关；而萼片宽度与鸢尾花种类间仅有中等相关性。
+
+根据各特征之间的相关系数分析，相关性较强的特征有：萼片长度-花瓣长度，萼片长度-花瓣宽度，花瓣长度-花瓣宽度；相关性较弱的特征有：萼片长度-萼片宽度。
+
+\newpage
 \begin{appendix}
 	\section{附录}
 	\subsection{Iris数据集的其余基本属性}
 	
 	\subsubsection{Iris数据集的基本描述}
+		\label{apd:iris_basic}
 		\begin{lstlisting}[
 		frame=shadowbox,
 		breaklines=True,
@@ -246,6 +285,8 @@ References
 		\end{lstlisting}
 		
 	\subsection{主要代码}
+		\label{apd:code}
+		
 		\begin{lstlisting}[language=Python,
 		numbers=left,
 		keywordstyle=\color{blue!70},
