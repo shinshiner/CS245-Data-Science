@@ -2,6 +2,7 @@ from sklearn import datasets
 import stats
 import numpy as np
 import xlwt
+import os
 
 class IrisAnalyzer(object):
     def __init__(self):
@@ -10,6 +11,10 @@ class IrisAnalyzer(object):
         self.data = self.iris.data
         self.target = self.iris.target
         print(self.iris.DESCR)
+
+        # init path
+        if not os.path.exists('report/'):
+            os.makedirs('report/')
 
         # save results as excel tables
         self.wbk = xlwt.Workbook()
@@ -39,12 +44,12 @@ class IrisAnalyzer(object):
         self.char_analysis()
         self.corr_analysis()
 
-        self.wbk.save('results.xls')
+        self.wbk.save('report/results.xls')
         print('----------results saved------------')
 
     def basic_att(self):
         # get basic attributes of Iris dataset
-        with open('basic_att.txt', 'w') as f:
+        with open('report/basic_att.txt', 'w') as f:
             f.write(self.iris.DESCR + '\n\n')
 
             f.write('Type of data: ' + str(type(self.data)) + '\n\n')

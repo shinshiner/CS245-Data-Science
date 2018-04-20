@@ -23,6 +23,7 @@
 \usepackage{fontspec}
 \usepackage{booktabs}
 \usepackage{listings}
+\usepackage{xcolor}
 \setmainfont{Times New Roman}
 
 \newtheorem{theorem}{Theorem}[section]
@@ -75,14 +76,38 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 
 \subsection{数据集及其基本属性的获取}
 
+Iris数据集也称鸢尾花卉数据集，是一个常用的多重变量分析数据集，已集成在Python的scikit-learn模块下。安装好相应模块后，只需在命令行输入以下命令即可读取Iris数据集：
+
+\begin{lstlisting}[language=Python,
+numbers=left,
+keywordstyle=\color{blue!70},
+frame=shadowbox,
+breaklines=True]
+from sklearn import datasets
+iris = datasets.load_iris()
+\end{lstlisting}
+
+数据集获取完毕后，只需要调用数据集对象的一系列方法即可获得其基本属性，详细结果可参见 \ref{sec:iris_basic} 小节。
+
 \subsection{各特征的分析}
+\label{sec:app_attri}
+
+通过第一步的分析，我已经确定Iris所有观测实例的特征数据为numpy.ndarray类型，而对于数值分析（如求平均值、方差等），numpy模块已经提供了简便且高效的函数，因此这一部分的分析可以分为两步：
+
+\begin{enumerate}
+	\item 从Iris对象中提取出所有实例的某个特征；
+	
+	\item  使用numpy模块中的函数求得该特征的最小值、最大值、均值等。
+\end{enumerate}
 
 \subsection{相关性分析}
+
+这一部分的分析方法和 \ref{sec:app_attri} 小节基本相同，仍然是使用numpy模块中的函数求得各特征之间、以及特征与目标之间的相关系数，从而分析其相关性，详细结果可参见 \ref{sec:iris_coff} 小节。
 
 \section{结果展示}
 
 \subsection{Iris数据集基本属性}
-
+\label{sec:iris_basic}
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
 	\caption{Iris数据集基本属性}
@@ -99,7 +124,7 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 		特征名 & 萼片长度，萼片宽度，花瓣长度，花瓣宽度 (单位均为cm) \\
 		实例的类别值 & 0,1,2 \\
 		实例的类别维数 & (150,) \\
-		类别名称 & setosa(清风藤), versicolor(云芝), virginica(锦葵) \\
+		类别名称 & setosa(山鸢尾), versicolor(杂色鸢尾), virginica(维吉尼亚鸢尾) \\
 	\end{tabular}
 \end{table}
 
@@ -130,6 +155,7 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 \end{table}
 
 \subsection{各特征及特征与目标之间的相关性}
+\label{sec:iris_coff}
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
@@ -154,7 +180,10 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 	\subsection{Iris数据集的其余基本属性}
 	
 	\subsubsection{Iris数据集的基本描述}
-		\begin{lstlisting}[frame=shadowbox, breaklines=True, title=Iris数据集基本描述]
+		\begin{lstlisting}[
+		frame=shadowbox,
+		breaklines=True,
+		title=Iris数据集基本描述]
 Notes
 -----
 Data Set Characteristics:
@@ -217,7 +246,13 @@ References
 		\end{lstlisting}
 		
 	\subsection{主要代码}
-		\begin{lstlisting}[numbers=left, language=Python, frame=shadowbox, breaklines=True, title=Iris数据集探索代码]
+		\begin{lstlisting}[language=Python,
+		numbers=left,
+		keywordstyle=\color{blue!70},
+		commentstyle=\color{green!99!blue!99},
+		frame=shadowbox,
+		breaklines=True,
+		title=Iris数据集探索代码]
 from sklearn import datasets
 import stats
 import numpy as np
