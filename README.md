@@ -11,18 +11,22 @@ SJTU2 CS45 Data Science
 * [pandas](http://pandas.pydata.org/)
 * [matplotlib](https://matplotlib.org/)
 * [sklearn](http://scikit-learn.org/stable/)
-* stats
-* xlwt
+* [stats](https://pypi.org/project/stats/)
+* [xlwt](https://pypi.org/project/xlwt/)
 
 ## 2. Contents
 
-### [Adult](https://github.com/shinshiner/CS245-Data-Science/tree/master/Adult)
+### [Adult](https://github.com/shinshiner/CS245-Data-Science/tree/master/Adult-hw1)
 
 分析并可视化Adult数据集
 
-### [Iris](https://github.com/shinshiner/CS245-Data-Science/tree/master/Iris)
+### [Iris](https://github.com/shinshiner/CS245-Data-Science/tree/master/Iris-hw2)
 
 探索Iris数据集
+
+### [Boston](https://github.com/shinshiner/CS245-Data-Science/tree/master/Boston-hw3)
+
+Boston数据集主成分分析
 
 ## Reference
 
