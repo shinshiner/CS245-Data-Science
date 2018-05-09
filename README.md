@@ -28,6 +28,10 @@ SJTU2 CS45 Data Science
 
 Boston数据集主成分分析
 
+### [Model Selection](https://github.com/shinshiner/CS245-Data-Science/tree/master/Model-Selection-hw4)
+
+模型选择
+
 ## Reference
 
 * [Morvan's tutorial](https://morvanzhou.github.io/tutorials/data-manipulation/)
