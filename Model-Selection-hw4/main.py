@@ -4,7 +4,7 @@ from sklearn.datasets import make_classification
 from sklearn.cross_validation import train_test_split
 from sklearn.metrics import classification_report
 
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import export_graphviz
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import BaggingClassifier
 from sklearn.ensemble import AdaBoostClassifier
@@ -14,6 +14,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 plt.rcParams['font.sans-serif']=['SimHei']
 plt.rcParams['axes.unicode_minus']=False
+from pydotplus import graph_from_dot_data
 
 ##################### making dataset ######################
 
@@ -29,7 +30,7 @@ X, Y = make_classification(n_samples=n, n_classes=n_c, flip_y=0.03,
                     n_features=n_f, n_informative=inf_f, n_redundant=red_f,
                     n_repeated=rep_f, random_state=random_seed)
 X_train, X_test, Y_train, Y_test = \
-    train_test_split(X, Y, test_size=0.2, random_state=random_seed)
+    train_test_split(X, Y, test_size=0.8, random_state=random_seed)
 
 ##################### making dataset ######################
 
@@ -38,8 +39,8 @@ def exp_plain_train():
     model = DecisionTreeClassifier(random_state=random_seed)
     model.fit(X_train, Y_train)
 
-    # pred = model.predict(X_test)
-    # print(classification_report(Y_test, pred))
+    pred = model.predict(X_test)
+    print(classification_report(Y_test, pred))
 
     score = model.score(X_test, Y_test)
     print('plain train score in testing set: ', score)
@@ -78,11 +79,13 @@ def exp_grid_search(folds=10):
                   'max_depth': list(range(3, 15)),
                   'presort': [True, False],
                   'splitter': ['best', 'random']}
-    grid = GridSearchCV(model, param_grid, cv=folds, scoring='f1_weight')
+    grid = GridSearchCV(model, param_grid, cv=folds, scoring='f1_weighted')
     grid.fit(X, Y)
 
     print(grid.best_params_)
     print(grid.best_score_)
+
+    export_graphviz(grid.best_estimator_, filled=True, out_file='report/img/gs.dot')
 
 def bagging():
     bagging = BaggingClassifier(

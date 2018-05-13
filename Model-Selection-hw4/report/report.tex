@@ -34,6 +34,7 @@
 \newtheorem*{solution}{Solution}
 \theoremstyle{definition}
 
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
 \newcommand{\postscript}[2]
  {\setlength{\epsfxsize}{#2\hsize}
   \centerline{\epsfbox{#1}}}
@@ -102,7 +103,7 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 
 \subsection{探索模型组合工作的性能}
 
-从一系列模型$M_1, M_2, ... , M_k$创建组合模型$M^*$，可以有效提高原模型的效果。组合方法主要分为bagging和boosting两种。Bagging方法使用并行思想，$M^*$通过整合各原模型的结果得到输出；Boosting方法则采用串行思想，利用模型$M_{i-1}$的训练结果训练模型$M_{i}$，直到$M_k$。
+一般地，从一系列模型$M_1, M_2, ... , M_k$创建组合模型$M^*$，可以有效提高原模型的效果。组合方法主要分为bagging和boosting两种。Bagging方法使用并行思想，$M^*$通过整合各原模型的结果得到输出；Boosting方法则采用串行思想，利用模型$M_{i-1}$的训练结果训练模型$M_{i}$，直到$M_k$。
 
 \section{结果展示}
 
@@ -111,7 +112,7 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 
 \subsubsection{直接划分训练集和测试集}
 
-首先，我将原数据按照一定比例划分为训练集和测试集，划分时保证每一类型的数据在训练集和测试集的占比大致服从原分布。测试结果如表 \ref{tab:train-test} 所示。
+首先，我将原数据按照一定比例划分为训练集和测试集，划分时保证每一类型的数据在训练集和测试集的占比大致服从原分布，再执行一般的“训练集上训练-测试集上测试”流程。测试结果如表 \ref{tab:train-test} 所示。
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
@@ -121,21 +122,24 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 	
 	\begin{tabular}{c|c|c|c|c}
 		\centering
-		测试集占比 & 测试集上平均精度 & 测试集上平均召回率 & 测试集上平均f1-score & 训练集上平均f1-score \\
+		\tabincell{c}{测试集占比（其中\\0表示随机分类）} & \tabincell{c}{测试集上平均\\精确度} & \tabincell{c}{测试集上平均\\召回率} & \tabincell{c}{测试集上平均\\f1-score} & \tabincell{c}{训练集上平均\\f1-score} \\
 		\hline
+		0 & 0.59 & 0.56 & 0.56 & 1.00 \\
+		0.05 & 0.78 & 0.72 & 0.73 & 1.00 \\
 		0.1 & 0.59 & 0.56 & 0.56 & 1.00 \\
 		0.2 & 0.57 & 0.56 & 0.56 & 1.00 \\	
 		0.3 & 0.57 & 0.56 & 0.56 & 1.00 \\	
 		0.4 & 0.56 & 0.56 & 0.55 & 1.00 \\
 		0.5 & 0.50 & 0.48 & 0.48 & 1.00 \\
+		0.8 & 0.49 & 0.48 & 0.48 & 1.00 \\
 	\end{tabular}
 \end{table}
 
-测试结果表明：不论训练集-测试集的划分比例如何，该模型总是趋于过拟合，且在新数据上的效果较差。
+粗略测试的结果表明：不论训练集-测试集的划分比例如何，该模型总是趋于过拟合，对新数据的分类效果较差。
 
 \subsubsection{分层交叉验证}
 
-上小节仅对决策树模型在$D$上单独工作的性能进行了粗略的估计，下面使用分层交叉验证对其性能做更完整的探索，结果参见图 \ref{fig:cv_bar}。
+上小节仅对决策树模型在$D$上单独工作的性能进行了粗略的估计，下面使用分层交叉验证对模型单独工作的性能做更完整的探索，结果参见图 \ref{fig:cv_bar}。
 
 \begin{figure}[H]
 	\centering
@@ -144,9 +148,11 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 	\label{fig:cv_bar}
 \end{figure}
 
+从图中可以看出，折数和在测试集上的f1-score呈正相关（折数越多，训练集则越大，模型对$D$学习得更充分），但均在0.5与0.6之间，对于一般应用来说也属于较低水平。除此之外，在训练集上的高f1-score也说明模型的过拟合问题尤为严重。
+
 \subsubsection{网格搜索}
 
-这部分实验中，我结合网格搜索和分层交叉验证（10折），得到决策树模型在$D$上的最佳效果。由于遍历所有参数需要消耗大量的时间和计算资源，我在实验中仅选择了模型的部分参数进行网格搜索。具体结果可参见表 \ref{tab:grid-search}。
+这部分实验中，我结合网格搜索和分层交叉验证（10折），得到决策树模型在$D$上的最佳效果。由于遍历所有参数需要消耗大量的时间和计算资源，我在实验中仅选择了模型的部分重要参数进行网格搜索。具体结果可参见表 \ref{tab:grid-search}。
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
@@ -158,19 +164,23 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 		\centering
 		参数名 & 参数含义 & 参数范围 & 模型效果最佳时的值 \\
 		\hline
-		criterion & & & gini \\
-		max\_depth & 0.57 & & 9 \\
-		max\_features & 0.57 & & None \\
-		presort & 0.56 & & True \\
-		splitter & 0.50 & & best \\
+		criterion & 特征选择的度量标准 & gini, entropy & gini \\
+		\hline
+		max\_depth & 树的最大深度 & 正整数 & 9 \\
+		\hline
+		max\_features & \tabincell{c}{寻求最佳划分时\\要考虑的特征数目} & \tabincell{c}{总特征数或其平方根\\或其以2为底的对数值} & 总特征数 \\
+		\hline
+		presort & 是否对数据预先排序 & True, False & True \\
+		\hline
+		splitter & 结点划分策略 & best, random & best \\
 	\end{tabular}
 \end{table}
 
-经过对上表参数值的网格搜索，得到的模型在分层交叉验证中各测试集的平均f1-score为0.61，这个结果在一定程度上代表了决策树模型在$D$上分类的最佳性能。
+经过对上表参数值的网格搜索，得到的模型在分层交叉验证中各测试集的平均f1-score为0.61，虽然只遍历了一部分参数空间，但这个结果在一定程度上也能够代表决策树模型在$D$上分类的最佳性能。最佳模型的可视化结果可参见附录 \ref{apd:vis-tree}。
 
 \subsubsection{结果分析}
 
-通过上面三个小节的探索，可以得出结论：决策树模型单独工作时，在数据集$D$上分类的f1-score基本在0.5-0.6之间，最高仅达0.61，且常趋于过拟合，可见该模型单独工作时效果较差。
+通过上面三个小节的探索，可以得出结论：决策树模型单独工作时，在数据集$D$上分类的f1-score基本在0.5-0.6之间，最高仅达0.61，而在训练集上的分类效果极佳，表明该模型在$D$上单独工作时容易趋于过拟合，对新数据的分类效果较差。
 
 \subsection{模型组合工作的性能}
 
@@ -200,7 +210,7 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 			样本个数 & 50 \\
 			特征个数 & 30 \\
 			类个数 & 3 \\
-			类分布 & 均匀分布 \\
+			类分布 & 每个类均匀分布 \\
 			包含信息的特征占比 & 0.6 \\
 			冗余特征的占比（含信息特征的线性组合） & 0.1 \\
 			重复特征的占比（随机取自含信息特征和冗余特征） & 0.1 \\
@@ -208,8 +218,14 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 		\end{tabular}
 	\end{table}
 	
-	\subsection{PCA算法在主成分个数为3时的进一步可视化}
-	\label{apd:vis3}
+	\subsection{决策树单独工作的最佳模型可视化}
+	由于图片较大，若有需要可放大后详细观看，不影响图片清晰度。
+	\label{apd:vis-tree}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\linewidth]{img/gs.pdf}
+		\caption{决策树单独工作的最佳模型}
+	\end{figure}
 	
 	\subsection{主要代码}
 	\label{apd:code}
