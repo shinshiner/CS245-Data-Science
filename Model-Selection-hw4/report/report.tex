@@ -61,13 +61,13 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 
 \section{问题描述}
 
-给定一个机器学习问题（如回归或分类），。通过组合模型的方式，可以提高模型的效果。这次作业中，我将在自己建立的分类数据集上探索决策树模型单独工作以及组合工作时的性能。
+给定一个机器学习问题（如分类）以及相应的数据集，可以训练出一个初步的模型，但在投入实际应用前，需要对该模型的性能进行评价甚至改善。一般地，通过组合模型的方式，可以提高模型的效果。这次作业中，我将在自己建立的分类数据集上探索决策树模型单独工作以及组合工作时的性能。
 
 \section{解决方案\protect\footnote{本次作业的所有代码实现可参见附录 \ref{apd:code}}}
 
 \subsection{数据集的建立及模型的选择}
 
-由于现有的中小型数据集存在一些难以满足实验要求的属性，我选择自己建立一个分类数据集$D$，之后的所有实验均基于此数据集上进行。数据集$D$包含500个样本，30个特征（存在冗余和重复的特征），为更好地看出模型性能的区别，我在$D$中添加了部分噪声。关于数据集$D$详细的设定参数可参考附录 \ref{apd:dataset_para}。
+由于现有的中小型数据集存在一些难以满足实验要求的属性，我选择自己建立一个分类数据集$D$（后文均以$D$表示此数据集），之后的所有实验均基于此数据集上进行。数据集$D$包含500个样本，30个特征（存在冗余和重复的特征），为更好地看出模型性能的区别，我在$D$中添加了部分噪声。关于数据集$D$详细的设定参数可参考附录 \ref{apd:dataset_para}。
 
 解决分类问题的机器学习模型主要有逻辑回归、决策树以及KNN，在这次作业中，我选择决策树作为探索的模型。
 
@@ -78,7 +78,7 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 \begin{enumerate}
 \item \textbf{直接划分训练集和测试集}
 
-在一般应用中，对模型性能最朴素的评价方法即为：将数据集划分为训练集和测试集，在训练集上训练模型后，根据模型在测试集上的表现评价模型性能。在这次作业中，我首先采用这个方法对模型的性能进行一个粗略的估计。
+在一般应用中，对模型性能最朴素的评价方法即为：将数据集划分为训练集和测试集，在训练集上训练模型后，根据模型在测试集上的表现评价模型性能。因此，我首先采用这个方法对模型的性能进行一个粗略的估计。
 
 \item \textbf{分层交叉验证}
 
@@ -92,7 +92,7 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 	\item 模型的性能由$k$次迭代的平均效果决定。
 \end{enumerate}
 
-分层交叉验证相当于在同一个数据集上进行了多次训练集-测试集划分。和简单的训练集-测试集划分相比，能更准确评估模型来自样本的误差。
+分层交叉验证相当于在同一个数据集上进行了多次训练集-测试集划分。和简单的训练集-测试集划分相比，能更准确地评估模型来自样本的误差。
 
 \item \textbf{网格搜索}
 
@@ -102,7 +102,7 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 
 \subsection{探索模型组合工作的性能}
 
-从一系列模型$M_1, M_2, ... , M_k$创建组合模型$M^*$，可以有效提高原模型的效果。主要的方法分为bagging和boosting两种。Bagging方法使用并行思想，$M^*$通过整合各原模型的结果得到输出；Boosting方法则采用串行思想，利用模型$M_{i-1}$的训练结果训练模型$M_{i}$，直到$M_k$。
+从一系列模型$M_1, M_2, ... , M_k$创建组合模型$M^*$，可以有效提高原模型的效果。组合方法主要分为bagging和boosting两种。Bagging方法使用并行思想，$M^*$通过整合各原模型的结果得到输出；Boosting方法则采用串行思想，利用模型$M_{i-1}$的训练结果训练模型$M_{i}$，直到$M_k$。
 
 \section{结果展示}
 
@@ -111,11 +111,66 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 
 \subsubsection{直接划分训练集和测试集}
 
-\subsubsection{交叉验证}
+首先，我将原数据按照一定比例划分为训练集和测试集，划分时保证每一类型的数据在训练集和测试集的占比大致服从原分布。测试结果如表 \ref{tab:train-test} 所示。
+
+\begin{table}[H]
+	\renewcommand\arraystretch{1.35}
+	\caption{训练集-测试集划分探索模型在$D$上的性能}
+	\label{tab:train-test}
+	\centering
+	
+	\begin{tabular}{c|c|c|c|c}
+		\centering
+		测试集占比 & 测试集上平均精度 & 测试集上平均召回率 & 测试集上平均f1-score & 训练集上平均f1-score \\
+		\hline
+		0.1 & 0.59 & 0.56 & 0.56 & 1.00 \\
+		0.2 & 0.57 & 0.56 & 0.56 & 1.00 \\	
+		0.3 & 0.57 & 0.56 & 0.56 & 1.00 \\	
+		0.4 & 0.56 & 0.56 & 0.55 & 1.00 \\
+		0.5 & 0.50 & 0.48 & 0.48 & 1.00 \\
+	\end{tabular}
+\end{table}
+
+测试结果表明：不论训练集-测试集的划分比例如何，该模型总是趋于过拟合，且在新数据上的效果较差。
+
+\subsubsection{分层交叉验证}
+
+上小节仅对决策树模型在$D$上单独工作的性能进行了粗略的估计，下面使用分层交叉验证对其性能做更完整的探索，结果参见图 \ref{fig:cv_bar}。
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{img/cv_bar.png}
+	\caption{分层交叉验证探索模型在$D$上的性能}
+	\label{fig:cv_bar}
+\end{figure}
 
 \subsubsection{网格搜索}
 
+这部分实验中，我结合网格搜索和分层交叉验证（10折），得到决策树模型在$D$上的最佳效果。由于遍历所有参数需要消耗大量的时间和计算资源，我在实验中仅选择了模型的部分参数进行网格搜索。具体结果可参见表 \ref{tab:grid-search}。
+
+\begin{table}[H]
+	\renewcommand\arraystretch{1.35}
+	\caption{网格搜索结果}
+	\label{tab:grid-search}
+	\centering
+	
+	\begin{tabular}{c|c|c|c}
+		\centering
+		参数名 & 参数含义 & 参数范围 & 模型效果最佳时的值 \\
+		\hline
+		criterion & & & gini \\
+		max\_depth & 0.57 & & 9 \\
+		max\_features & 0.57 & & None \\
+		presort & 0.56 & & True \\
+		splitter & 0.50 & & best \\
+	\end{tabular}
+\end{table}
+
+经过对上表参数值的网格搜索，得到的模型在分层交叉验证中各测试集的平均f1-score为0.61，这个结果在一定程度上代表了决策树模型在$D$上分类的最佳性能。
+
 \subsubsection{结果分析}
+
+通过上面三个小节的探索，可以得出结论：决策树模型单独工作时，在数据集$D$上分类的f1-score基本在0.5-0.6之间，最高仅达0.61，且常趋于过拟合，可见该模型单独工作时效果较差。
 
 \subsection{模型组合工作的性能}
 
@@ -124,63 +179,37 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 \subsubsection{boosting}
 
 \subsubsection{结果分析}
+
+\section{结论}
+
 \newpage
 \begin{appendix}
 	\section{附录}
-	\subsection{Boston数据集特征信息}
-	\label{apd:boston_char}
+	\subsection{分类数据集$D$的详细信息}
+	\label{apd:dataset_para}
 	\begin{table}[H]
 		\renewcommand\arraystretch{1.35}
-		\caption{Boston数据集特征信息}
-		\label{tab:boston_char}
+		\caption{分类数据集$D$的详细信息}
+		\label{tab:dataset_para}
 		\centering
 		
-		\begin{tabular}{c|c|c}
+		\begin{tabular}{c|c}
 			\centering
-			编号 & 特征名 & 特征含义 \\
+			属性 & 值 \\
 			\hline
-			1 & CRIM & 城镇人均犯罪率 \\
-			2 & ZN & 住宅用地超过 25000 sq.ft. 的比例 \\
-			3 & INDUS & 城镇非零售商用土地的比例 \\
-			4 & CHAS & 查理斯河空变量（如果边界是河流，则为1；否则为0） \\
-			5 & NOX & 一氧化氮浓度 \\
-			6 & RM & 住宅平均房间数 \\
-			7 & AGE & 1940 年之前建成的自用房屋比例 \\
-			8 & DIS & 到波士顿五个中心区域的加权距离 \\
-			9 & RAD & 辐射性公路的接近指数 \\
-			10 & TAX & 每 10000 美元的全值财产税率 \\
-			11 & PTRATIO & 城镇师生比例 \\
-			12 & B & 1000(Bk-0.63)\^ 2，其中 Bk 指代城镇中黑人的比例 \\
-			13 & LSTAT & 人口中地位低下者的比例 \\			
+			样本个数 & 50 \\
+			特征个数 & 30 \\
+			类个数 & 3 \\
+			类分布 & 均匀分布 \\
+			包含信息的特征占比 & 0.6 \\
+			冗余特征的占比（含信息特征的线性组合） & 0.1 \\
+			重复特征的占比（随机取自含信息特征和冗余特征） & 0.1 \\
+			噪声占比 & 0.03 \\		
 		\end{tabular}
 	\end{table}
 	
 	\subsection{PCA算法在主成分个数为3时的进一步可视化}
 	\label{apd:vis3}
-	
-	\begin{figure}[H]
-		\centering
-		\subfigure{
-		    \includegraphics[width=0.3\linewidth]{img/pca-3-0.png}
-		}
-		\subfigure{
-			\includegraphics[width=0.3\linewidth]{img/pca-3-1.png}
-		}
-		\subfigure{
-			\includegraphics[width=0.3\linewidth]{img/pca-3-2.png}
-		}
-		\subfigure{
-		    \includegraphics[width=0.3\linewidth]{img/pca-3-3.png}
-		}
-		\subfigure{
-			\includegraphics[width=0.3\linewidth]{img/pca-3-4.png}
-		}
-		\subfigure{
-			\includegraphics[width=0.3\linewidth]{img/pca-3-5.png}
-		}
-		\caption{PCA效果进一步可视化（主成分个数为3时）}
-		\label{fig::pca_vis3}
-	\end{figure}
 	
 	\subsection{主要代码}
 	\label{apd:code}
