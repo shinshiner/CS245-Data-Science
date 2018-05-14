@@ -30,7 +30,7 @@ Boston数据集主成分分析
 
 ### [Model Selection](https://github.com/shinshiner/CS245-Data-Science/tree/master/Model-Selection-hw4)
 
-模型选择
+模型评价与模型改善
 
 ## Reference
 

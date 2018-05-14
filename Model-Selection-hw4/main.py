@@ -1,4 +1,3 @@
-from sklearn.cross_validation import KFold
 from sklearn.cross_validation import StratifiedKFold
 from sklearn.datasets import make_classification
 from sklearn.cross_validation import train_test_split
@@ -14,7 +13,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 plt.rcParams['font.sans-serif']=['SimHei']
 plt.rcParams['axes.unicode_minus']=False
-from pydotplus import graph_from_dot_data
 
 ##################### making dataset ######################
 
@@ -71,111 +69,6 @@ def exp_cv(folds=10):
 
     return mean_test, mean_train
 
-# grid search
-def exp_grid_search(folds=10):
-    model = DecisionTreeClassifier(random_state=random_seed)
-    param_grid = {'criterion': ['gini', 'entropy'],
-                  'max_features': ['sqrt', 'log2', None],
-                  'max_depth': list(range(3, 15)),
-                  'presort': [True, False],
-                  'splitter': ['best', 'random']}
-    grid = GridSearchCV(model, param_grid, cv=folds, scoring='f1_weighted')
-    grid.fit(X, Y)
-
-    print(grid.best_params_)
-    print(grid.best_score_)
-
-    export_graphviz(grid.best_estimator_, filled=True, out_file='report/img/gs.dot')
-
-def bagging(cv=True):
-    bagging = BaggingClassifier(
-        DecisionTreeClassifier(random_state=random_seed),
-        n_estimators=90,            # number of models
-        random_state=random_seed,
-        bootstrap=True,
-        max_samples=1.0,            # Bootstrap sample size radio
-        bootstrap_features=True,
-        max_features=0.7,           # Bootstrap feature usage radio
-    )
-    if cv:
-        scores_train = []
-        scores_test = []
-        kfolds = StratifiedKFold(Y, n_folds=10, random_state=random_seed)
-        for train, test in kfolds:
-            bagging.fit(X[train], Y[train])
-
-            score = bagging.score(X[test], Y[test])
-            scores_test.append(score)
-            score = bagging.score(X[train], Y[train])
-            scores_train.append(score)
-
-        mean_test = np.array(scores_test).mean()
-        mean_train = np.array(scores_train).mean()
-        print('avg score with cv folds 10 in testing set: ', mean_test)
-        print('avg score with cv folds 10 in training set: ', mean_train)
-    else:
-        bagging.fit(X_train, Y_train)
-        pred = bagging.predict(X_test)
-        print(classification_report(Y_test, pred))
-
-def plot_bagging():
-    x = list(range(10, 101, 10))
-    y = [0.694, 0.720, 0.726, 0.730, 0.730, 0.738, 0.738, 0.738, 0.738, 0.744]
-    y_b = [0.626, 0.672, 0.702, 0.716, 0.704, 0.727, 0.735, 0.732, 0.736, 0.738]
-
-    plt.figure(figsize=(6, 4))
-    ax = plt.gca()
-    ax.plot(x, y, color='#9999ff', linewidth=1.7, label=u'无 bootstrap')
-    ax.plot(x, y_b, color='#90EE90', linewidth=1.7, label='bootstrap 70%特征')
-    ax.scatter(x, y, s=13, c='#9999ff')
-    ax.scatter(x, y_b, s=13, c='#90EE90')
-    ax.grid(color='b', alpha=0.5, linestyle='dashed', linewidth=0.5)
-    plt.xlim((5, 105))
-    plt.xlabel(u'子模型数量')
-    plt.ylabel(u'平均 f1-score')
-    plt.legend()
-    plt.savefig('report/img/bagging_kline')
-    plt.show()
-
-def boosting(cv=True):
-    boosting = AdaBoostClassifier(
-        DecisionTreeClassifier(max_depth=3, min_samples_leaf=2, random_state=random_seed),
-        n_estimators=10,        # number of models
-        algorithm='SAMME.R',    # Advanced-Boosting
-        random_state=random_seed
-    )
-    if cv:
-        scores_train = []
-        scores_test = []
-        kfolds = StratifiedKFold(Y, n_folds=10, random_state=random_seed)
-        for train, test in kfolds:
-            boosting.fit(X[train], Y[train])
-
-            score = boosting.score(X[test], Y[test])
-            scores_test.append(score)
-            score = boosting.score(X[train], Y[train])
-            scores_train.append(score)
-
-        mean_test = np.array(scores_test).mean()
-        mean_train = np.array(scores_train).mean()
-        print('avg score with cv folds 10 in testing set: ', mean_test)
-        print('avg score with cv folds 10 in training set: ', mean_train)
-    else:
-        boosting.fit(X_train, Y_train)
-
-        pred = boosting.predict(X_train)
-        print(classification_report(Y_train, pred))
-
-        pred = boosting.predict(X_test)
-        print(classification_report(Y_test, pred))
-
-def plot_boosting():
-    x = list(range(10, 101, 10))
-    y = []
-    y_r = [0.608, 0.668]
-    y_tr = []
-    y_tr_r = [0.904, 0.998]
-
 def plot_cv():
     mean_tests = []
     mean_trains = []
@@ -206,12 +99,159 @@ def plot_cv():
     plt.savefig('report/img/cv_bar')
     plt.show()
 
+# grid search
+def exp_grid_search(folds=10):
+    model = DecisionTreeClassifier(random_state=random_seed)
+    param_grid = {'criterion': ['gini', 'entropy'],
+                  'max_features': ['sqrt', 'log2', None],
+                  'max_depth': list(range(3, 15)),
+                  'presort': [True, False],
+                  'splitter': ['best', 'random']
+                  }
+    grid = GridSearchCV(model, param_grid, cv=folds, scoring='f1_weighted')
+    grid.fit(X, Y)
+
+    print(grid.best_params_)
+    print(grid.best_score_)
+
+    export_graphviz(grid.best_estimator_, filled=True, out_file='report/img/gs.dot')
+
+# bagging alg
+def bagging(cv=True):
+    bagging = BaggingClassifier(
+        DecisionTreeClassifier(random_state=random_seed),
+        n_estimators=10,            # number of models
+        random_state=random_seed,
+        bootstrap=True,
+        max_samples=1.0,            # Bootstrap sample size radio
+        bootstrap_features=True,
+        max_features=1.0,           # Bootstrap feature usage radio
+    )
+    if cv:          # using cross-validation
+        scores_train = []
+        scores_test = []
+        kfolds = StratifiedKFold(Y, n_folds=10, random_state=random_seed)
+        for train, test in kfolds:
+            bagging.fit(X[train], Y[train])
+
+            score = bagging.score(X[test], Y[test])
+            scores_test.append(score)
+            score = bagging.score(X[train], Y[train])
+            scores_train.append(score)
+
+        mean_test = np.array(scores_test).mean()
+        mean_train = np.array(scores_train).mean()
+        print('avg score with cv folds 10 in testing set: ', mean_test)
+        print('avg score with cv folds 10 in training set: ', mean_train)
+    else:           # without cross-validation
+        bagging.fit(X_train, Y_train)
+        pred = bagging.predict(X_test)
+        print(classification_report(Y_test, pred))
+
+def plot_bagging():
+    # results
+    x = list(range(10, 101, 10))
+    y = [0.694, 0.720, 0.726, 0.730, 0.730, 0.738, 0.738, 0.738, 0.738, 0.744]
+    y_b = [0.626, 0.672, 0.702, 0.716, 0.704, 0.727, 0.735, 0.732, 0.736, 0.738]
+    y_b_full = [0.668, 0.711, 0.738, 0.734, 0.744, 0.746, 0.738, 0.730, 0.740, 0.738]
+
+    # ploting code
+    plt.figure(figsize=(6, 4))
+    ax = plt.gca()
+    ax.plot(x, y, color='#9999ff', linewidth=1.7, label=u'无 bootstrap')
+    ax.plot(x, y_b, color='#90EE90', linewidth=1.7, label='bootstrap 70%特征')
+    ax.plot(x, y_b_full, color='#ffa07a', linewidth=1.7, label='bootstrap 100%特征')
+    ax.scatter(x, y, s=13, c='#9999ff')
+    ax.scatter(x, y_b, s=13, c='#90EE90')
+    ax.scatter(x, y_b_full, s=13, c='#ffa07a')
+    ax.grid(color='b', alpha=0.5, linestyle='dashed', linewidth=0.5)
+    plt.xlim((5, 105))
+    plt.xticks(x)
+    plt.xlabel(u'子模型数量')
+    plt.ylabel(u'平均 f1-score')
+    plt.legend()
+    plt.savefig('report/img/bagging_kline')
+    plt.show()
+
+# boosting alg
+def boosting(cv=True):
+    boosting = AdaBoostClassifier(
+        DecisionTreeClassifier(max_depth=3, min_samples_leaf=2, random_state=random_seed),
+        n_estimators=100,   # number of models
+        algorithm='SAMME',  # Advanced-Boosting
+        random_state=random_seed
+    )
+    if cv:      # using cross-validation
+        scores_train = []
+        scores_test = []
+        kfolds = StratifiedKFold(Y, n_folds=10, random_state=random_seed)
+        for train, test in kfolds:
+            boosting.fit(X[train], Y[train])
+
+            score = boosting.score(X[test], Y[test])
+            scores_test.append(score)
+            score = boosting.score(X[train], Y[train])
+            scores_train.append(score)
+
+        mean_test = np.array(scores_test).mean()
+        mean_train = np.array(scores_train).mean()
+        print('avg score with cv folds 10 in testing set: ', mean_test)
+        print('avg score with cv folds 10 in training set: ', mean_train)
+    else:       # without cross-validation
+        boosting.fit(X_train, Y_train)
+
+        pred = boosting.predict(X_train)
+        print(classification_report(Y_train, pred))
+
+        pred = boosting.predict(X_test)
+        print(classification_report(Y_test, pred))
+
+def plot_boosting():
+    # results
+    x = list(range(10, 101, 10))
+    y1 = [0.621, 0.649, 0.649, 0.666, 0.666, 0.672, 0.672, 0.688, 0.688, 0.710]
+    y2 = [0.608, 0.570, 0.596, 0.616, 0.635, 0.633, 0.629, 0.650, 0.664, 0.668]
+    y1_tr = [0.860, 0.958, 0.984, 0.995, 0.996, 0.999, 1.000, 1.000, 1.000, 1.000]
+    y2_tr = [0.904, 0.936, 0.960, 0.975, 0.988, 0.993, 0.993, 0.995, 0.997, 0.998]
+
+    # plot testing results
+    plt.figure(figsize=(6, 4))
+    ax = plt.gca()
+    ax.plot(x, y1, color='#9999ff', linewidth=1.7, label='SAMME.R')
+    ax.plot(x, y2, color='#90EE90', linewidth=1.7, label='SAMME')
+    ax.scatter(x, y1, s=13, c='#9999ff')
+    ax.scatter(x, y2, s=13, c='#90EE90')
+    ax.grid(color='b', alpha=0.5, linestyle='dashed', linewidth=0.5)
+    plt.xlim((5, 105))
+    plt.xticks(x)
+    plt.xlabel(u'子模型数量')
+    plt.ylabel(u'平均 f1-score')
+    plt.legend()
+    plt.savefig('report/img/boosting_kline_test')
+    plt.show()
+
+    # plot training results
+    plt.figure(figsize=(6, 4))
+    ax = plt.gca()
+    ax.plot(x, y1_tr, color='#9999ff', linewidth=1.7, label='SAMME.R')
+    ax.plot(x, y2_tr, color='#90EE90', linewidth=1.7, label='SAMME')
+    ax.scatter(x, y1_tr, s=13, c='#9999ff')
+    ax.scatter(x, y2_tr, s=13, c='#90EE90')
+    ax.grid(color='b', alpha=0.5, linestyle='dashed', linewidth=0.5)
+    plt.xlim((5, 105))
+    plt.xticks(x)
+    plt.xlabel(u'子模型数量')
+    plt.ylabel(u'平均 f1-score')
+    plt.legend()
+    plt.savefig('report/img/boosting_kline_train')
+    plt.show()
+
 if __name__ == '__main__':
     # exp_plain_train()
     # exp_cv()
     # plot_cv()
     # exp_grid_search()
-    boosting()
+    # boosting()
     # plot_boosting()
     # bagging()
-    # plot_bagging()
+    plot_bagging()
