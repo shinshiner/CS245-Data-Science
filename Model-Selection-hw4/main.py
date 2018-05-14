@@ -120,7 +120,7 @@ def exp_grid_search(folds=10):
 def bagging(cv=True):
     bagging = BaggingClassifier(
         DecisionTreeClassifier(random_state=random_seed),
-        n_estimators=200,            # number of models
+        n_estimators=5,            # number of models
         random_state=random_seed,
         bootstrap=True,
         max_samples=1.0,            # Bootstrap sample size radio
@@ -148,22 +148,36 @@ def bagging(cv=True):
         pred = bagging.predict(X_test)
         print(classification_report(Y_test, pred))
 
+    # check the features extracted by each model
+    plt.figure(figsize=(7, 5))
+    f_n = 30
+    x = list(range(1, f_n + 1))
+    for i, f in enumerate(bagging.estimators_features_):
+        print('model %d' % (i + 1), f)
+        plt.scatter(x, f, label=u'子模型 %d' % (i + 1))
+    plt.xlabel(u'特征编号')
+    plt.xticks(list(range(0, 41, 5)))
+    plt.ylabel(u'特征数值')
+    plt.legend(loc=1)
+    plt.savefig('report/img/bagging_feature_%d' % len(bagging.estimators_features_))
+    plt.show()
+
 def plot_bagging():
     # results
     x = list(range(10, 101, 10))
     y = [0.694, 0.720, 0.726, 0.730, 0.730, 0.738, 0.738, 0.738, 0.738, 0.744]
-    y_b = [0.626, 0.672, 0.702, 0.716, 0.704, 0.727, 0.735, 0.732, 0.736, 0.738]
-    y_b_full = [0.668, 0.711, 0.738, 0.734, 0.744, 0.746, 0.738, 0.730, 0.740, 0.738]
+    y_b1 = [0.626, 0.672, 0.702, 0.716, 0.704, 0.727, 0.735, 0.732, 0.736, 0.738]
+    y_b2 = [0.668, 0.711, 0.738, 0.734, 0.744, 0.746, 0.738, 0.730, 0.740, 0.738]
 
     # ploting code
     plt.figure(figsize=(6, 4))
     ax = plt.gca()
-    ax.plot(x, y, color='#9999ff', linewidth=1.7, label=u'无 bootstrap')
-    ax.plot(x, y_b, color='#90EE90', linewidth=1.7, label='bootstrap 70%特征')
-    ax.plot(x, y_b_full, color='#ffa07a', linewidth=1.7, label='bootstrap 100%特征')
+    ax.plot(x, y_b1, color='#90EE90', linewidth=1.7, label=u'70%特征')
+    ax.plot(x, y_b2, color='#ffa07a', linewidth=1.7, label=u'90%特征')
+    ax.plot(x, y, color='#9999ff', linewidth=1.7, label=u'100%特征')
     ax.scatter(x, y, s=13, c='#9999ff')
-    ax.scatter(x, y_b, s=13, c='#90EE90')
-    ax.scatter(x, y_b_full, s=13, c='#ffa07a')
+    ax.scatter(x, y_b1, s=13, c='#90EE90')
+    ax.scatter(x, y_b2, s=13, c='#ffa07a')
     ax.grid(color='b', alpha=0.5, linestyle='dashed', linewidth=0.5)
     plt.xlim((5, 105))
     plt.xticks(x)
@@ -177,7 +191,7 @@ def plot_bagging():
 def boosting(cv=True):
     boosting = AdaBoostClassifier(
         DecisionTreeClassifier(max_depth=3, min_samples_leaf=2, random_state=random_seed),
-        n_estimators=100,   # number of models
+        n_estimators=15,   # number of models
         algorithm='SAMME',  # Advanced-Boosting
         random_state=random_seed
     )
@@ -205,6 +219,14 @@ def boosting(cv=True):
 
         pred = boosting.predict(X_test)
         print(classification_report(Y_test, pred))
+
+    # plot the relation between weights and error
+    plt.figure()
+    plt.xlabel(u'子模型权重')
+    plt.ylabel(u'错误率')
+    plt.plot(boosting.estimator_weights_, boosting.estimator_errors_)
+    plt.savefig('report/img/boosting-weight-error-%d' % len(boosting.estimator_weights_))
+    plt.show()
 
 def plot_boosting():
     # results
