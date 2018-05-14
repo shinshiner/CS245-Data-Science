@@ -103,7 +103,7 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 
 \subsection{探索模型组合工作的性能}
 
-一般地，从一系列模型$M_1, M_2, ... , M_k$创建组合模型$M^*$，可以有效提高原模型的效果。组合方法有bagging、boosting、voting和stacking等，本次作业我探索了bagging和boosting两种组合方法的效果。Bagging方法使用并行思想，$M^*$通过整合各原模型的结果得到输出；Boosting方法则采用串行思想，利用模型$M_{i-1}$的训练结果训练模型$M_{i}$，直到$M_k$。
+一般地，从一系列模型$M_1, M_2, ... , M_k$创建组合模型$M^*$，可以有效提高原模型的效果。组合方法有bagging、boosting、voting和stacking等，本次作业我探索了bagging和boosting两种组合方法的效果。Bagging方法使用并行思想，$M^*$通过整合各原模型的结果得到输出；Boosting方法则采用串行思想，不断利用模型$M_{i-1}$的训练结果训练模型$M_{i}$，以最小化目标函数（损失函数），直到$M_k$，属于一种迭代搜索算法。
 
 \section{结果展示}
 
@@ -116,7 +116,7 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
-	\caption{训练集-测试集划分探索模型在$D$上的性能}
+	\caption{不同比例的训练集-测试集划分下，决策树模型在$D$上的性能}
 	\label{tab:train-test}
 	\centering
 	
@@ -124,7 +124,7 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 		\centering
 		\tabincell{c}{测试集占比（其中\\0表示随机分类）} & \tabincell{c}{测试集上平均\\精确度} & \tabincell{c}{测试集上平均\\召回率} & \tabincell{c}{测试集上平均\\f1-score} & \tabincell{c}{训练集上平均\\f1-score} \\
 		\hline
-		0 & 0.59 & 0.56 & 0.56 & 1.00 \\
+		0 & 0.38 & 0.36 & 0.36 & 0.33 \\
 		0.05 & 0.78 & 0.72 & 0.73 & 1.00 \\
 		0.1 & 0.59 & 0.56 & 0.56 & 1.00 \\
 		0.2 & 0.57 & 0.56 & 0.56 & 1.00 \\	
@@ -180,26 +180,30 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 
 \subsubsection{结果分析}
 
-通过上面三个小节的探索，可以得出结论：决策树模型单独工作时，在数据集$D$上分类的f1-score基本在0.5-0.6之间，最高仅达0.61，而在训练集上的分类效果极佳，表明该模型在$D$上单独工作时容易趋于过拟合，对新数据的分类效果较差。
+通过上面三个小节的探索，可以得出结论：决策树模型单独工作时，在数据集$D$上分类的f1-score基本在0.5-0.6之间，最高仅达0.61，而在训练集上的分类效果极佳，表明该模型在$D$上单独工作时容易趋于过拟合，对新数据的分类效果较差，即低偏差、高方差。
 
 \subsection{模型组合工作的性能}
+\label{sec:bagging}
 
 这一节实验主要探索决策树模型在bagging和boosting两种组合方式下在$D$上的分类性能。
 
-\subsubsection{bagging}
+\subsubsection{Bagging}
 
-Bagging方法整合各子模型的输出从而得到结果，因此每个子模型的训练方式对最终结果也有较大的影响。一般地，在训练子模型时选择合适的特征比例（即舍去训练数据的部分特征）可以降低过拟合程度，得到良好的模型。这部分实验中，我选择了不同比例的特征对子模型进行训练，之后采用10折分层交叉验证对bagging整合后的模型进行性能评价，结果可参见图 \ref{fig:bagging}。
+Bagging方法整合各子模型的输出从而得到结果，因此每个子模型的训练方式对最终结果也有较大的影响。一般地，在训练子模型时选择合适的特征比例（即舍去训练数据的部分特征）可以降低过拟合程度，得到良好的模型。这部分实验中，我选择了\textbf{不同子模型个数}以及\textbf{不同比例的特征}进行训练，之后采用10折分层交叉验证对bagging整合后的模型进行性能评价，结果可参见图 \ref{fig:bagging}。
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{img/bagging_kline.png}
-	\caption{bagging集成模型性能（测试集）}
+	\caption{Bagging集成模型在测试集上的性能（在训练集上的f1-score均为1，因此不再画出）}
 	\label{fig:bagging}
 \end{figure}
 
-对比
+对比图 \ref{fig:cv_bar} 和图 \ref{fig:bagging} 的结果，可以发现经过bagging集成的模型在测试集上能够达到更高的f1-score（0.74左右），减小了模型的方差。但bagging集成后的模型仍在一定程度上存在过拟合的问题，相关讨论可见 \ref{sec:dis} 小节。
 
-\subsubsection{boosting}
+\subsubsection{Boosting}
+\label{sec:boosting}
+
+Boosting不断地使用子模型弥补前一个子模型的“不足”，串行地构造一个强模型。具体实现主要有Adaboost、SAMME和SAMME.R等。这部分实验中，我使用SAMME和SAMME.R算法探索了在不同子模型个数下，boosting集成模型在10折分层交叉验证下的性能，结果参见图 \ref{fig:boosting}。
 
 \begin{figure}[H]
 	\centering
@@ -211,13 +215,39 @@ Bagging方法整合各子模型的输出从而得到结果，因此每个子模�
 		\label{fig:boosting-test}
 		\includegraphics[width=0.48\linewidth]{img/boosting_kline_test.png}
 	}
-	\caption{boosting集成模型性能}
+	\caption{Boosting集成模型性能}
 	\label{fig:boosting}
 \end{figure}
 
+从上图可以看出，和模型单独工作相比，boosting方法同样提升了模型的性能，尤其是降低了模型的方差。对比图 \ref{fig:bagging} 及图 \ref{fig:boosting-test} 的结果可知，bagging和boosting在测试集上平均f1-score的变化趋势和最终数值基本一致。但结合boosting在训练集上的效果（图 \ref{fig:boosting-train} ）分析，boosting相对于单独模型和bagging方法，过拟合程度更低，保证模型低偏差的同时减小了模型的方差。
+
 \subsubsection{结果分析}
+\label{sec:dis}
+
+Bagging和boosting虽然都属于组合模型的方法，都能够改进模型的性能，但其背后不同的思想决定了它们对模型的改进有着不同的侧重点。
+
+\vspace{0.015\linewidth}
+Bagging充分利用了不同子模型的预测结果，有利于模型的互补，通过\textbf{降低模型方差}改善性能；Boosting则通过多步迭代，不断优化目标函数，将弱模型逐步转化成强模型，因此和bagging相比，boosting一般能得到\textbf{更高的准确度}（即更低的偏差），但也存在模型过拟合的风险（即更高的方差）。
+
+\vspace{0.015\linewidth}
+然而， \ref{sec:bagging} 和 \ref{sec:boosting} 小节的结果与上面的理论分析似乎存在矛盾：Bagging方法在降低方差上并没有显著的表现，而boosting方法的偏差和bagging相比，也不存在明显的优势，反而能够在一定程度上降低过拟合程度。
+
+\vspace{0.015\linewidth}
+经过分析，我认为这一结果的背后存在多个原因：
+
+\begin{enumerate}
+
+\item \textbf{参数设置  } Bagging和boosting属于不同思想的算法，参数的种类也不同，难以在相同条件下对二者进行比较。二者参数中包含大量连续型参数（如bagging中的特征取样比例、boosting中的学习率），这也使得网格搜索无法实现。因此，对于两种组合算法性能的比较，无法统一在相同的条件下，只能从理论上分析出大致的结果，对具体的问题而言可能各有不同。
+
+\item \textbf{子模型的类型  } 实验中选择的分类模型是决策树模型，bagging方法虽然利用不同的训练样本引入随机成分，训练了多个决策树模型，但这些树之间仍存在相关性，尤其是树的上层，几乎具有相同的结构，将这些结构相似的模型进行组合，对方差的降低自然无法体现。而低偏差、高方差，易过拟合也是决策树本身所具有的特点。采用随机森林（分割结点时将特征也做随机选取）算法，可以有效解决这一问题。
+
+\item \textbf{数据的影响  } 在这次实验中，为了使模型性能的提升更加明显，我在数据集中添加了冗余特征、重复特征甚至噪音（见附录 \ref{apd:dataset_para}），加大了分类难度。这些数据上的干扰也在一定程度限制了各种方法的性能，导致实验结果与理论有些许偏差。
+
+\end{enumerate}
 
 \section{结论}
+
+综上，决策树模型在数据集$D$上单独工作时，偏差较低而方差较大，即在训练集上表现极佳，但在新数据上效果较差。和单独工作相比，模型组合工作时，无论是bagging还是boosting方法都能够在保证低偏差的情况下有效降低模型的方差，其中boosting组合模型的偏差比bagging稍高，而方差稍低。但由于决策树模型本身的特点影响，加上数据集存在噪音以及参数未经过大量调整，即使是组合模型也难以满足实际应用的性能需求。
 
 \newpage
 \begin{appendix}
