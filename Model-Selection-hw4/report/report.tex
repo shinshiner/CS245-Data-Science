@@ -103,7 +103,7 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 
 \subsection{探索模型组合工作的性能}
 
-一般地，从一系列模型$M_1, M_2, ... , M_k$创建组合模型$M^*$，可以有效提高原模型的效果。组合方法主要分为bagging和boosting两种。Bagging方法使用并行思想，$M^*$通过整合各原模型的结果得到输出；Boosting方法则采用串行思想，利用模型$M_{i-1}$的训练结果训练模型$M_{i}$，直到$M_k$。
+一般地，从一系列模型$M_1, M_2, ... , M_k$创建组合模型$M^*$，可以有效提高原模型的效果。组合方法有bagging、boosting、voting和stacking等，本次作业我探索了bagging和boosting两种组合方法的效果。Bagging方法使用并行思想，$M^*$通过整合各原模型的结果得到输出；Boosting方法则采用串行思想，利用模型$M_{i-1}$的训练结果训练模型$M_{i}$，直到$M_k$。
 
 \section{结果展示}
 
@@ -184,9 +184,36 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 
 \subsection{模型组合工作的性能}
 
+这一节实验主要探索决策树模型在bagging和boosting两种组合方式下在$D$上的分类性能。
+
 \subsubsection{bagging}
 
+Bagging方法整合各子模型的输出从而得到结果，因此每个子模型的训练方式对最终结果也有较大的影响。一般地，在训练子模型时选择合适的特征比例（即舍去训练数据的部分特征）可以降低过拟合程度，得到良好的模型。这部分实验中，我选择了不同比例的特征对子模型进行训练，之后采用10折分层交叉验证对bagging整合后的模型进行性能评价，结果可参见图 \ref{fig:bagging}。
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{img/bagging_kline.png}
+	\caption{bagging集成模型性能（测试集）}
+	\label{fig:bagging}
+\end{figure}
+
+对比
+
 \subsubsection{boosting}
+
+\begin{figure}[H]
+	\centering
+	\subfigure[训练集]{
+		\label{fig:boosting-train}
+		\includegraphics[width=0.48\linewidth]{img/boosting_kline_train.png}
+	}
+	\subfigure[测试集]{
+		\label{fig:boosting-test}
+		\includegraphics[width=0.48\linewidth]{img/boosting_kline_test.png}
+	}
+	\caption{boosting集成模型性能}
+	\label{fig:boosting}
+\end{figure}
 
 \subsubsection{结果分析}
 

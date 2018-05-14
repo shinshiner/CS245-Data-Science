@@ -120,7 +120,7 @@ def exp_grid_search(folds=10):
 def bagging(cv=True):
     bagging = BaggingClassifier(
         DecisionTreeClassifier(random_state=random_seed),
-        n_estimators=10,            # number of models
+        n_estimators=200,            # number of models
         random_state=random_seed,
         bootstrap=True,
         max_samples=1.0,            # Bootstrap sample size radio
@@ -251,7 +251,7 @@ if __name__ == '__main__':
     # exp_cv()
     # plot_cv()
     # exp_grid_search()
-    # boosting()
+    boosting()
     # plot_boosting()
     # bagging()
-    plot_bagging()
+    # plot_bagging()
