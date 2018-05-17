@@ -32,6 +32,10 @@ Boston数据集主成分分析
 
 模型评价与模型改善
 
+### [Apriori](https://github.com/shinshiner/CS245-Data-Science/tree/master/Apriori-hw5)
+
+Apriori算法实现及应用
+
 ## Reference
 
 * [Morvan's tutorial](https://morvanzhou.github.io/tutorials/data-manipulation/)
