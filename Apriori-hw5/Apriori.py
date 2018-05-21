@@ -1,7 +1,5 @@
-import sys
 from itertools import chain, combinations
 from collections import defaultdict
-from optparse import OptionParser
 
 def subsets(arr):
     """ Returns non empty subsets of arr"""
@@ -100,13 +98,13 @@ def runApriori(data_iter, minSupport, minConfidence):
 def printResults(items, rules):
     """prints the generated itemsets sorted by support and the confidence rules sorted by confidence"""
     #for item, support in sorted(items, key=lambda item, support: support):
-    print(u'频繁项集：')
+    print(u'------频繁项集------')
     for item, support in sorted(items, key=lambda items: items[1]):
-        print ("item: %s , %.3f" % (str(item), support))
-    print (u'关联规则：')
+        print ('%s , %.2f' % (str(item), support))
+    print (u'\n------关联规则------')
     for rule, confidence in sorted(rules, key=lambda rules: rules[1]):
         pre, post = rule
-        print ("Rule: %s ==> %s , %.3f" % (str(pre), str(post), confidence))
+        print ('%s --> %s , %.2f' % (str(pre), str(post), confidence))
 
 def dataFromFile(fname):
         """Function which reads from the file and yields a generator"""
@@ -117,5 +115,5 @@ def dataFromFile(fname):
                 yield record
 
 if __name__ == "__main__":
-    items, rules = runApriori(dataFromFile('data.csv'), minSupport=0.15, minConfidence=0.3)
+    items, rules = runApriori(dataFromFile('data.csv'), minSupport=0.15, minConfidence=0.6)
     printResults(items, rules)
