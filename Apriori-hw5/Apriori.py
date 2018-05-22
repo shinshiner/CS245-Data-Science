@@ -1,5 +1,6 @@
 from itertools import chain, combinations
 from collections import defaultdict
+import numpy as np
 
 class Apriori(object):
     def __init__(self, f_name, sup=0.1, con=0.1):
@@ -93,14 +94,32 @@ class Apriori(object):
     # 输出结果
     def show(self):
         print(u'------频繁项集------')
-        for item, sup in sorted(self.items, key=lambda items: items[1]):
-            print ('%s , %.2f' % (str(item), sup))
+        for item, sup in self.items:#sorted(self.items, key=lambda items: items[1]):
+            # print ('%s , %.2f' % (str(item), sup))
+            try:
+                print('%s, %s & %.2f \\\\' % (str(item[0]), str(item[1]), sup))
+            except:
+                print('%s & %.2f \\\\' % (str(item[0]), sup))
         print (u'\n------关联规则------')
-        for rule, con in sorted(self.rules, key=lambda rules: rules[1]):
+        for rule, con in self.rules:#sorted(self.rules, key=lambda rules: rules[1]):
             pre, post = rule
             print ('%s --> %s , %.2f' % (str(pre), str(post), con))
 
+        return len(self.items), len(self.rules)
+
 if __name__ == "__main__":
-    a = Apriori('groceries.csv', 0.05, 0.2)
+    # x = np.linspace(0.01, 0.1, 10)
+    # it = []
+    # ru = []
+    # for i in range(x.shape[0]):
+    #     print(i, '!!!!!!!!!!!!!!!!!!!')
+    #     a = Apriori('groceries.csv', x[i], 0.5)
+    #     a.run()
+    #     itt, ruu = a.show()
+    #     it.append(itt)
+    #     ru.append(ruu)
+    # print(it)
+    # print(ru)
+    a = Apriori('data.csv', 0.15, 0.6)
     a.run()
     a.show()

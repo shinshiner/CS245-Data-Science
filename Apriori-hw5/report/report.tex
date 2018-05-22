@@ -92,44 +92,69 @@ Apriori算法是最经典的挖掘频繁项集的算法，实现了在大数据�
 
 \subsection{模拟数据集}
 
-我将支持度和置信度的阈值分别设置为0.1及0.6，蛮力算法的运行结果根据支持度和置信度排序后为：
+我将支持度和置信度的阈值分别设置为0.1及0.6，蛮力算法的运行结果为：
 
-\begin{lstlisting}[language=Python,
-	keywordstyle=\color{blue!70},
-	frame=shadowbox,
-	breaklines=True]
-------频繁项集------
-('scissors', 'stapler') , 0.15
-('plate', 'stapler') , 0.15
-('knife', 'stapler') , 0.15
-('scissors', 'knife') , 0.15
-('stapler', 'glue') , 0.16
-('ele_oven', 'TV') , 0.17
-('milk',) , 0.18
-('apple',) , 0.18
-('bread',) , 0.19
-('orange',) , 0.21
-('beer',) , 0.22
-('PC',) , 0.22
-('phone',) , 0.22
-('glue',) , 0.23
-('plate',) , 0.23
-('scissors',) , 0.25
-('fridge',) , 0.25
-('ele_oven',) , 0.26
-('knife',) , 0.27
-('TV',) , 0.29
-('stapler',) , 0.30
+\begin{table}[H]
+	\renewcommand\arraystretch{1.35}
+	\caption{蛮力算法在模拟交易数据集下发现的频繁项集}
+	\label{tab:baoli_sim_sup}
+	\centering
+	
+	\begin{tabular}{c|c|c|c}
+		\centering
+		频繁项集 & 支持度 & 频繁项集 & 支持度 \\
+		\hline
+		scissors & 0.25 & apple & 0.18 \\
+		beer & 0.22 & fridge & 0.25 \\
+		ele\_oven & 0.26 & stapler & 0.30 \\
+		phone & 0.22 & glue & 0.23 \\
+		plate & 0.23 & scissors, knife & 0.15 \\
+		PC & 0.22 & ele\_oven, TV & 0.17 \\
+		TV & 0.29 & scissors, stapler & 0.15 \\
+		bread & 0.19 & glue, stapler & 0.16 \\
+		orange & 0.21 & stapler, plate & 0.15 \\
+		knife & 0.27 & stapler, knife & 0.15 \\
+		milk & 0.18 & & \\		
+	\end{tabular}
+\end{table}
 
-------关联规则------
-('scissors',) --> ('stapler',) , 0.60
-('scissors',) --> ('knife',) , 0.60
-('plate',) --> ('stapler',) , 0.65
-('ele_oven',) --> ('TV',) , 0.65
-('glue',) --> ('stapler',) , 0.70
-\end{lstlisting}
+\begin{table}[H]
+	\renewcommand\arraystretch{1.35}
+	\caption{蛮力算法在模拟交易数据集下发现的关联规则}
+	\label{tab:baoli_sim_con}
+	\centering
+	
+	\begin{tabular}{c|c}
+		\centering
+		关联规则 & 置信度 \\
+		\hline
+		glue --> stapler & 0.70 \\
+		scissors --> knife & 0.60 \\
+		ele\_oven --> TV & 0.65 \\
+		plate --> stapler & 0.65 \\
+		scissors --> stapler & 0.60 \\
+	\end{tabular}
+\end{table}
 
-得到以上的参考结果后，我使用Apriori算法和同样的参数对模拟交易数据集进行分析，所得结果见表 \ref{tab:apriori_sim_sup} 和 表 \ref{tab:apriori_sim_con}。
+得到以上的参考结果后，我使用自己实现的Apriori算法和同样的参数（支持度0.1，置信度0.6）对模拟交易数据集进行分析，所得结果见表 \ref{tab:apriori_sim_sup} 和表 \ref{tab:apriori_sim_con}。
+
+\begin{table}[H]
+	\renewcommand\arraystretch{1.35}
+	\caption{Apriori算法在模拟交易数据集下发现的关联规则（按置信度排序）}
+	\label{tab:apriori_sim_con}
+	\centering
+	
+	\begin{tabular}{c|c}
+		\centering
+		关联规则 & 置信度 \\
+		\hline
+		scissors --> stapler & 0.60 \\
+		scissors --> knife & 0.60 \\
+		plate --> stapler & 0.65 \\
+		ele\_oven --> TV & 0.65 \\
+		glue --> stapler & 0.70 \\
+	\end{tabular}
+\end{table}
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
@@ -155,29 +180,20 @@ Apriori算法是最经典的挖掘频繁项集的算法，实现了在大数据�
 	\end{tabular}
 \end{table}
 
-\begin{table}[H]
-	\renewcommand\arraystretch{1.35}
-	\caption{Apriori算法在模拟交易数据集下发现的关联规则（按置信度排序）}
-	\label{tab:apriori_sim_con}
-	\centering
-	
-	\begin{tabular}{c|c}
-		\centering
-		关联规则 & 置信度 \\
-		\hline
-		scissors --> stapler & 0.60 \\
-		scissors --> knife & 0.60 \\
-		plate --> stapler & 0.65 \\
-		ele\_oven --> TV & 0.65 \\
-		glue --> stapler & 0.70 \\
-	\end{tabular}
-\end{table}
+将表 \ref{tab:baoli_sim_sup}， \ref{tab:baoli_sim_con}的结果排序后与上表对比，容易发现二者一致。考虑到模拟交易数据集在生成时的随机性，这个结果可以证明我实现的Apriori算法的正确性。
 
-对比蛮力算法和Apriori算法排序后的结果，容易发现二者一致，可以证明我实现的Apriori算法的正确性。
+根据理论分析，Apriori算法相对于蛮力算法有着极大的效率优势，为探索这种优势，我在不同支持度下运行两种算法进行频繁项集挖掘，对比消耗的时间，结果参见 \ref{fig:time_com}。
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/gro_rule_kline.png}
+	\caption{Apriori算法与蛮力算法进行频繁项集挖掘效率对比}
+	\label{fig:time_com}
+\end{figure}
 
 \subsection{Groceries数据集}
 
-确认Apriori算法实现的正确性后，我将其应用到真实数据上。考虑到Groceries数据集商品种类相对于实例较少的特点，我选择了较小的支持度（0.05），置信度选择为0.2。运行结果参见表 \ref{tab:apriori_gro_sup} 和表 \ref{tab:apriori_gro_con}。
+确认Apriori算法实现的正确性后，我将其应用到真实数据上。考虑到Groceries数据集商品种类相对于实例较多的特点，每种商品出现的次数占总交易记录的比例可能偏低，因此我选择了较小的支持度（0.05），置信度选择为0.2。运行结果参见表 \ref{tab:apriori_gro_sup} 和表 \ref{tab:apriori_gro_con}。
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
@@ -223,8 +239,24 @@ Apriori算法是最经典的挖掘频繁项集的算法，实现了在大数据�
 
 为进一步利用Apriori算法探索Groceries数据集的关联规则，我尝试了不同的支持度和置信度，具体结果可参见图 \ref{fig:apriori}。
 
+%\vspace{-0.012\linewidth}
+\begin{figure}[H]
+	\centering
+	\subfigure[频繁项集个数]{
+		\includegraphics[width=0.45\linewidth]{img/gro_item_bar.png}
+	}
+	\subfigure[关联规则个数]{
+		\includegraphics[width=0.45\linewidth]{img/gro_rule_kline.png}
+	}
+	\caption{频繁项集个数及关联规则个数与支持度和置信度关系}
+	\label{fig:apriori}
+\end{figure}
+
+结果表明，在支持度大于0.1时，Groceries数据集中基本已找不出满足条件的频繁项集；而置信度大于0.5时，几乎无法在剩余的频繁项集中发现关联规则。这个结果进一步证明了实验前的假设：每种商品出现的次数占总交易记录的比例偏低。同时，从置信度和关联规则个数的关系分析，Groceries数据集中的交易记录存在一定的关联规则，但相应的置信度普遍偏低（0.5以下）。
+
 \section{结论}
 
+本次作业中，我利用Python语言实现了Apriori算法，并通过在模拟交易数据集上和蛮力算法的结果比较，证明了实现的正确性。之后我使用Apriori算法对模拟交易数据集以及Groceries数据集进行了频繁项集挖掘，进而分析关联规则。结果表明，Apriori算法是迅速且有效的挖掘频繁项集的算法，在中小规模的数据集上有着良好的表现（限于计算资源，我没有进行大规模数据上的实验）。
 
 \newpage
 \begin{appendix}
