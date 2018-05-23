@@ -186,10 +186,12 @@ Apriori算法是最经典的挖掘频繁项集的算法，实现了在大数据�
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\linewidth]{img/gro_rule_kline.png}
+	\includegraphics[width=0.7\linewidth]{img/time_kline.png}
 	\caption{Apriori算法与蛮力算法进行频繁项集挖掘效率对比}
 	\label{fig:time_com}
 \end{figure}
+
+从图中可以看出，相比于蛮力算法，Apriori算法具有极大的效率优势，上图的比较仅改变了数据集的交易记录数量，若增加总交易货品种类，蛮力算法的复杂度将呈指数型增长，Apriori算法的效率优势将更加明显。
 
 \subsection{Groceries数据集}
 
@@ -205,17 +207,22 @@ Apriori算法是最经典的挖掘频繁项集的算法，实现了在大数据�
 		\centering
 		频繁项集 & 支持度 & 频繁项集 & 支持度 \\
 		\hline
-		stapler, scissors & 0.15 & PC & 0.22 \\
-		knife, scissors & 0.15 & phone & 0.22 \\
-		stapler, knife & 0.15 & glue & 0.23 \\
-		plate, stapler & 0.15 &plate & 0.23 \\
-		stapler, glue & 0.16 & scissors & 0.25 \\
-		ele\_oven, TV & 0.17 & fridge & 0.25 \\
-		milk & 0.18 & ele\_oven & 0.26 \\
-		apple & 0.18 & knife & 0.27 \\
-		bread & 0.19 & TV & 0.29 \\
-		orange & 0.21 & stapler & 0.30 \\
-		beer & 0.22 & & \\		
+		napkins & 0.05 & canned beer & 0.08 \\
+		beef & 0.05 & newspapers & 0.08 \\
+		curd & 0.05 & bottled beer & 0.08 \\
+		butter & 0.06 & citrus fruit & 0.08 \\
+		yogurt, whole milk & 0.06 & pastry & 0.09 \\
+		rolls/buns, whole milk & 0.06 & sausage & 0.09 \\
+		pork & 0.06 & shopping bags & 0.10 \\
+		coffee & 0.06 & tropical fruit & 0.10 \\
+		margarine & 0.06 & root vegetables & 0.11 \\
+		frankfurter & 0.06 & bottled water & 0.11 \\
+		domestic eggs & 0.06 & yogurt & 0.14 \\
+		brown bread & 0.06 & soda & 0.17 \\
+		whipped/sour cream & 0.07 & rolls/buns & 0.18 \\
+		fruit/vegetable juice & 0.07 & other vegetables & 0.19 \\
+		other vegetables, whole milk & 0.07 & whole milk & 0.26 \\
+		pip fruit & 0.08 & &
 	\end{tabular}
 \end{table}
 
@@ -229,15 +236,16 @@ Apriori算法是最经典的挖掘频繁项集的算法，实现了在大数据�
 		\centering
 		关联规则 & 置信度 \\
 		\hline
-		scissors --> stapler & 0.60 \\
-		scissors --> knife & 0.60 \\
-		plate --> stapler & 0.65 \\
-		ele\_oven --> TV & 0.65 \\
-		glue --> stapler & 0.70 \\
+		whole milk --> yogurt & 0.22 \\
+		whole milk --> rolls/buns & 0.22 \\
+		whole milk --> other vegetables & 0.29 \\
+		rolls/buns --> whole milk & 0.31 \\
+		other vegetables --> whole milk & 0.39 \\
+		yogurt --> whole milk & 0.40 \\
 	\end{tabular}
 \end{table}
 
-为进一步利用Apriori算法探索Groceries数据集的关联规则，我尝试了不同的支持度和置信度，具体结果可参见图 \ref{fig:apriori}。
+结果表明，频繁项集集中在大小为1或2的集合中。为进一步利用Apriori算法探索Groceries数据集的关联规则，我尝试了不同的支持度和置信度，具体结果可参见图 \ref{fig:apriori}。
 
 %\vspace{-0.012\linewidth}
 \begin{figure}[H]

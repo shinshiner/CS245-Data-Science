@@ -1,6 +1,8 @@
 from itertools import chain, combinations
 from collections import defaultdict
 import numpy as np
+import time
+from simData import *
 
 class Apriori(object):
     def __init__(self, f_name, sup=0.1, con=0.1):
@@ -94,18 +96,46 @@ class Apriori(object):
     # 输出结果
     def show(self):
         print(u'------频繁项集------')
-        for item, sup in self.items:#sorted(self.items, key=lambda items: items[1]):
+        for item, sup in sorted(self.items, key=lambda items: items[1]):
             # print ('%s , %.2f' % (str(item), sup))
             try:
                 print('%s, %s & %.2f \\\\' % (str(item[0]), str(item[1]), sup))
             except:
                 print('%s & %.2f \\\\' % (str(item[0]), sup))
         print (u'\n------关联规则------')
-        for rule, con in self.rules:#sorted(self.rules, key=lambda rules: rules[1]):
+        for rule, con in sorted(self.rules, key=lambda rules: rules[1]):
             pre, post = rule
             print ('%s --> %s , %.2f' % (str(pre), str(post), con))
 
         return len(self.items), len(self.rules)
+
+def force_items():
+    t = time.time()
+    def power_sets_binary(items):
+        N = len(items)
+        for i in range(2**N):
+            combo = []
+            for j in range(N):
+                if (i >> j) % 2 == 1:
+                    combo.append(items[j])
+            yield combo
+
+    all_items = ['bread', 'milk', 'apple', 'orange', 'beer',
+                 'TV', 'PC', 'phone', 'fridge', 'ele_oven',
+                 'scissors', 'stapler', 'plate', 'knife', 'glue']
+    subsets = list(power_sets_binary(all_items))
+    counts = [0] * len(subsets)
+    cnt = 0
+
+    with open('data.csv', 'r') as f:
+        for line in f:
+            item = line.strip().rstrip(',').split(',')
+            for i, s in enumerate(subsets):
+                if set(s).issubset(set(item)) or set(s) == set(item):
+                    counts[i] += 1
+                    cnt += 1
+
+    return time.time() - t
 
 if __name__ == "__main__":
     # x = np.linspace(0.01, 0.1, 10)
@@ -120,6 +150,24 @@ if __name__ == "__main__":
     #     ru.append(ruu)
     # print(it)
     # print(ru)
-    a = Apriori('data.csv', 0.15, 0.6)
+
+    a = Apriori('groceries.csv', 0.05, 0.2)
     a.run()
-    a.show()
+    i, r = a.show()
+    print(i, r)
+
+    # t_f = []
+    # t_a = []
+    # for i in range(100, 501, 50):
+    #     sim = simData(i, 1)
+    #     sim.writeCSV()
+    #     tmp = force_items()
+    #     t_f.append(tmp)
+    #
+    #     t = time.time()
+    #     a = Apriori('data.csv', 0.15, 0.6)
+    #     a.run()
+    #     t_a.append(time.time() - t)
+    #
+    # print(t_f)
+    # print(t_a)

@@ -41,5 +41,24 @@ def apriori_gro_kline_rule():
     plt.savefig('report/img/gro_rule_kline')
     plt.show()
 
+def time_kline():
+    x_sample = list(range(100, 501, 50))
+    y_time_baoli = [5.83, 8.28, 11.34, 13.21, 16.25, 18.58, 21.44, 24.01, 28.31]
+    y_time_apriori = [0.02, 0.0, 0.0, 0.0, 0.02, 0.02, 0.02, 0.02, 0.0]
+
+    plt.figure(figsize=(6, 4))
+    ax = plt.gca()
+    ax.plot(x_sample, y_time_baoli, color='#90EE90', linewidth=1.7, label=u'蛮力算法')
+    ax.plot(x_sample, y_time_apriori, color='#ffa07a', linewidth=1.7, label=u'Apriori算法')
+    ax.scatter(x_sample, y_time_baoli, s=13, c='#90EE90')
+    ax.scatter(x_sample, y_time_apriori, s=13, c='#ffa07a')
+    ax.grid(color='b', alpha=0.5, linestyle='dashed', linewidth=0.5)
+    plt.xticks(x_sample)
+    plt.xlabel(u'交易记录数')
+    plt.ylabel(u'时间（s）')
+    plt.legend()
+    plt.savefig('report/img/time_kline')
+    plt.show()
+
 if __name__ == '__main__':
-    apriori_gro_kline_item()
+    time_kline()
