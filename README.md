@@ -36,6 +36,10 @@ Boston数据集主成分分析
 
 Apriori算法实现及应用
 
+### [Adult++](https://github.com/shinshiner/CS245-Data-Science/tree/master/Adult++)
+
+大作业：完整探索Adult数据集
+
 ## Reference
 
 * [Morvan's tutorial](https://morvanzhou.github.io/tutorials/data-manipulation/)
