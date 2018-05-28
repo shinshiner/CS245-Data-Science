@@ -3,6 +3,10 @@ from collections import defaultdict
 import numpy as np
 import time
 from simData import *
+import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif']=['SimHei']
+plt.rcParams['axes.unicode_minus']=False
+import seaborn as sns
 
 class Apriori(object):
     def __init__(self, f_name, sup=0.1, con=0.1):
@@ -109,6 +113,43 @@ class Apriori(object):
 
         return len(self.items), len(self.rules)
 
+    def plot_dis_items(self):
+        item_names = ['bread', 'milk', 'apple', 'orange', 'beer',
+                      'TV', 'PC', 'phone', 'fridge', 'ele_oven',
+                      'scissors', 'stapler', 'plate', 'knife', 'glue']
+        values = np.zeros((len(item_names), len(item_names)))
+        for item, sup in self.items:
+            x, y = 0, 0
+            if len(item) == 1:
+                x = item_names.index(item[0])
+            elif len(item) == 2:
+                x = item_names.index(item[0])
+                y = item_names.index(item[1])
+            else:
+                continue
+            values[x][y] = sup
+
+        plt.xlabel(u'商品编号')
+        plt.ylabel(u'商品编号')
+        plt.pcolor(values, cmap=plt.cm.Blues)
+        plt.colorbar()
+        plt.savefig('report/img/heatmap_fre')
+        plt.show()
+
+    def plot_dis_rules(self):
+        values = []
+        for _, con in self.rules:
+            values.append(con)
+
+        plt.figure()
+        ax = plt.gca()
+        sns.distplot(values, bins=30, kde=True, rug=False, ax=ax)
+
+        plt.xlim((-0.05, 0.75))
+        plt.xlabel(u'置信度')
+        plt.savefig('report/img/prob_density_rule')
+        plt.show()
+
 def force_items():
     t = time.time()
     def power_sets_binary(items):
@@ -151,10 +192,11 @@ if __name__ == "__main__":
     # print(it)
     # print(ru)
 
-    a = Apriori('groceries.csv', 0.05, 0.2)
+    a = Apriori('data.csv', 0.0, 0.0)
     a.run()
-    i, r = a.show()
-    print(i, r)
+    a.plot_dis_rules()
+    # i, r = a.show()
+    # print(i, r)
 
     # t_f = []
     # t_a = []
