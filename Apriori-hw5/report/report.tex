@@ -182,6 +182,25 @@ Apriori算法是最经典的挖掘频繁项集的算法，实现了在大数据�
 
 将表 \ref{tab:baoli_sim_sup}， \ref{tab:baoli_sim_con}的结果排序后与上表对比，容易发现二者一致。考虑到模拟交易数据集在生成时的随机性，这个结果可以证明我实现的Apriori算法的正确性。
 
+为探索该数据集中所有项集和相应关联规则的分布情况，我将支持度和置信度的阈值设为0，运行Apriori算法，并作出项集分布的热度图以及关联规则置信度的核密度图（作图时我采用高斯核），结果可参见图 \ref{fig:dis}。
+
+%\vspace{-0.012\linewidth}
+\begin{figure}[H]
+	\centering
+	\subfigure[项集]{
+		\label{fig:dis-a}
+		\includegraphics[width=0.46\linewidth]{img/heatmap_fre.png}
+	}
+	\subfigure[关联规则]{
+		\label{fig:dis-b}
+		\includegraphics[width=0.46\linewidth]{img/prob_density_rule.png}
+	}
+	\caption{模拟交易数据集中项集和相应关联规则的分布（由于之前计算出的频繁项集最多包含两项商品，因此此处只作出二维热度图）}
+	\label{fig:dis}
+\end{figure}
+
+从图 \ref{fig:dis-a}中容易看出，支持度相对高的项集集中于编号为1，7，13的商品处，分别为（bread，），并且支持度高的点集中于对角线附近，表明仅有一个元素的项集有着更高的支持度。图 \ref{fig:dis-b}反映出关联规则对应的置信度普遍偏低（集中于0-0.3），仅有少部分达到0.5的置信度，而置信度在0.6以上的关联规则仅有表 \ref{tab:apriori_sim_con}中所列的数个。
+
 根据理论分析，Apriori算法相对于蛮力算法有着极大的效率优势，为探索这种优势，我在不同支持度下运行两种算法进行频繁项集挖掘，对比消耗的时间，结果参见 \ref{fig:time_com}。
 
 \begin{figure}[H]

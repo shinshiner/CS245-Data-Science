@@ -128,6 +128,8 @@ class Apriori(object):
             else:
                 continue
             values[x][y] = sup
+            if sup > 0.25:
+                print(123)
 
         plt.xlabel(u'商品编号')
         plt.ylabel(u'商品编号')
@@ -192,10 +194,10 @@ if __name__ == "__main__":
     # print(it)
     # print(ru)
 
-    a = Apriori('data.csv', 0.0, 0.0)
+    a = Apriori('data - 副本.csv', 0.0, 0.0)
     a.run()
-    a.plot_dis_rules()
-    # i, r = a.show()
+    a.plot_dis_items()
+    #i, r = a.show()
     # print(i, r)
 
     # t_f = []

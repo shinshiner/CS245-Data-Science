@@ -5,7 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="615c6e75-b0dd-448c-b0b7-83f6998fa9d3" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/Apriori-hw5/Apriori.py" afterPath="$PROJECT_DIR$/Apriori-hw5/Apriori.py" />
+      <change beforePath="$PROJECT_DIR$/Apriori-hw5/report/img/heatmap_fre.png" afterPath="$PROJECT_DIR$/Apriori-hw5/report/img/heatmap_fre.png" />
+      <change beforePath="$PROJECT_DIR$/Apriori-hw5/report/img/prob_density_rule.png" afterPath="$PROJECT_DIR$/Apriori-hw5/report/img/prob_density_rule.png" />
+      <change beforePath="$PROJECT_DIR$/Apriori-hw5/report/report.aux" afterPath="$PROJECT_DIR$/Apriori-hw5/report/report.aux" />
+      <change beforePath="$PROJECT_DIR$/Apriori-hw5/report/report.pdf" afterPath="$PROJECT_DIR$/Apriori-hw5/report/report.pdf" />
+      <change beforePath="$PROJECT_DIR$/Apriori-hw5/report/report.synctex.gz" afterPath="$PROJECT_DIR$/Apriori-hw5/report/report.synctex.gz" />
+      <change beforePath="$PROJECT_DIR$/Apriori-hw5/report/report.tex" afterPath="$PROJECT_DIR$/Apriori-hw5/report/report.tex" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,8 +26,8 @@
       <file leaf-file-name="simData.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Apriori-hw5/simData.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="8" column="61" lean-forward="false" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="61" />
+            <state relative-caret-position="-1562">
+              <caret line="9" column="13" lean-forward="true" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -31,11 +38,11 @@
       <file leaf-file-name="Apriori.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Apriori-hw5/Apriori.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="94">
-              <caret line="145" column="46" lean-forward="false" selection-start-line="145" selection-start-column="46" selection-end-line="145" selection-end-column="46" />
+            <state relative-caret-position="96">
+              <caret line="198" column="22" lean-forward="false" selection-start-line="198" selection-start-column="22" selection-end-line="198" selection-end-column="22" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
-                <element signature="e#4860#5724#0" expanded="false" />
+                <element signature="e#4914#5778#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -91,8 +98,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="299" />
-    <option name="y" value="111" />
+    <option name="x" value="67" />
+    <option name="y" value="77" />
     <option name="width" value="1210" />
     <option name="height" value="728" />
   </component>
@@ -272,7 +279,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="299" y="111" width="1210" height="728" extended-state="0" />
+    <frame x="67" y="77" width="1210" height="728" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25597268" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -328,7 +335,7 @@
           <caret line="157" column="0" lean-forward="false" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
-            <element signature="e#4860#5724#0" expanded="false" />
+            <element signature="e#4914#5778#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -359,7 +366,7 @@
           <caret line="157" column="0" lean-forward="true" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
-            <element signature="e#4860#5724#0" expanded="false" />
+            <element signature="e#4914#5778#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -380,7 +387,7 @@
           <caret line="124" column="12" lean-forward="true" selection-start-line="124" selection-start-column="12" selection-end-line="124" selection-end-column="12" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
-            <element signature="e#4860#5724#0" expanded="false" />
+            <element signature="e#4914#5778#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -411,7 +418,7 @@
           <caret line="105" column="12" lean-forward="true" selection-start-line="105" selection-start-column="12" selection-end-line="105" selection-end-column="12" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
-            <element signature="e#4860#5724#0" expanded="false" />
+            <element signature="e#4914#5778#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -638,16 +645,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Apriori-hw5/simData.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="8" column="61" lean-forward="false" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="61" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Apriori-hw5/plot.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="48">
@@ -666,13 +663,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Apriori-hw5/simData.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1562">
+          <caret line="9" column="13" lean-forward="true" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Apriori-hw5/Apriori.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="94">
-          <caret line="145" column="46" lean-forward="false" selection-start-line="145" selection-start-column="46" selection-end-line="145" selection-end-column="46" />
+        <state relative-caret-position="96">
+          <caret line="198" column="22" lean-forward="false" selection-start-line="198" selection-start-column="22" selection-end-line="198" selection-end-column="22" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
-            <element signature="e#4860#5724#0" expanded="false" />
+            <element signature="e#4914#5778#0" expanded="false" />
           </folding>
         </state>
       </provider>
