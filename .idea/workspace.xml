@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="615c6e75-b0dd-448c-b0b7-83f6998fa9d3" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/Apriori-hw5/Apriori.py" afterPath="$PROJECT_DIR$/Apriori-hw5/Apriori.py" />
-      <change beforePath="$PROJECT_DIR$/Apriori-hw5/report/img/heatmap_fre.png" afterPath="$PROJECT_DIR$/Apriori-hw5/report/img/heatmap_fre.png" />
-      <change beforePath="$PROJECT_DIR$/Apriori-hw5/report/img/prob_density_rule.png" afterPath="$PROJECT_DIR$/Apriori-hw5/report/img/prob_density_rule.png" />
+      <change beforePath="$PROJECT_DIR$/Apriori-hw5/plot.py" afterPath="$PROJECT_DIR$/Apriori-hw5/plot.py" />
+      <change beforePath="$PROJECT_DIR$/Apriori-hw5/report/img/gro_rule_kline.png" afterPath="$PROJECT_DIR$/Apriori-hw5/report/img/gro_rule_kline.png" />
       <change beforePath="$PROJECT_DIR$/Apriori-hw5/report/report.aux" afterPath="$PROJECT_DIR$/Apriori-hw5/report/report.aux" />
       <change beforePath="$PROJECT_DIR$/Apriori-hw5/report/report.pdf" afterPath="$PROJECT_DIR$/Apriori-hw5/report/report.pdf" />
       <change beforePath="$PROJECT_DIR$/Apriori-hw5/report/report.synctex.gz" afterPath="$PROJECT_DIR$/Apriori-hw5/report/report.synctex.gz" />
@@ -38,7 +37,7 @@
       <file leaf-file-name="Apriori.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Apriori-hw5/Apriori.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="96">
+            <state relative-caret-position="1392">
               <caret line="198" column="22" lean-forward="false" selection-start-line="198" selection-start-column="22" selection-end-line="198" selection-end-column="22" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
@@ -51,8 +50,8 @@
       <file leaf-file-name="plot.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Apriori-hw5/plot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="48">
-              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="3" selection-end-column="40" />
+            <state relative-caret-position="94">
+              <caret line="60" column="14" lean-forward="true" selection-start-line="60" selection-start-column="14" selection-end-line="60" selection-end-column="14" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -92,8 +91,8 @@
         <option value="$PROJECT_DIR$/Boston-hw3/boston-analyzer.py" />
         <option value="$PROJECT_DIR$/Model-Selection-hw4/main.py" />
         <option value="$PROJECT_DIR$/Apriori-hw5/simData.py" />
-        <option value="$PROJECT_DIR$/Apriori-hw5/plot.py" />
         <option value="$PROJECT_DIR$/Apriori-hw5/Apriori.py" />
+        <option value="$PROJECT_DIR$/Apriori-hw5/plot.py" />
       </list>
     </option>
   </component>
@@ -154,7 +153,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.Apriori">
+  <component name="RunManager" selected="Python.plot">
     <configuration name="Apriori" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -254,8 +253,8 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.Apriori" />
-        <item index="1" class="java.lang.String" itemvalue="Python.plot" />
+        <item index="0" class="java.lang.String" itemvalue="Python.plot" />
+        <item index="1" class="java.lang.String" itemvalue="Python.Apriori" />
         <item index="2" class="java.lang.String" itemvalue="Python.simData" />
         <item index="3" class="java.lang.String" itemvalue="Python.main" />
         <item index="4" class="java.lang.String" itemvalue="Python.boston-analyzer" />
@@ -280,14 +279,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="77" width="1210" height="728" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25597268" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3284553" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32605043" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38991597" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38991597" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -645,21 +643,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Apriori-hw5/plot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="3" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://D:/1/Python3.6/Lib/site-packages/seaborn/distributions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-393">
           <caret line="38" column="4" lean-forward="false" selection-start-line="38" selection-start-column="4" selection-end-line="38" selection-end-column="4" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Apriori-hw5/plot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="94">
+          <caret line="60" column="14" lean-forward="true" selection-start-line="60" selection-start-column="14" selection-end-line="60" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -675,7 +673,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Apriori-hw5/Apriori.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
+        <state relative-caret-position="1392">
           <caret line="198" column="22" lean-forward="false" selection-start-line="198" selection-start-column="22" selection-end-line="198" selection-end-column="22" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />

@@ -25,7 +25,7 @@ def apriori_gro_kline_rule():
     y_rule_con_3 = [125, 37, 14, 7, 3, 1, 1, 0, 0, 0]
     y_rule_con_5 = [15, 1, 0, 0, 0, 0, 0, 0, 0, 0]
 
-    plt.figure(figsize=(6, 4))
+    #plt.figure(figsize=(6, 4))
     ax = plt.gca()
     ax.plot(x_con, y_rule_con_2, color='#90EE90', linewidth=1.7, label=u'置信度 0.2')
     ax.plot(x_con, y_rule_con_3, color='#ffa07a', linewidth=1.7, label=u'置信度 0.3')
@@ -61,4 +61,4 @@ def time_kline():
     plt.show()
 
 if __name__ == '__main__':
-    time_kline()
+    apriori_gro_kline_rule()

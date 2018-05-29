@@ -149,6 +149,7 @@ class Apriori(object):
 
         plt.xlim((-0.05, 0.75))
         plt.xlabel(u'置信度')
+        plt.ylabel(u'核密度')
         plt.savefig('report/img/prob_density_rule')
         plt.show()
 
@@ -196,7 +197,7 @@ if __name__ == "__main__":
 
     a = Apriori('data - 副本.csv', 0.0, 0.0)
     a.run()
-    a.plot_dis_items()
+    a.plot_dis_rules()
     #i, r = a.show()
     # print(i, r)
 
