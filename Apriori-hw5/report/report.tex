@@ -79,6 +79,7 @@ CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
 \vspace{0.006\linewidth}
 \subsection{Apriori算法}
 
+\subsubsection{算法描述}
 \vspace{0.006\linewidth}
 Apriori算法是最经典的挖掘频繁项集的算法，实现了在大数据集上可行的频繁项集挖掘和关联规则提取，其核心思想是\textbf{通过连接产生候选项与其支持度，然后通过剪枝生成频繁项集}，步骤主要为：
 
@@ -92,6 +93,80 @@ Apriori算法是最经典的挖掘频繁项集的算法，实现了在大数据�
 
 \end{enumerate}
 
+\subsubsection{Python实现细节}
+
+%\vspace{0.01\linewidth}
+在这一小节中，我将结合我的部分Python代码对Apriori算法的实现进行介绍。
+
+\vspace{0.01\linewidth}
+首先，我将所有频繁1-项集组合起来，称为$L_1$项集，并存储为Python中的集合类型（frozenset类型用于防止误操作更改其中的值）：
+
+\begin{lstlisting}[language=Python,
+	numbers=left,
+	keywordstyle=\color{blue!70},
+	frame=shadowbox,
+	breaklines=True]
+def _init_data(self):
+    deal_list = list()
+    item_set = set()
+
+    for d in self.data:
+        deal = frozenset(d)
+        deal_list.append(deal)
+
+        # 产生 L1 项集
+        for item in deal:
+            item_set.add(frozenset([item]))
+
+    return item_set, deal_list
+\end{lstlisting}
+
+\vspace{0.02\linewidth}
+得到$L_1$项集后，我开始迭代求解$L_2...L_k$项集。第i次迭代时，我对$L_i$进行自连接操作，求出i+1项集的集合$C_{i+1}$，自连接的规则为：设$s_1$和$s_2$是$L_i$中的两个频繁i项集，且前i-1个项相同，仅第i项不同，连接$s_1$和$s_2$得到一个i+1项集$C_{i+1}$。Python中通过循环使用并集操作并判断集合大小可以简洁地实现自连接过程：
+
+\vspace{0.02\linewidth}
+\begin{lstlisting}[language=Python,
+	numbers=left,
+	keywordstyle=\color{blue!70},
+	frame=shadowbox,
+	breaklines=True]
+set([i.union(j) for i in item_set for j in item_set if len(i.union(j)) == id])
+\end{lstlisting}
+
+\vspace{0.02\linewidth}
+自连接构造出$C_{i+1}$后，我通过扫描交易数据集检测出$C_{i+1}$中的频繁i+1项集，得到$L_{i+1}$，此处存在一个优化点：若有某元素的子集不在$L_i$中即可删除。
+
+\vspace{0.02\linewidth}
+\begin{lstlisting}[language=Python,
+	numbers=left,
+	keywordstyle=\color{blue!70},
+	frame=shadowbox,
+	breaklines=True]
+# 根据支持度阈值删除项集
+    def _remove_item_set(self, item_set, deals, freq_set):
+        res = set()
+        local_set = defaultdict(int)
+
+        # 统计
+        for item in item_set:
+            for d in deals:
+                if item.issubset(d):
+                    freq_set[item] += 1
+                    local_set[item] += 1
+
+        # 删除
+        for item, count in local_set.items():
+            support = float(count) / len(deals)
+            if support >= self.sup:
+                res.add(item)
+
+        return res
+\end{lstlisting}
+
+\vspace{0.01\linewidth}
+将上述迭代过程不断重复，直到项集大小达到商品个数，迭代结束，得到最终结果。
+
+\vspace{0.01\linewidth}
 为验证Apriori算法实现的正确性，我先使用蛮力算法在模拟交易数据集上运行一次，将结果与Apriori算法的结果进行比较。验证算法的正确性后，在Groceries数据集上我则直接使用Apriori算法进行关联规则分析。
 
 
@@ -163,6 +238,7 @@ Apriori算法是最经典的挖掘频繁项集的算法，实现了在大数据�
 	\end{tabular}
 \end{table}
 
+\vspace{-0.03\linewidth}
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
 	\caption{Apriori算法在模拟交易数据集下发现的频繁项集（按支持度排序）}
@@ -187,22 +263,21 @@ Apriori算法是最经典的挖掘频繁项集的算法，实现了在大数据�
 	\end{tabular}
 \end{table}
 
-\vspace{0.005\linewidth}
+\vspace{-0.02\linewidth}
 将表 \ref{tab:baoli_sim_sup}， \ref{tab:baoli_sim_con}的结果排序后与上表对比，容易发现二者一致。考虑到模拟交易数据集在生成时的随机性，这个结果可以证明我实现的Apriori算法的正确性。
 
-\vspace{0.01\linewidth}
 为探索该数据集中所有项集和相应关联规则的分布情况，我将支持度和置信度的阈值设为0，运行Apriori算法，并作出项集分布的热度图以及关联规则置信度的核密度图，结果可参见图 \ref{fig:dis}（热度图中编号从1至15的商品分别为bread、milk、apple、orange、beer、TV、PC、phone、fridge、ele\_oven、scissors、stapler、plate、knife、glue；作核密度图时我采用高斯核）。
 
-%\vspace{-0.012\linewidth}
+\vspace{-0.012\linewidth}
 \begin{figure}[H]
 	\centering
 	\subfigure[项集]{
 		\label{fig:dis-a}
-		\includegraphics[width=0.475\linewidth]{img/heatmap_fre.png}
+		\includegraphics[width=0.40\linewidth]{img/heatmap_fre.png}
 	}
 	\subfigure[关联规则]{
 		\label{fig:dis-b}
-		\includegraphics[width=0.475\linewidth]{img/prob_density_rule.png}
+		\includegraphics[width=0.40\linewidth]{img/prob_density_rule.png}
 	}
 	\caption{模拟交易数据集中项集和相应关联规则的分布（由于之前计算出的频繁项集最多包含两项商品，因此此处只作出二维热度图）}
 	\label{fig:dis}
@@ -296,7 +371,10 @@ Apriori算法是最经典的挖掘频繁项集的算法，实现了在大数据�
 
 \section{结论}
 
-本次作业中，我利用Python语言实现了Apriori算法，并通过在模拟交易数据集上与蛮力算法的结果比较，证明了算法实现的正确性。之后我使用Apriori算法对模拟交易数据集以及Groceries数据集进行了频繁项集挖掘，进而分析关联规则。结果表明，Apriori算法是迅速且有效的挖掘频繁项集的算法，在中小规模的数据集上有着良好的表现。限于计算资源，我没有进行大规模数据上的实验，但从理论上分析，Apriori算法在大规模数据上的应用仍存在多个优化点，如对数据集的扫描次数，对候选项集支持度的计数方法等。
+本次作业中，我利用Python语言实现了Apriori算法，并通过在模拟交易数据集上与蛮力算法的结果比较，证明了算法实现的正确性。之后我使用Apriori算法对模拟交易数据集以及Groceries数据集进行了频繁项集挖掘，进而分析关联规则。
+
+\vspace{0.01\linewidth}
+结果表明，Apriori算法是迅速且有效的挖掘频繁项集的算法，在中小规模的数据集上有着良好的表现。限于计算资源，我没有进行大规模数据上的实验，但从理论上分析，Apriori算法在大规模数据上的应用仍存在多个优化点，如对数据集的扫描次数，对候选项集支持度的计数方法等。
 
 \newpage
 \begin{appendix}
@@ -356,8 +434,8 @@ class Apriori(object):
             return float(freq_set[item]) / len(deals)
         def _get_subsets(item):
             return chain(*[combinations(item, i + 1) for i, a in enumerate(item)])
-        def _join_set(item_set, length):
-            return set([i.union(j) for i in item_set for j in item_set if len(i.union(j)) == length])
+        def _join_set(item_set, id):
+            return set([i.union(j) for i in item_set for j in item_set if len(i.union(j)) == id])
 
         # 初始化 L1 项集和交易数据
         item_set, deals = self._init_data()

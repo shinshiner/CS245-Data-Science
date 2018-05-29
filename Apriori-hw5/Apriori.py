@@ -29,8 +29,8 @@ class Apriori(object):
             return float(freq_set[item]) / len(deals)
         def _get_subsets(item):
             return chain(*[combinations(item, i + 1) for i, a in enumerate(item)])
-        def _join_set(item_set, length):
-            return set([i.union(j) for i in item_set for j in item_set if len(i.union(j)) == length])
+        def _join_set(item_set, id):
+            return set([i.union(j) for i in item_set for j in item_set if len(i.union(j)) == id])
 
         # 初始化 L1 项集和交易数据
         item_set, deals = self._init_data()
