@@ -53,18 +53,41 @@
 \renewenvironment{solution}[1][Solution] {\par\pushQED{\qed}\normalfont\topsep6\p@\@plus6\p@\relax\trivlist\item[\hskip\labelsep\bfseries#1\@addpunct{.}]\ignorespaces}{\popQED\endtrivlist\@endpefalse} \makeatother
 
 \begin{document}
-\noindent
-%==========================================================
-\noindent\framebox[\linewidth]{\shortstack[c]{
-\Large{\emph{模型评价与模型改善}}\vspace{1mm}\\
-CS245 \quad 数据科学基础 \quad 陆朝俊 \vspace{1mm} \\
-叶泽林 515030910468}}
 
-\section{问题描述}
+\section{引言}
 
-给定一个机器学习问题（如分类）以及相应的数据集，可以训练出一个初步的模型，但在投入实际应用前，需要对该模型的性能进行评价甚至改善。一般地，通过组合模型的方式，可以提高模型的效果。这次作业中，我将在自己建立的数据集上探索决策树模型单独工作以及组合工作时的分类性能。
+近年来，人们逐渐从信息化时代迈向了数据时代，各种数据爆炸式地增长，数据消费也在日益增多，大量的信息、知识和利润隐藏在这些数据中。如何更有效地利用这些数据，已经成为这个时代下人们共同探索的问题之一。在这次大作业中，我将对Adult数据集进行全面的分析：首先探索数据集中各特征的分布信息；再划分数据集，尝试多种分类模型；最后比较这些模型在Adult数据集上的预测结果。
 
-\section{解决方案\protect\footnote{本次作业的主要代码实现可参见附录 \ref{apd:code}}}
+\section{探索Adult数据集}
+
+\subsection{Adult数据集的基本信息}
+
+Adult数据集 \cite{Dataset} 也称人口普查收入（Census Income）数据集，来源于美国1994年的人口普查数据库，可以作为二分类数据集，用来预测居民年收入是否超过50K\$，其基本信息可参见表 \ref{tab:basic-info}。
+
+\begin{table}[H]
+	\renewcommand\arraystretch{1.35}
+	\caption{Adult数据集的基本信息}
+	\label{tab:basic-info}
+	\centering
+	
+	\begin{tabular}{c|c}
+		\centering
+		属性 & 值 \\
+		\hline
+		\hline
+		数据集特征 & 多变量 \\
+		实例数 & 48842 \\
+		领域 & 社会 \\
+		属性特征 & 类别型或整数 \\
+		属性数目 & 14 \\
+		相关应用 & 分类 \\
+		捐赠日期 & 1996.5.1 \\
+		是否有缺失值 & 有 \\
+		官网访问次数 & 1188850 \\
+	\end{tabular}
+\end{table}
+
+\subsection{数据预处理}
 
 \subsection{数据集的建立及模型的选择}
 
@@ -619,6 +642,9 @@ if __name__ == '__main__':
 	\end{lstlisting}
 	
 \end{appendix}
+
+\bibliographystyle{ieeetr}
+\bibliography{bio}
 
 %========================================================================
 \end{document}
