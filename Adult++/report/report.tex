@@ -56,38 +56,105 @@
 
 \section{引言}
 
-近年来，人们逐渐从信息化时代迈向了数据时代，各种数据爆炸式地增长，数据消费也在日益增多，大量的信息、知识和利润隐藏在这些数据中。如何更有效地利用这些数据，已经成为这个时代下人们共同探索的问题之一。在这次大作业中，我将对Adult数据集进行全面的分析：首先探索数据集中各特征的分布信息；再划分数据集，尝试多种分类模型；最后比较这些模型在Adult数据集上的预测结果。
+近年来，人们逐渐从信息化时代迈向了数据时代，各种数据爆炸式地增长，数据消费也在日益增多，大量的信息、知识和利润隐藏在这些数据中。如何更有效地利用这些数据，已经成为这个时代下人们共同探索的问题之一。
+
+\vspace{0.01\linewidth}
+在这次大作业中，我将对Adult数据集进行全面的分析：首先探索数据集中各特征的分布信息；再划分数据集，尝试多种分类模型；最后比较这些模型在Adult数据集上的预测结果（分析代码均基于Python语言，相关工具和库包可参见附录 \ref{apd:tool}）。
 
 \section{探索Adult数据集}
 
 \subsection{Adult数据集的基本信息}
 
+%\vspace{0.01\linewidth}
 Adult数据集 \cite{Dataset} 也称人口普查收入（Census Income）数据集，来源于美国1994年的人口普查数据库，可以作为二分类数据集，用来预测居民年收入是否超过50K\$，其基本信息可参见表 \ref{tab:basic-info}。
 
+%\vspace{0.01\linewidth}
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
 	\caption{Adult数据集的基本信息}
 	\label{tab:basic-info}
 	\centering
 	
-	\begin{tabular}{c|c}
+	\begin{tabular}{c|c||c|c}
 		\centering
-		属性 & 值 \\
+		属性 & 值 & 属性 & 值 \\
 		\hline
 		\hline
-		数据集特征 & 多变量 \\
-		实例数 & 48842 \\
-		领域 & 社会 \\
-		属性特征 & 类别型或整数 \\
-		属性数目 & 14 \\
-		相关应用 & 分类 \\
-		捐赠日期 & 1996.5.1 \\
-		是否有缺失值 & 有 \\
-		官网访问次数 & 1188850 \\
+		数据集特征 & 多变量 & 相关应用 & 分类 \\
+		实例数 & 48842 & 捐赠日期 & 1996.5.1 \\
+		领域 & 社会 & 是否有缺失值 & 有 \\
+		属性特征 & 类别型或整数 & 官网访问次数 & 1188850 \\
+		属性数目 & 14 & & \\
+		
+	\end{tabular}
+\end{table}
+
+\vspace{-0.01\linewidth}
+Adult数据集的每个实例包含14个属性，其含义、数据类型、取值范围等基本信息见表 \ref{tab:feature-info}。
+
+\begin{table}[H]
+	\renewcommand\arraystretch{1.15}
+	\caption{Adult数据集的基本信息}
+	\label{tab:feature-info}
+	\centering
+	
+	\begin{tabular}{c|c|c|c}
+		\centering
+		 特征名 & 含义 & 数据类型 & 类别数 \\
+		\hline
+		\hline
+		age & 年龄 & 整数 & - \\
+		workclass & 工作类型 & 类别型 & 8 \\
+		fnlwgt & 序号 & 整数 & - \\
+		education & 教育程度 & 类别型 & 16 \\
+		education-num & 受教育时间 & 整数 & - \\
+		marital-status & 婚姻状况 & 类别型 & 7 \\
+		occupation & 职业 & 类别型 & 14 \\
+		relationship & 家庭关系 & 类别型 & 6 \\
+		race & 种族 & 类别型 & 5 \\
+		sex & 性别 & 类别型 & 2 \\
+		capital-gain & 资本收益 & 整数 & - \\
+		capital-loss & 	资本损失 & 整数 & - \\
+		hours-per-week & 每周工作小时数 & 整数 & - \\
+		native-country & 原籍 & 类别型 & 41 \\
+		
 	\end{tabular}
 \end{table}
 
 \subsection{数据预处理}
+
+我首先使用pandas库读取Adult数据集，将其存储为pandas库中的DataFrame格式，随机打印出其中几个实例，对该数据集进行初步的观察，结果如下。
+
+\vspace{0.01\linewidth}
+	\begin{lstlisting}[
+	numbers=left,
+	keywordstyle=\color{blue!70},
+	frame=shadowbox,
+	breaklines=True]
+ age work_class  fnlwgt   education  education_num     marital_status
+  24    Private  269799   Assoc-voc             11       Never-married   
+  35          ?  169809   Bachelors             13  Married-civ-spouse   
+  51    Private  257126        10th              6  Married-civ-spouse   
+  72    Private  107814     Masters             14       Never-married   
+  33    Private  205950     HS-grad              9       Never-married   
+
+      occupation    relationship    race    sex  capital_gain
+ Exec-managerial   Not-in-family   White   Male             0   
+               ?         Husband   White   Male             0   
+    Craft-repair         Husband   White   Male             0   
+  Prof-specialty   Not-in-family   White   Male          2329   
+   Other-service       Own-child   White   Male             0   
+
+ capital_loss  hours_per_week  native_country   income  
+            0              40   United-States   <=50K.  
+            0              20   United-States    <=50K
+            0              40   United-States   <=50K.  
+            0              60   United-States    <=50K  
+            0              40   United-States    <=50K   
+	\end{lstlisting}
+	
+\vspace{0.01\linewidth}
+从以上的初步观察可以得知，Adult数据集存在数据缺失的情况，我对整个数据集进行统计后，发现数据集中有xxx个实例存在数据缺失，而其中xxx个实例缺失值多于1个。
 
 \subsection{数据集的建立及模型的选择}
 
@@ -320,6 +387,9 @@ Bagging充分利用了不同子模型的预测结果，有利于模型的互补�
 \newpage
 \begin{appendix}
 	\section{附录}
+	\subsection{作业中使用的工具及库包}
+	\label{apd:tools}
+	
 	\subsection{分类数据集$D$的详细信息}
 	\label{apd:dataset_para}
 	\begin{table}[H]
@@ -352,294 +422,6 @@ Bagging充分利用了不同子模型的预测结果，有利于模型的互补�
 		\caption{决策树单独工作的最佳模型}
 	\end{figure}
 	
-	\subsection{主要代码}
-	\label{apd:code}
-	
-	\begin{lstlisting}[language=Python,
-	numbers=left,
-	keywordstyle=\color{blue!70},
-	frame=shadowbox,
-	breaklines=True]
-from sklearn.cross_validation import StratifiedKFold
-from sklearn.datasets import make_classification
-from sklearn.cross_validation import train_test_split
-from sklearn.metrics import classification_report
-
-from sklearn.tree import export_graphviz
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import BaggingClassifier
-from sklearn.ensemble import AdaBoostClassifier
-from sklearn.grid_search import GridSearchCV
-
-import numpy as np
-import matplotlib.pyplot as plt
-plt.rcParams['font.sans-serif']=['SimHei']
-plt.rcParams['axes.unicode_minus']=False
-
-##################### making dataset ######################
-
-n = 500                 # number of instances
-n_f = 30                # number of features
-n_c = 3                 # number of classes
-inf_f = int(0.6 * n_f)  # 60% real features
-red_f = int(0.1 * n_f)  # 10% redundant features
-rep_f = int(0.1 * n_f)  # 10% repeated features
-random_seed = 1         # random seed for the experiments
-
-X, Y = make_classification(n_samples=n, n_classes=n_c, flip_y=0.03,
-                    n_features=n_f, n_informative=inf_f, n_redundant=red_f,
-                    n_repeated=rep_f, random_state=random_seed)
-X_train, X_test, Y_train, Y_test = \
-    train_test_split(X, Y, test_size=0.8, random_state=random_seed)
-
-##################### making dataset ######################
-
-# directly train the model with training set & testing set
-def exp_plain_train():
-    model = DecisionTreeClassifier(random_state=random_seed)
-    model.fit(X_train, Y_train)
-
-    pred = model.predict(X_test)
-    print(classification_report(Y_test, pred))
-
-    score = model.score(X_test, Y_test)
-    print('plain train score in testing set: ', score)
-    score = model.score(X_train, Y_train)
-    print('plain train score in training set: ', score)
-
-# test model with cross-validation
-def exp_cv(folds=10):
-    kfolds = StratifiedKFold(Y, n_folds=folds, random_state=random_seed)
-    model = DecisionTreeClassifier(random_state=random_seed)
-    scores_train = []
-    scores_test = []
-    for train, test in kfolds:
-        model.fit(X[train], Y[train])
-        # pred = model.predict(X[test])
-
-        score = model.score(X[test], Y[test])
-        scores_test.append(score)
-        score = model.score(X[train], Y[train])
-        scores_train.append(score)
-
-    mean_test = np.array(scores_test).mean()
-    mean_train = np.array(scores_train).mean()
-    print('avg score with cv folds %d in testing set: '
-          % folds, mean_test)
-    print('avg score with cv folds %d in training set: '
-          % folds, mean_train)
-
-    return mean_test, mean_train
-
-def plot_cv():
-    mean_tests = []
-    mean_trains = []
-    folds_sum = 11
-    for i in range(2, folds_sum):
-        m1, m2 = exp_cv(i)
-        mean_tests.append(m1)
-        mean_trains.append(m2)
-
-    # start to plot
-    x = np.arange(2, folds_sum)
-    total_width, n = 0.8, 2
-    width = total_width / n
-    x = x - (total_width - width) / 2
-
-    plt.bar(x, mean_tests, width=width,
-            facecolor='#9999ff', edgecolor='white', label=u'测试集')
-    plt.bar(x + width, mean_trains, width=width,
-            facecolor='#ffa07a', edgecolor='white', label=u'训练集')
-    for x, y1, y2 in zip(x, mean_tests, mean_trains):
-        plt.text(x - 0.05, y1 + 0.01, '%.2f' % y1, ha='center', va='bottom')
-        plt.text(x+width - 0.05, y2 + 0.01, '%.2f' % y2, ha='center', va='bottom')
-
-    plt.xlabel(u'折数')
-    plt.ylabel(u'平均 f1-score')
-    plt.ylim((0, 1.3))
-    plt.legend()
-    plt.savefig('report/img/cv_bar')
-    plt.show()
-
-# grid search
-def exp_grid_search(folds=10):
-    model = DecisionTreeClassifier(random_state=random_seed)
-    param_grid = {'criterion': ['gini', 'entropy'],
-                  'max_features': ['sqrt', 'log2', None],
-                  'max_depth': list(range(3, 15)),
-                  'presort': [True, False],
-                  'splitter': ['best', 'random']
-                  }
-    grid = GridSearchCV(model, param_grid, cv=folds, scoring='f1_weighted')
-    grid.fit(X, Y)
-
-    print(grid.best_params_)
-    print(grid.best_score_)
-
-    export_graphviz(grid.best_estimator_, filled=True, out_file='report/img/gs.dot')
-
-# bagging alg
-def bagging(cv=True):
-    bagging = BaggingClassifier(
-        DecisionTreeClassifier(random_state=random_seed),
-        n_estimators=5,            # number of models
-        random_state=random_seed,
-        bootstrap=True,
-        max_samples=1.0,            # Bootstrap sample size radio
-        bootstrap_features=True,
-        max_features=1.0,           # Bootstrap feature usage radio
-    )
-    if cv:          # using cross-validation
-        scores_train = []
-        scores_test = []
-        kfolds = StratifiedKFold(Y, n_folds=10, random_state=random_seed)
-        for train, test in kfolds:
-            bagging.fit(X[train], Y[train])
-
-            score = bagging.score(X[test], Y[test])
-            scores_test.append(score)
-            score = bagging.score(X[train], Y[train])
-            scores_train.append(score)
-
-        mean_test = np.array(scores_test).mean()
-        mean_train = np.array(scores_train).mean()
-        print('avg score with cv folds 10 in testing set: ', mean_test)
-        print('avg score with cv folds 10 in training set: ', mean_train)
-    else:           # without cross-validation
-        bagging.fit(X_train, Y_train)
-        pred = bagging.predict(X_test)
-        print(classification_report(Y_test, pred))
-
-    # check the features extracted by each model
-    plt.figure(figsize=(7, 5))
-    f_n = 30
-    x = list(range(1, f_n + 1))
-    for i, f in enumerate(bagging.estimators_features_):
-        print('model %d' % (i + 1), f)
-        plt.scatter(x, f, label=u'子模型 %d' % (i + 1))
-    plt.xlabel(u'特征编号')
-    plt.xticks(list(range(0, 41, 5)))
-    plt.ylabel(u'特征数值')
-    plt.legend(loc=1)
-    plt.savefig('report/img/bagging_feature_%d' % len(bagging.estimators_features_))
-    plt.show()
-
-def plot_bagging():
-    # results
-    x = list(range(10, 101, 10))
-    y = [0.694, 0.720, 0.726, 0.730, 0.730, 0.738, 0.738, 0.738, 0.738, 0.744]
-    y_b1 = [0.626, 0.672, 0.702, 0.716, 0.704, 0.727, 0.735, 0.732, 0.736, 0.738]
-    y_b2 = [0.668, 0.711, 0.738, 0.734, 0.744, 0.746, 0.738, 0.730, 0.740, 0.738]
-
-    # ploting code
-    plt.figure(figsize=(6, 4))
-    ax = plt.gca()
-    ax.plot(x, y_b1, color='#90EE90', linewidth=1.7, label=u'70%特征')
-    ax.plot(x, y_b2, color='#ffa07a', linewidth=1.7, label=u'90%特征')
-    ax.plot(x, y, color='#9999ff', linewidth=1.7, label=u'100%特征')
-    ax.scatter(x, y, s=13, c='#9999ff')
-    ax.scatter(x, y_b1, s=13, c='#90EE90')
-    ax.scatter(x, y_b2, s=13, c='#ffa07a')
-    ax.grid(color='b', alpha=0.5, linestyle='dashed', linewidth=0.5)
-    plt.xlim((5, 105))
-    plt.xticks(x)
-    plt.xlabel(u'子模型数量')
-    plt.ylabel(u'平均 f1-score')
-    plt.legend()
-    plt.savefig('report/img/bagging_kline')
-    plt.show()
-
-# boosting alg
-def boosting(cv=True):
-    boosting = AdaBoostClassifier(
-        DecisionTreeClassifier(max_depth=3, min_samples_leaf=2, random_state=random_seed),
-        n_estimators=15,   # number of models
-        algorithm='SAMME',  # Advanced-Boosting
-        random_state=random_seed
-    )
-    if cv:      # using cross-validation
-        scores_train = []
-        scores_test = []
-        kfolds = StratifiedKFold(Y, n_folds=10, random_state=random_seed)
-        for train, test in kfolds:
-            boosting.fit(X[train], Y[train])
-
-            score = boosting.score(X[test], Y[test])
-            scores_test.append(score)
-            score = boosting.score(X[train], Y[train])
-            scores_train.append(score)
-
-        mean_test = np.array(scores_test).mean()
-        mean_train = np.array(scores_train).mean()
-        print('avg score with cv folds 10 in testing set: ', mean_test)
-        print('avg score with cv folds 10 in training set: ', mean_train)
-    else:       # without cross-validation
-        boosting.fit(X_train, Y_train)
-
-        pred = boosting.predict(X_train)
-        print(classification_report(Y_train, pred))
-
-        pred = boosting.predict(X_test)
-        print(classification_report(Y_test, pred))
-
-    # plot the relation between weights and error
-    plt.figure()
-    plt.xlabel(u'子模型权重')
-    plt.ylabel(u'错误率')
-    plt.plot(boosting.estimator_weights_, boosting.estimator_errors_)
-    plt.savefig('report/img/boosting-weight-error-%d' % len(boosting.estimator_weights_))
-    plt.show()
-
-def plot_boosting():
-    # results
-    x = list(range(10, 101, 10))
-    y1 = [0.621, 0.649, 0.649, 0.666, 0.666, 0.672, 0.672, 0.688, 0.688, 0.710]
-    y2 = [0.608, 0.570, 0.596, 0.616, 0.635, 0.633, 0.629, 0.650, 0.664, 0.668]
-    y1_tr = [0.860, 0.958, 0.984, 0.995, 0.996, 0.999, 1.000, 1.000, 1.000, 1.000]
-    y2_tr = [0.904, 0.936, 0.960, 0.975, 0.988, 0.993, 0.993, 0.995, 0.997, 0.998]
-
-    # plot testing results
-    plt.figure(figsize=(6, 4))
-    ax = plt.gca()
-    ax.plot(x, y1, color='#9999ff', linewidth=1.7, label='SAMME.R')
-    ax.plot(x, y2, color='#90EE90', linewidth=1.7, label='SAMME')
-    ax.scatter(x, y1, s=13, c='#9999ff')
-    ax.scatter(x, y2, s=13, c='#90EE90')
-    ax.grid(color='b', alpha=0.5, linestyle='dashed', linewidth=0.5)
-    plt.xlim((5, 105))
-    plt.xticks(x)
-    plt.xlabel(u'子模型数量')
-    plt.ylabel(u'平均 f1-score')
-    plt.legend()
-    plt.savefig('report/img/boosting_kline_test')
-    plt.show()
-
-    # plot training results
-    plt.figure(figsize=(6, 4))
-    ax = plt.gca()
-    ax.plot(x, y1_tr, color='#9999ff', linewidth=1.7, label='SAMME.R')
-    ax.plot(x, y2_tr, color='#90EE90', linewidth=1.7, label='SAMME')
-    ax.scatter(x, y1_tr, s=13, c='#9999ff')
-    ax.scatter(x, y2_tr, s=13, c='#90EE90')
-    ax.grid(color='b', alpha=0.5, linestyle='dashed', linewidth=0.5)
-    plt.xlim((5, 105))
-    plt.xticks(x)
-    plt.xlabel(u'子模型数量')
-    plt.ylabel(u'平均 f1-score')
-    plt.legend()
-    plt.savefig('report/img/boosting_kline_train')
-    plt.show()
-
-if __name__ == '__main__':
-    # exp_plain_train()
-    # exp_cv()
-    # plot_cv()
-    # exp_grid_search()
-    boosting()
-    # plot_boosting()
-    # bagging()
-    # plot_bagging()
-	\end{lstlisting}
 	
 \end{appendix}
 
