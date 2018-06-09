@@ -3,4 +3,25 @@
 \bibitem{Dataset}
 D.~Dheeru and E.~Karra~Taniskidou, ``{UCI} machine learning repository,'' 2017.
 
+\bibitem{python}
+``Python.'' \url{https://www.python.org/}.
+
+\bibitem{notebook}
+``Jupyter notebook.'' \url{http://jupyter.org/}.
+
+\bibitem{numpy}
+``Numpy.'' \url{http://www.numpy.org/}.
+
+\bibitem{pandas}
+``Pandas.'' \url{http://pandas.pydata.org/}.
+
+\bibitem{matplotlib}
+``matplotlib.'' \url{https://matplotlib.org/}.
+
+\bibitem{scipy}
+``scipy.'' \url{https://www.scipy.org/}.
+
+\bibitem{sklearn}
+``scikit-learn.'' \url{http://scikit-learn.org/stable/}.
+
 \end{thebibliography}

@@ -59,7 +59,7 @@
 近年来，人们逐渐从信息化时代迈向了数据时代，各种数据爆炸式地增长，数据消费也在日益增多，大量的信息、知识和利润隐藏在这些数据中。如何更有效地利用这些数据，已经成为这个时代下人们共同探索的问题之一。
 
 \vspace{0.01\linewidth}
-在这次大作业中，我将对Adult数据集进行全面的分析：首先探索数据集中各特征的分布信息；再划分数据集，尝试多种分类模型；最后比较这些模型在Adult数据集上的预测结果（分析代码均基于Python语言，相关工具和库包可参见附录 \ref{apd:tool}）。
+在这次大作业中，我将对Adult数据集进行全面的分析：首先探索数据集中各特征的分布信息；再划分数据集，尝试多种分类模型；最后比较这些模型在Adult数据集上的预测结果（分析代码均基于Python语言，相关工具和库包可参见附录 \ref{apd:tools}）。
 
 \section{探索Adult数据集}
 
@@ -155,7 +155,7 @@ Adult数据集的每个实例包含14个属性，其含义、数据类型、取�
 	\end{lstlisting}
 	
 \vspace{0.02\linewidth}
-从以上的初步观察可以得知，Adult数据集存在数据缺失的情况（如第3行和10行的“?”），我对整个数据集进行统计后，发现数据集中共有3620个实例存在缺失值，而其中2799个实例的缺失值多于1个（表 \ref{tab:nan}）。
+从以上的初步观察可以得知，Adult数据集存在数据缺失的情况（如第3行和10行的“?”），我对整个数据集进行统计后，发现数据集中共有3620个实例存在缺失值，而其中2799个实例的缺失值多于1个（表 \ref{tab:nan}）。同时，我发现分类目标（income）的部分值存在歧义，“<=50K.”与“<=50K”属于同类，却被赋上不同标签，在后续离散化过程中（\ref{sec:discrete} 小节）我会进行处理。
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
@@ -185,7 +185,7 @@ Adult数据集的每个实例包含14个属性，其含义、数据类型、取�
 Adult数据集中的数值型特征为：age, fnlwgt, education-num, capital-gain, capital-loss以及hours-per-week。我首先统计其均值、标准差等数字特征，相应结果如表 \ref{tab:num_feature_avg}所示。
 
 \begin{table}[H]
-	\renewcommand\arraystretch{1.35}
+	\renewcommand\arraystretch{1.5}
 	\caption{Adult数据集数值型特征的数字特征}
 	\label{tab:num_feature_avg}
 	\centering
@@ -205,7 +205,7 @@ Adult数据集中的数值型特征为：age, fnlwgt, education-num, capital-gai
 	\end{tabular}
 \end{table}
 
-为探索各数值型特征的分布趋势，我作出了相应的概率核密度分布图（高斯核），见图 \ref{fig:num_feature_dis}。
+为更加直观地探索各数值型特征的分布趋势，我作出了相应的概率核密度分布图（高斯核），见图 \ref{fig:num_feature_dis}。
 
 \begin{figure}[H]
 	\centering
@@ -233,42 +233,103 @@ Adult数据集中的数值型特征为：age, fnlwgt, education-num, capital-gai
 
 \subsubsection{类别型特征的分布}
 
-Adult数据集中的类别型特征包含：workclass, education, marital-status, occupation, relationship, race, sex以及native-country。我将其分布表示为条形图或饼图（图 \ref{fig:class_feature_dis}）。
+Adult数据集中的类别型特征包含：workclass, education, marital-status, occupation, relationship, race, sex以及native-country。我将其分布表示为条形图或饼图（图 \ref{fig:class_feature_dis}）。各特征中包含的详细类名已记录于附录 \ref{apd:classes}中。
 
 \begin{figure}[H]
 	\centering
 	\subfigure[education]{
-		\includegraphics[width=0.45\linewidth]{img/edu_dis.png}
+		\includegraphics[width=0.43\linewidth]{img/edu_dis.png}
 	}
 	\subfigure[marital-status]{
-		\includegraphics[width=0.45\linewidth]{img/marry_dis.png}
+		\includegraphics[width=0.43\linewidth]{img/marry_dis.png}
 	}
 	\subfigure[occupation]{
-		\includegraphics[width=0.45\linewidth]{img/occupation_dis.png}
+		\includegraphics[width=0.43\linewidth]{img/occupation_dis.png}
 	}
 	\subfigure[race]{
-		\includegraphics[width=0.45\linewidth]{img/race_dis.png}
+		\includegraphics[width=0.43\linewidth]{img/race_dis.png}
 	}
 	\subfigure[relationship]{
-		\includegraphics[width=0.45\linewidth]{img/relationship_dis.png}
+		\includegraphics[width=0.43\linewidth]{img/relationship_dis.png}
 	}
 	\subfigure[sex]{
-		\includegraphics[width=0.45\linewidth]{img/sex_dis.png}
+		\includegraphics[width=0.43\linewidth]{img/sex_dis.png}
 	}
 	\subfigure[workclass]{
-		\includegraphics[width=0.45\linewidth]{img/work_class_dis.png}
+		\includegraphics[width=0.43\linewidth]{img/work_class_dis.png}
 	}
-	\caption{Adult数据集数值型特征概率核密度分布}
+	\subfigure[workclass]{
+		\includegraphics[width=0.43\linewidth]{img/native_country_dis.png}
+	}
+	\caption{Adult数据集数值型特征概率核密度分布（由于native-country包含的类数较多，因此除United-States外国籍的分布见附录 \ref{apd:native-country}）}
 	\label{fig:class_feature_dis}
 \end{figure}
 
+\subsection{Adult数据集中各特征的相关性}
+
+探索完Adult数据集中各特征的分布后，我开始探索特征之间的相关性，
 \newpage
 \begin{appendix}
 	\section{附录}
 	\subsection{作业中使用的工具及库包}
 	\label{apd:tools}
+	本次作业我所使用的编程语言为Python \cite{python}，编辑环境以jupyter notebook \cite{notebook} 为主。作业中我使用的库包见表 \ref{tab:import}。
 	
-
+	\begin{table}[H]
+		\renewcommand\arraystretch{1.35}
+		\caption{本作业中使用的库包}
+		\label{tab:import}
+		\centering
+		
+		\begin{tabular}{c|c}
+			\centering
+			库包名 &  用途 \\
+			\hline
+	
+			numpy \cite{numpy} & 处理数据，数值计算 \\
+			pandas \cite{pandas} & 读取数据，绘图，处理数据 \\
+			matplotlib \cite{matplotlib} & 绘图 \\
+			scipy \cite{scipy} & 数值计算 \\
+			scikit-learn \cite{sklearn} & 分类模型的构造和运算 \\
+	
+		\end{tabular}
+	\end{table}
+	
+	\subsection{Adult数据集特征分布补充资料}
+	
+	\subsubsection{native-country特征的详细分布}
+	\label{apd:native-country}
+	
+	\vspace{-0.02\linewidth}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.75\linewidth]{img/native_country_dis2.png}
+		\caption{Adult数据集native-country特征分布（除United-States）}
+		\label{fig:class_feature_dis2}
+	\end{figure}
+	
+	\subsubsection{各类别型特征下的详细类名}
+	\label{apd:classes}
+	
+	\begin{enumerate}
+	
+	\item \textbf{workclass} Private, Local-gov, Self-emp-not-inc, Federal-gov, State-gov, Self-emp-inc, Without-pay, Never-worked；
+	
+	\item \textbf{education} 11th, HS-grad, Assoc-acdm, Some-college, 10th, Prof-school, 7th-8th, Bachelors, Masters, Doctorate, 5th-6th, Assoc-voc, 9th, 12th, 1st-4th, Preschool；
+	
+	\item \textbf{marital-status} Never-married, Married-civ-spouse, Widowed, Divorced, Separated, Married-spouse-absent, Married-AF-spouse；
+	
+	\item \textbf{occupation} Machine-op-inspct, Farming-fishing, Protective-serv, Other-service, Prof-specialty, Craft-repair, Adm-clerical, Exec-managerial, Tech-support, Sales, Priv-house-serv, Transport-moving, Handlers-cleaners, Armed-Forces；
+	
+	\item \textbf{relationship} Own-child, Husband, Not-in-family, Unmarried, Wife, Other-relative；
+	
+	\item \textbf{race} Black, White, Asian-Pac-Islander, Other, Amer-Indian-Eskimo；
+	
+	\item \textbf{sex} Male, Female；
+	
+	\item \textbf{native-country} United-States, Cuba, Jamaica, India, Mexico, Puerto-Rico, Honduras, England, Canada, Germany, Iran, Philippines, Poland, Columbia, Cambodia, Thailand, Ecuador, Laos, Taiwan, Haiti, Portugal, Dominican-Republic, El-Salvador, France, Guatemala, Italy, China, South, Japan, Yugoslavia, Peru, Outlying-US(Guam-USVI-etc), Scotland, Trinadad\&Tobago, Greece, Nicaragua, Vietnam, Hong, Ireland, Hungary, Holand-Netherlands.
+	       
+	\end{enumerate}
 	
 \end{appendix}
 
