@@ -155,7 +155,7 @@ Adult数据集的每个实例包含14个属性，其含义、数据类型、取�
 	\end{lstlisting}
 	
 \vspace{0.02\linewidth}
-从以上的初步观察可以得知，Adult数据集存在数据缺失的情况（如第3行和10行的“?”），我对整个数据集进行统计后，发现数据集中共有3620个实例存在缺失值，而其中2799个实例的缺失值多于1个（表 \ref{tab:nan}）。同时，我发现分类目标（income）的部分值存在歧义，“<=50K.”与“<=50K”属于同类，却被赋上不同标签，在后续向量化过程中（\ref{sec:vector} 小节）我会进行处理。
+从以上的初步观察可以得知，Adult数据集存在数据缺失的情况（如第3行和10行的“?”），我对整个数据集进行统计后，发现数据集中共有3620个实例存在缺失值，而其中2799个实例的缺失值多于1个（表 \ref{tab:nan}）。同时，我发现分类目标（income）的部分值存在歧义，“<=50K.”与“<=50K”属于同类，却被赋上不同标签，在后续预处理过程中（\ref{sec:fix-target}小节）我会进行处理。
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
@@ -174,13 +174,14 @@ Adult数据集的每个实例包含14个属性，其含义、数据类型、取�
 \end{table}
 
 \vspace{0.01\linewidth}
-考虑到数据集中存在缺失值的实例数较少（仅占总数的7.41\%），且缺失的均为类别型变量，若用一般的方式填补会带来较大的偏差，因此我选择将这些实例直接删除，清理缺失值后的Adult数据集包含45222个实例，且各类别型特征的类数并未因此受到影响（如native-country特征原本包含41类，处理后依然包含41类）。
+考虑到数据集中存在缺失值的实例数较少（仅占总数的7.41\%），且缺失的均为类别型变量，若用一般的方式填补会带来较大的偏差，因此我选择将这些实例直接删除，清理缺失值后的Adult数据集包含45222个实例，虽然由于删除数据导致workclass特征减少了一类（Never-worked），但相应的实例只有10个，可以忽略不计。
 
 \subsection{Adult数据集中各特征的分布}
 
 对Adult数据集进行检查和清理后，我开始探索Adult数据集中各特征的分布，我将数值型特征和类别型特征分别处理：对于数值型特征，我主要关注其数字特征（如均值，方差等）及分布密度；对于类别型特征，我主要关注其具体的分布情况。
 
 \subsubsection{数值型特征的分布}
+\label{sec:num_feature}
 
 Adult数据集中的数值型特征为：age, fnlwgt, education-num, capital-gain, capital-loss以及hours-per-week。我首先统计其均值、标准差等数字特征，相应结果如表 \ref{tab:num_feature_avg}所示。
 
@@ -210,22 +211,22 @@ Adult数据集中的数值型特征为：age, fnlwgt, education-num, capital-gai
 \begin{figure}[H]
 	\centering
 	\subfigure[age]{
-		\includegraphics[width=0.31\linewidth]{img/age_dis.png}
+		\includegraphics[width=0.31\linewidth]{img/age_dis.pdf}
 	}
 	\subfigure[fnlwgt]{
-		\includegraphics[width=0.31\linewidth]{img/fnlwgt_dis.png}
+		\includegraphics[width=0.31\linewidth]{img/fnlwgt_dis.pdf}
 	}
 	\subfigure[education-num]{
-		\includegraphics[width=0.31\linewidth]{img/edu_num_dis.png}
+		\includegraphics[width=0.31\linewidth]{img/edu_num_dis.pdf}
 	}
 	\subfigure[capital-gain]{
-		\includegraphics[width=0.31\linewidth]{img/cap_in_dis.png}
+		\includegraphics[width=0.31\linewidth]{img/cap_in_dis.pdf}
 	}
 	\subfigure[capital-loss]{
-		\includegraphics[width=0.31\linewidth]{img/cap_out_dis.png}
+		\includegraphics[width=0.31\linewidth]{img/cap_out_dis.pdf}
 	}
 	\subfigure[hours-per-week]{
-		\includegraphics[width=0.31\linewidth]{img/hours_per_week_dis.png}
+		\includegraphics[width=0.31\linewidth]{img/hours_per_week_dis.pdf}
 	}
 	\caption{Adult数据集数值型特征概率核密度分布}
 	\label{fig:num_feature_dis}
@@ -238,28 +239,28 @@ Adult数据集中的类别型特征包含：workclass, education, marital-status
 \begin{figure}[H]
 	\centering
 	\subfigure[education]{
-		\includegraphics[width=0.43\linewidth]{img/edu_dis.png}
+		\includegraphics[width=0.43\linewidth]{img/edu_dis.pdf}
 	}
 	\subfigure[marital-status]{
-		\includegraphics[width=0.43\linewidth]{img/marry_dis.png}
+		\includegraphics[width=0.43\linewidth]{img/marry_dis.pdf}
 	}
 	\subfigure[occupation]{
-		\includegraphics[width=0.43\linewidth]{img/occupation_dis.png}
+		\includegraphics[width=0.43\linewidth]{img/occupation_dis.pdf}
 	}
 	\subfigure[race]{
-		\includegraphics[width=0.43\linewidth]{img/race_dis.png}
+		\includegraphics[width=0.43\linewidth]{img/race_dis.pdf}
 	}
 	\subfigure[relationship]{
-		\includegraphics[width=0.43\linewidth]{img/relationship_dis.png}
+		\includegraphics[width=0.43\linewidth]{img/relationship_dis.pdf}
 	}
 	\subfigure[sex]{
-		\includegraphics[width=0.43\linewidth]{img/sex_dis.png}
+		\includegraphics[width=0.43\linewidth]{img/sex_dis.pdf}
 	}
 	\subfigure[workclass]{
-		\includegraphics[width=0.43\linewidth]{img/work_class_dis.png}
+		\includegraphics[width=0.43\linewidth]{img/work_class_dis.pdf}
 	}
 	\subfigure[workclass]{
-		\includegraphics[width=0.43\linewidth]{img/native_country_dis.png}
+		\includegraphics[width=0.43\linewidth]{img/native_country_dis.pdf}
 	}
 	\caption{Adult数据集数值型特征概率核密度分布（由于native-country包含的类数较多，因此除United-States外国籍的分布见附录 \ref{apd:native-country}）}
 	\label{fig:class_feature_dis}
@@ -273,14 +274,6 @@ Adult数据集中的类别型特征包含：workclass, education, marital-status
 
 探索完Adult数据集中各特征的分布和相关性后，我开始对其进行训练集和测试集的划分并构造一系列分类模型。
 
-\subsection{数据预处理}
-
-\subsubsection{标准化}
-
-\subsubsection{向量化}
-
-\subsubsection{分类目标修正}
-
 \subsection{划分数据集}
 
 对数据集的划分一般有两种方法：一是直接按照一定的比例将数据划分为训练集和测试集（需保证训练集和测试集中的类分布大致相同）；二是使用分层交叉验证，将数据随机等分为$k$个不相交子集，执行$k$次训练与测试，根据$k$次迭代的平均表现评价模型的性能。
@@ -290,9 +283,145 @@ Adult数据集中的类别型特征包含：workclass, education, marital-status
 
 \subsection{构造分类模型}
 
-在机器学习领域，用于分类的算法种类繁多，基本的分类算法包括了逻辑回归（Logistic Regression）、K近邻（KNN）、决策树、支持向量机（SVM）以及多层感知机（MLP）等。考虑到Adult数据集的特征维数并不高，且分类目标简单（二分类），我在本次作业中选择使用决策树、SVM以及MLP三种分类模型。除使用单独模型进行分类外，我尝试应用了模型集成的方法以提高相应的分类效果。
+在机器学习领域，用于分类的算法种类繁多，基本的分类算法包括了逻辑回归（Logistic Regression）、K近邻（KNN）、决策树、支持向量机（SVM）以及多层感知机（MLP）等。考虑到Adult数据集的特征维数并不高，且分类目标简单（二分类），我在本次作业中选择使用决策树、SVM以及MLP三种分类模型（图 \ref{fig:model-init}）。除使用单独模型进行分类外，我尝试应用了模型集成的方法以提高相应的分类效果。
+
+\begin{figure}[H]
+	\centering
+	\subfigure[决策树]{
+		\includegraphics[width=0.26\linewidth]{img/dt.png}
+	}
+	\subfigure[SVM]{
+		\includegraphics[width=0.28\linewidth]{img/svm.png}
+	}
+	\subfigure[MLP]{
+		\includegraphics[width=0.28\linewidth]{img/mlp.png}
+	}
+	\caption{决策树、SVM和MLP模型的直观表示}
+	\label{fig:model-init}
+\end{figure}
+
+\subsection{数据预处理}
+
+在进行正式的分类之前，我对Adult数据集的特征和分类目标进行了一些预处理，以方便分类模型的训练。
+
+\subsubsection{Z-score标准化（规范化）}
+
+一般地，Z-score标准化有如下形式：
+\begin{equation}
+	y = \dfrac{x - \mu}{\sigma}
+\end{equation}
+其中$\mu$和$\sigma$分别代表原数据的均值和标准差。
+
+\vspace{0.01\linewidth}
+对于分类问题的数值型特征，经Z-score标准化后符合标准正态分布，即$N(0, 1)$，可以有效避免因数值过大导致的模型偏差，并能够加快模型的学习速率，这些优势在SVM和MLP等模型中表现得更加明显。
+
+\vspace{0.01\linewidth}
+除此之外，\ref{sec:num_feature}小节的结果表明，Adult数据集里的数值型特征大多近似服从正态分布，在这个条件下，Z-score标准化能够取得更良好的效果。若特征的分布与正态分布相差较大，则Z-score标准化反而会破坏原数据的分布，造成额外的偏差。
+
+\subsubsection{向量化}
+
+Adult数据集中存在8个类别型特征，且这些特征的类别之间并无大小关系，如性别的男女之间不存在大小的区别。为方便模型的训练，我将这些特征从字符串转化为one-hot向量。经过向量化处理后的数据，每个实例包含104维特征。
+
+\subsubsection{分类目标修正}
+\label{sec:fix-target}
+
+Adult数据集的分类目标为居民收入，分为两类：<=50K\$以及>50K\$。而数据集中有些实例的分类目标后多了“.”，如变为“<=50K.”，直接使用原数据训练将导致分类目标变为4类。因此，我将分类目标转化为-1和1，分别表示<=50K\$和>50K\$。另外值得注意的一点是Adult数据集包含34014个负样本（<=50K），而仅有11208个正样本。
 
 \section{各分类模型的预测结果比较}
+
+\subsection{基线模型（baseline）}
+
+为方便之后的比较，我首先使用sklearn \cite{sklearn}中的默认参数，不使用标准化，构造了三个基线模型，以及一个空模型（随机预测），参见表 \ref{tab:baselines1}和表 \ref{tab:baselines2}。
+
+\begin{table}[H]
+	\renewcommand\arraystretch{1.35}
+	\caption{基线模型在Adult数据集上的性能（0.8-0.2比例的训练集-测试集分割）}
+	\label{tab:baselines1}
+	\centering
+	
+	\begin{tabular}{c|c|c|c|c}
+		\centering
+		 & 精确度（precision） & 召回率（recall） & f1-score & 时间（秒） \\
+		\hline
+		\hline
+		
+		决策树 & 0.81 & 0.81 & 0.81 & 0.25 \\
+		SVM & 0.74 & 0.83 & 0.76 & 6.11 \\
+		MLP & 0.78 & 0.80 & 0.79 & 0.59 \\
+		空模型 & 0.72 & 0.52 & 0.57 & 0.07 \\
+
+	\end{tabular}
+\end{table}
+
+\begin{table}[H]
+	\renewcommand\arraystretch{1.35}
+	\caption{基线模型在Adult数据集上的性能（5折分层交叉验证）}
+	\label{tab:baselines2}
+	\centering
+	
+	\begin{tabular}{c|c|c|c|c}
+		\centering
+		 & 精确度（precision） & 召回率（recall） & f1-score & 时间（秒） \\
+		\hline
+		\hline
+		
+		决策树 & 0.80 & 0.80 & 0.80 & 4.41 \\
+		SVM & & & & \\
+		MLP & 0.81 & 0.83 & 0.80 & 11.82 \\
+		空模型 & 0.72 & 0.50 & 0.56 & 0.19 \\
+
+	\end{tabular}
+\end{table}
+
+\subsection{决策树模型}
+
+\subsection{SVM}
+
+\subsection{MLP}
+
+%\begin{figure}[H]
+%	\centering
+%	\subfigure[决策树]{
+%		\includegraphics[width=0.23\linewidth]{img/dt.png}
+%	}
+%	\subfigure[SVM]{
+%		\includegraphics[width=0.23\linewidth]{img/svm.png}
+%	}
+%	\subfigure[MLP]{
+%		\includegraphics[width=0.23\linewidth]{img/mlp.png}
+%	}
+%	\subfigure[空模型]{
+%		\includegraphics[width=0.23\linewidth]{img/mlp.png}
+%	}
+%	\subfigure[决策树]{
+%		\includegraphics[width=0.23\linewidth]{img/dt.png}
+%	}
+%	\subfigure[SVM]{
+%		\includegraphics[width=0.23\linewidth]{img/svm.png}
+%	}
+%	\subfigure[MLP]{
+%		\includegraphics[width=0.23\linewidth]{img/mlp.png}
+%	}
+%	\subfigure[空模型]{
+%		\includegraphics[width=0.23\linewidth]{img/mlp.png}
+%	}
+%	\subfigure[决策树]{
+%		\includegraphics[width=0.23\linewidth]{img/dt.png}
+%	}
+%	\subfigure[SVM]{
+%		\includegraphics[width=0.23\linewidth]{img/svm.png}
+%	}
+%	\subfigure[MLP]{
+%		\includegraphics[width=0.23\linewidth]{img/mlp.png}
+%	}
+%	\subfigure[空模型]{
+%		\includegraphics[width=0.23\linewidth]{img/mlp.png}
+%	}
+%	\caption{基线模型（第一、二行的数据集划分分别为0.8-0.2，以及0.7-0.3的训练集-测试集划分，第三行则使用了5折分层交叉验证}
+%	\label{fig:baselines}
+%\end{figure}
+
+\section{对Adult数据集的分析结论}
 
 \newpage
 \begin{appendix}
@@ -329,7 +458,7 @@ Adult数据集中的类别型特征包含：workclass, education, marital-status
 	\vspace{-0.02\linewidth}
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.75\linewidth]{img/native_country_dis2.png}
+		\includegraphics[width=0.75\linewidth]{img/native_country_dis2.pdf}
 		\caption{Adult数据集native-country特征分布（除United-States）}
 		\label{fig:class_feature_dis2}
 	\end{figure}
