@@ -206,7 +206,7 @@ Adult数据集中的数值型特征为：age, fnlwgt, education-num, capital-gai
 	\end{tabular}
 \end{table}
 
-为更加直观地探索各数值型特征的分布趋势，我作出了相应的概率核密度分布图（高斯核），见图 \ref{fig:num_feature_dis}。
+上表的数据大致反映了各特征的分布情况，为更加直观地探索各数值型特征的分布趋势，我作出了相应的概率核密度分布图（高斯核），见图 \ref{fig:num_feature_dis}。
 
 \begin{figure}[H]
 	\centering
@@ -232,9 +232,24 @@ Adult数据集中的数值型特征为：age, fnlwgt, education-num, capital-gai
 	\label{fig:num_feature_dis}
 \end{figure}
 
+\vspace{0.01\linewidth}
+容易看出，Adult数据集的6个数值型特征接近于正态分布。通过进一步的观察，我发现capital-gain和capital-loss这两个特征的大部分取值均分布在0附近，为更精确详细地探索其分布，我做出了其对数值下相应的直方图（图 \ref{fig:cap-in-out}）。
+
+\begin{figure}[H]
+	\centering
+	\subfigure[age]{
+		\includegraphics[width=0.41\linewidth]{img/age_dis.pdf}
+	}
+	\subfigure[fnlwgt]{
+		\includegraphics[width=0.41\linewidth]{img/fnlwgt_dis.pdf}
+	}
+	\caption{capital-in和capital-out的分布}
+	\label{fig:cap-in-out}
+\end{figure}
+
 \subsubsection{类别型特征的分布}
 
-Adult数据集中的类别型特征包含：workclass, education, marital-status, occupation, relationship, race, sex以及native-country。我将其分布表示为条形图或饼图（图 \ref{fig:class_feature_dis}）。各特征中包含的详细类名已记录于附录 \ref{apd:classes}中。
+Adult数据集中的类别型特征包含：workclass, education, marital-status, occupation, relationship, race, sex以及native-country。我将其分布表示为条形图或饼图（图 \ref{fig:class_feature_dis1}， \ref{fig:class_feature_dis2}）。各特征中包含的详细类名已记录于附录 \ref{apd:classes}中。
 
 \begin{figure}[H]
 	\centering
@@ -250,6 +265,12 @@ Adult数据集中的类别型特征包含：workclass, education, marital-status
 	\subfigure[race]{
 		\includegraphics[width=0.43\linewidth]{img/race_dis.pdf}
 	}
+	\caption{Adult数据集类别型特征分布条形图}
+	\label{fig:class_feature_dis1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
 	\subfigure[relationship]{
 		\includegraphics[width=0.43\linewidth]{img/relationship_dis.pdf}
 	}
@@ -262,8 +283,8 @@ Adult数据集中的类别型特征包含：workclass, education, marital-status
 	\subfigure[workclass]{
 		\includegraphics[width=0.43\linewidth]{img/native_country_dis.pdf}
 	}
-	\caption{Adult数据集数值型特征概率核密度分布（由于native-country包含的类数较多，因此除United-States外国籍的分布见附录 \ref{apd:native-country}）}
-	\label{fig:class_feature_dis}
+	\caption{Adult数据集类别型特征分布饼图（由于native-country包含的类数较多，因此除United-States外国籍的分布见附录 \ref{apd:native-country}）}
+	\label{fig:class_feature_dis2}
 \end{figure}
 
 \subsection{Adult数据集中各特征的相关性}
@@ -423,6 +444,8 @@ Adult数据集的分类目标为居民收入，分为两类：<=50K\$以及>50K\
 
 \section{对Adult数据集的分析结论}
 
+Adult数据集是一个中等规模，存在少部分缺失值的二分类数据集，共48842个实例，每个实例包含14个特征，其中8个为类别型特征，6个为数值型特征。各类别型特征的分布差异较大，数值型特征的分布近似于正态分布。
+
 \newpage
 \begin{appendix}
 	\section{附录}
@@ -460,7 +483,7 @@ Adult数据集的分类目标为居民收入，分为两类：<=50K\$以及>50K\
 		\centering
 		\includegraphics[width=0.75\linewidth]{img/native_country_dis2.pdf}
 		\caption{Adult数据集native-country特征分布（除United-States）}
-		\label{fig:class_feature_dis2}
+		\label{fig:class_feature_dis_detail}
 	\end{figure}
 	
 	\subsubsection{各类别型特征下的详细类名}
