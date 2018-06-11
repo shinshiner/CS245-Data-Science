@@ -233,17 +233,17 @@ Adult数据集中的数值型特征为：age, fnlwgt, education-num, capital-gai
 \end{figure}
 
 \vspace{0.01\linewidth}
-容易看出，Adult数据集的6个数值型特征接近于正态分布。通过进一步的观察，我发现capital-gain和capital-loss这两个特征的大部分取值均分布在0附近，为更精确详细地探索其分布，我做出了其对数值下相应的直方图（图 \ref{fig:cap-in-out}）。
+容易看出，Adult数据集的6个数值型特征接近于正态分布。通过进一步的观察，我发现capital-gain和capital-loss这两个特征的大部分取值均分布在0附近，仅通过概率核密度图无法了解两特征其余取值的分布情况。为更精确、详细地探索其分布，我做出了两特征对数值（$log(x + 1)$）下相应的直方图（图 \ref{fig:cap-in-out}）。
 
 \begin{figure}[H]
 	\centering
-	\subfigure[age]{
-		\includegraphics[width=0.41\linewidth]{img/age_dis.pdf}
+	\subfigure[capital-gain]{
+		\includegraphics[width=0.41\linewidth]{img/cap-in-hist.pdf}
 	}
-	\subfigure[fnlwgt]{
-		\includegraphics[width=0.41\linewidth]{img/fnlwgt_dis.pdf}
+	\subfigure[capital-loss]{
+		\includegraphics[width=0.41\linewidth]{img/cap-out-hist.pdf}
 	}
-	\caption{capital-in和capital-out的分布}
+	\caption{capital-in和capital-out的分布直方图}
 	\label{fig:cap-in-out}
 \end{figure}
 
@@ -396,9 +396,38 @@ Adult数据集的分类目标为居民收入，分为两类：<=50K\$以及>50K\
 
 \subsection{决策树模型}
 
+在本节中，我将使用网格搜索（Grid Search）对决策树模型的分类效果进行评估，搜索的参数及范围参见表 \ref{tab:dt-gs-para}。
+
+\begin{table}[H]
+	\renewcommand\arraystretch{1.35}
+	\caption{对决策树模型网格搜索的参数及范围}
+	\label{tab:dt-gs-para}
+	\centering
+	
+	\begin{tabular}{c|c|c|c}
+		\centering
+		参数 &  含义 & 类型& 范围 \\
+		\hline
+		\hline
+		
+
+	\end{tabular}
+\end{table}
+
+最终通过网格搜索筛选出的最佳决策树模型可视化见图 \ref{fig:dt-best-vis}。
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\linewidth]{img/native_country_dis2.pdf}
+	\caption{最佳决策树模型可视化}
+	\label{fig:dt-best-vis}
+\end{figure}
+
 \subsection{SVM}
 
 \subsection{MLP}
+
+\subsection{三种分类模型效果对比}
 
 %\begin{figure}[H]
 %	\centering
