@@ -46,7 +46,6 @@
 \@writefile{toc}{\contentsline {section}{\numberline {3}划分数据集并构造分类模型}{5}{section.3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}划分数据集}{5}{subsection.3.1}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}构造分类模型}{5}{subsection.3.2}}
-\citation{sklearn}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces 决策树、SVM和MLP模型的直观表示\relax }}{6}{figure.caption.9}}
 \newlabel{fig:model-init}{{5}{6}{决策树、SVM和MLP模型的直观表示\relax }{figure.caption.9}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}数据预处理}{6}{subsection.3.3}}
@@ -54,21 +53,32 @@
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}向量化}{6}{subsubsection.3.3.2}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}分类目标修正}{6}{subsubsection.3.3.3}}
 \newlabel{sec:fix-target}{{3.3.3}{6}{分类目标修正}{subsubsection.3.3.3}{}}
+\citation{sklearn}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}分类性能评价标准}{7}{subsection.3.4}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}各分类模型的预测结果比较}{7}{section.4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}基线模型（baseline）}{7}{subsection.4.1}}
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces 基线模型在Adult数据集上的性能（0.8-0.2比例的训练集-测试集分割）\relax }}{7}{table.caption.10}}
-\newlabel{tab:baselines1}{{5}{7}{基线模型在Adult数据集上的性能（0.8-0.2比例的训练集-测试集分割）\relax }{table.caption.10}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces 基线模型在Adult数据集上的性能（5折分层交叉验证）\relax }}{7}{table.caption.11}}
-\newlabel{tab:baselines2}{{6}{7}{基线模型在Adult数据集上的性能（5折分层交叉验证）\relax }{table.caption.11}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}决策树模型}{7}{subsection.4.2}}
-\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces 对决策树模型网格搜索的参数及范围\relax }}{7}{table.caption.12}}
-\newlabel{tab:dt-gs-para}{{7}{7}{对决策树模型网格搜索的参数及范围\relax }{table.caption.12}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces 最佳决策树模型可视化\relax }}{8}{figure.caption.13}}
-\newlabel{fig:dt-best-vis}{{6}{8}{最佳决策树模型可视化\relax }{figure.caption.13}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}SVM}{8}{subsection.4.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}MLP}{8}{subsection.4.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}三种分类模型效果对比}{8}{subsection.4.5}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}对Adult数据集的分析结论}{8}{section.5}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces 基线模型在Adult数据集上的性能（0.8-0.2比例的训练集-测试集分割）\relax }}{7}{table.caption.11}}
+\newlabel{tab:baselines1}{{5}{7}{基线模型在Adult数据集上的性能（0.8-0.2比例的训练集-测试集分割）\relax }{table.caption.11}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces 基线模型在Adult数据集上的性能（5折分层交叉验证）\relax }}{8}{table.caption.12}}
+\newlabel{tab:baselines2}{{6}{8}{基线模型在Adult数据集上的性能（5折分层交叉验证）\relax }{table.caption.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}决策树模型}{8}{subsection.4.2}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces 对决策树模型网格搜索的参数及范围\relax }}{8}{table.caption.13}}
+\newlabel{tab:dt-gs-para}{{7}{8}{对决策树模型网格搜索的参数及范围\relax }{table.caption.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces 最佳决策树模型可视化\relax }}{9}{figure.caption.14}}
+\newlabel{fig:dt-best-vis}{{6}{9}{最佳决策树模型可视化\relax }{figure.caption.14}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}SVM}{9}{subsection.4.3}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}核函数}{9}{subsubsection.4.3.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}惩罚系数}{9}{subsubsection.4.3.2}}
+\citation{relu}
+\citation{optim_example}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}MLP}{10}{subsection.4.4}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.1}激活函数}{10}{subsubsection.4.4.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.2}优化算法}{10}{subsubsection.4.4.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces 不同优化算法的优化效果对比\relax }}{10}{figure.caption.15}}
+\newlabel{fig:optim-ref}{{7}{10}{不同优化算法的优化效果对比\relax }{figure.caption.15}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}模型集成}{10}{subsection.4.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}三种分类模型效果对比}{10}{subsection.4.6}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}对Adult数据集的分析结论}{10}{section.5}}
 \citation{python}
 \citation{notebook}
 \citation{numpy}
@@ -76,25 +86,27 @@
 \citation{matplotlib}
 \citation{scipy}
 \citation{sklearn}
-\@writefile{toc}{\contentsline {section}{\numberline {A}附录}{9}{appendix.A}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}作业中使用的工具及库包}{9}{subsection.A.1}}
-\newlabel{apd:tools}{{A.1}{9}{作业中使用的工具及库包}{subsection.A.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces 本作业中使用的库包\relax }}{9}{table.caption.14}}
-\newlabel{tab:import}{{8}{9}{本作业中使用的库包\relax }{table.caption.14}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Adult数据集特征分布补充资料}{9}{subsection.A.2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.2.1}native-country特征的详细分布}{9}{subsubsection.A.2.1}}
-\newlabel{apd:native-country}{{A.2.1}{9}{native-country特征的详细分布}{subsubsection.A.2.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Adult数据集native-country特征分布（除United-States）\relax }}{9}{figure.caption.15}}
-\newlabel{fig:class_feature_dis_detail}{{7}{9}{Adult数据集native-country特征分布（除United-States）\relax }{figure.caption.15}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}附录}{11}{appendix.A}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}作业中使用的工具及库包}{11}{subsection.A.1}}
+\newlabel{apd:tools}{{A.1}{11}{作业中使用的工具及库包}{subsection.A.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces 本作业中使用的库包\relax }}{11}{table.caption.16}}
+\newlabel{tab:import}{{8}{11}{本作业中使用的库包\relax }{table.caption.16}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Adult数据集特征分布补充资料}{11}{subsection.A.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.2.1}native-country特征的详细分布}{11}{subsubsection.A.2.1}}
+\newlabel{apd:native-country}{{A.2.1}{11}{native-country特征的详细分布}{subsubsection.A.2.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Adult数据集native-country特征分布（除United-States）\relax }}{11}{figure.caption.17}}
+\newlabel{fig:class_feature_dis_detail}{{8}{11}{Adult数据集native-country特征分布（除United-States）\relax }{figure.caption.17}{}}
 \bibstyle{ieeetr}
 \bibdata{bio}
 \bibcite{Dataset}{1}
-\bibcite{python}{2}
-\bibcite{notebook}{3}
-\bibcite{numpy}{4}
-\bibcite{pandas}{5}
-\bibcite{matplotlib}{6}
-\bibcite{scipy}{7}
-\bibcite{sklearn}{8}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.2.2}各类别型特征下的详细类名}{10}{subsubsection.A.2.2}}
-\newlabel{apd:classes}{{A.2.2}{10}{各类别型特征下的详细类名}{subsubsection.A.2.2}{}}
+\bibcite{sklearn}{2}
+\bibcite{relu}{3}
+\bibcite{optim_example}{4}
+\bibcite{python}{5}
+\bibcite{notebook}{6}
+\bibcite{numpy}{7}
+\bibcite{pandas}{8}
+\bibcite{matplotlib}{9}
+\bibcite{scipy}{10}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.2.2}各类别型特征下的详细类名}{12}{subsubsection.A.2.2}}
+\newlabel{apd:classes}{{A.2.2}{12}{各类别型特征下的详细类名}{subsubsection.A.2.2}{}}

@@ -1,7 +1,19 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{Dataset}
 D.~Dheeru and E.~Karra~Taniskidou, ``{UCI} machine learning repository,'' 2017.
+
+\bibitem{sklearn}
+``scikit-learn.'' \url{http://scikit-learn.org/stable/}.
+
+\bibitem{relu}
+V.~Nair and G.~E. Hinton, ``Rectified linear units improve restricted boltzmann
+  machines,'' in {\em Proceedings of the 27th international conference on
+  machine learning (ICML-10)}, pp.~807--814, 2010.
+
+\bibitem{optim_example}
+``Cs231n: Convolutional neural networks for visual recognition.''
+  \url{http://cs231n.github.io/neural-networks-3/}.
 
 \bibitem{python}
 ``Python.'' \url{https://www.python.org/}.
@@ -20,8 +32,5 @@ D.~Dheeru and E.~Karra~Taniskidou, ``{UCI} machine learning repository,'' 2017.
 
 \bibitem{scipy}
 ``scipy.'' \url{https://www.scipy.org/}.
-
-\bibitem{sklearn}
-``scikit-learn.'' \url{http://scikit-learn.org/stable/}.
 
 \end{thebibliography}

@@ -348,11 +348,42 @@ Adult数据集中存在8个类别型特征，且这些特征的类别之间并�
 
 Adult数据集的分类目标为居民收入，分为两类：<=50K\$以及>50K\$。而数据集中有些实例的分类目标后多了“.”，如变为“<=50K.”，直接使用原数据训练将导致分类目标变为4类。因此，我将分类目标转化为-1和1，分别表示<=50K\$和>50K\$。另外值得注意的一点是Adult数据集包含34014个负样本（<=50K），而仅有11208个正样本。
 
+\subsection{分类性能评价标准}
+
+对于分类问题，评价分类性能的标准一般有3个：精确度（precision），召回率（recall）以及f1-score。其在二分类问题中的定义如下。
+
+假设二分类问题的结果为：
+
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{c|c|c}
+		& 正类 &  负类 \\
+		\hline
+		\hline
+	
+		 分类正确 & TP & FP \\
+		 分类错误 & FN & TN \\
+	\end{tabular}
+\end{table}
+
+则精确度、召回率和f1-score分别定义为
+\begin{equation}
+	\begin{aligned}
+	P = \dfrac{TP}{TP + FP} \\ \\
+	R = \dfrac{TP}{TP + FN} \\ \\
+	F1 = \dfrac{2PR}{P + R} \\ \\
+	\end{aligned}
+\end{equation}
+
+\vspace{-0.03\linewidth}
+一般地，在大规模的数据集下，精确度和召回率会相互制约，出现一高一低的现象，而f1-score可以兼顾二者，有效减少因一者过大带来的误差。因此，在本次作业的实验中，我主要以f1-score作为分类性能的主要评价标准，精确度和召回率则在训练基线模型时作为参考标准。
+
 \section{各分类模型的预测结果比较}
 
 \subsection{基线模型（baseline）}
 
-为方便之后的比较，我首先使用sklearn \cite{sklearn}中的默认参数，不使用标准化，构造了三个基线模型，以及一个空模型（随机预测），参见表 \ref{tab:baselines1}和表 \ref{tab:baselines2}。
+为方便之后的比较，我首先使用sklearn \cite{sklearn}中的默认参数，不使用标准化，构造了三个基线模型，以及一个空模型（按相等概率 随机预测），参见表 \ref{tab:baselines1}和表 \ref{tab:baselines2}。
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
@@ -367,7 +398,7 @@ Adult数据集的分类目标为居民收入，分为两类：<=50K\$以及>50K\
 		\hline
 		
 		决策树 & 0.81 & 0.81 & 0.81 & 0.25 \\
-		SVM & 0.74 & 0.83 & 0.76 & 6.11 \\
+		SVM & 0.76 & 0.83 & 0.76 & 1044.22 \\
 		MLP & 0.78 & 0.80 & 0.79 & 0.59 \\
 		空模型 & 0.72 & 0.52 & 0.57 & 0.07 \\
 
@@ -387,7 +418,7 @@ Adult数据集的分类目标为居民收入，分为两类：<=50K\$以及>50K\
 		\hline
 		
 		决策树 & 0.80 & 0.80 & 0.80 & 4.41 \\
-		SVM & & & & \\
+		SVM & 0.83 & 0.83 & 0.83 & 4491.21 \\
 		MLP & 0.81 & 0.83 & 0.80 & 11.82 \\
 		空模型 & 0.72 & 0.50 & 0.56 & 0.19 \\
 
@@ -396,7 +427,7 @@ Adult数据集的分类目标为居民收入，分为两类：<=50K\$以及>50K\
 
 \subsection{决策树模型}
 
-在本节中，我将使用网格搜索（Grid Search）对决策树模型的分类效果进行评估，搜索的参数及范围参见表 \ref{tab:dt-gs-para}。
+在本节中，我将使用网格搜索（Grid Search）对决策树模型的分类效果进行评估（5折交叉验证），搜索的参数及范围参见表 \ref{tab:dt-gs-para}。
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
@@ -404,28 +435,81 @@ Adult数据集的分类目标为居民收入，分为两类：<=50K\$以及>50K\
 	\label{tab:dt-gs-para}
 	\centering
 	
-	\begin{tabular}{c|c|c|c}
+	\begin{tabular}{c|c|c}
 		\centering
-		参数 &  含义 & 类型& 范围 \\
+		参数 & 含义 & 类型（范围） \\
 		\hline
 		\hline
 		
+		criterion & 特征选择的度量标准 & gini， entropy \\
+		\hline
+		max\_depth & 树的最大深度 & 正整数 \\
+		\hline
+		max\_features & \tabincell{c}{寻求最佳划分时\\要考虑的特征数目} & \tabincell{c}{总特征数或其平方根\\或其以2为底的对数值} \\
+		\hline
+		presort & 是否对数据预先排序 & 布尔值 \\
+		\hline
+		splitter & 结点划分策略 & best， random \\
 
 	\end{tabular}
 \end{table}
 
+经过网格搜索后，我得到的最佳决策树模型的参数为：{criterion: entropy, splitter: best, max\_features: 总特征数, max\_depth: 9, presort: True}；该模型在测试集上的平均f1-score为0.83。
+
+\vspace{0.01\linewidth}
 最终通过网格搜索筛选出的最佳决策树模型可视化见图 \ref{fig:dt-best-vis}。
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.75\linewidth]{img/native_country_dis2.pdf}
+	\includegraphics[width=0.9\linewidth]{img/age_dis.pdf}
 	\caption{最佳决策树模型可视化}
 	\label{fig:dt-best-vis}
 \end{figure}
 
 \subsection{SVM}
 
+从表 \ref{tab:baselines1} 和表 \ref{tab:baselines2}来看，SVM的二分类能力并没有完全展现出来，并且难以收敛。在这一节中，我将尝试改变SVM模型的多个关键参数，尽可能改善其表现。
+
+\subsubsection{核函数}
+
+原始的SVM属于线性分类器，核函数的引入将SVM的应用推广到了非线性数据上。不同的核函数所需要的计算量和性能均有较大差别，我在Adult数据集上尝试应用四种常用的核函数：rbf核函数，多项式核函数（poly kernel），sigmoid核函数以及线性核函数，各模型相应的表现见图 \ref{fig:svm-kernel1} 及图 \ref{fig:svm-kernel2}（基于5折交叉验证）。
+
+\vspace{0.01\linewidth}
+从上图中也可看出，SVM模型在相同的参数下，对于xxx标准化后的数据分类效果更佳，因此之后的实验均基于xxx标准化后的数据进行。
+
+\subsubsection{惩罚系数}
+
+SVM在面对轻微的线性不可分数据时，可以通过引入惩罚系数$C$，将原有的优化目标
+\begin{equation}
+	L = \dfrac{1}{2}w^Tw
+\end{equation}
+变为
+\begin{equation}
+	L = \dfrac{1}{2}w^Tw+C\sum\limits_{n=1}^{N}\xi_n,
+\end{equation}
+
+适当的惩罚系数可以极大地改善SVM的分类性能。我使用类似于网格搜索的方式，遍历了各数量级的$C$取值，相应的结果可参见图 \ref{fig:penalty}。
+
 \subsection{MLP}
+
+从MLP基线模型（表 \ref{tab:baselines1}， \ref{tab:baselines2}）的性能分析，MLP的性能相比决策树模型稍逊。我认为较大的原因在于MLP模型的默认参数并不适合Adult数据集，因此，在本节中，我将对MLP中不同的组件（激活函数，优化算法等）对其在Adult数据集上分类性能的影响进行探究。
+
+\subsubsection{激活函数}
+
+激活函数作用于MLP隐藏层中的每个神经元上，为MLP引入非线性因素，若缺少激活函数，神经网络的表达能力将极其有限。因此，激活函数是整个MLP中重要的组件之一。常用的激活函数包括relu \cite{{relu}}， tanh以及sigmoid等，相应的预测表现见图 \ref{fig:mlp-activate1}。
+
+\subsubsection{优化算法}
+
+优化算法作用于MLP更新参数时，对于同样的梯度分布，不同的优化算法的优化路径存在着极大的差别，图 \ref{fig:optim-ref} \cite{optim_example} 形象地说明了这一点。因此，探究不同优化算法下MLP的分类性能是很有必要的，详细结果可参见图 \ref{fig:optim1}。
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/optim_example.png}
+	\caption{不同优化算法的优化效果对比}
+	\label{fig:optim-ref}
+\end{figure}
+
+\subsection{模型集成}
 
 \subsection{三种分类模型效果对比}
 
