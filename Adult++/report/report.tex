@@ -59,7 +59,7 @@
 近年来，人们逐渐从信息化时代迈向了数据时代，各种数据爆炸式地增长，数据消费也在日益增多，大量的信息、知识和利润隐藏在这些数据中。如何更有效地利用这些数据，已经成为这个时代下人们共同探索的问题之一。
 
 \vspace{0.01\linewidth}
-在这次大作业中，我将对Adult数据集进行全面的分析：首先探索数据集中各特征的分布信息；再划分数据集，尝试多种分类模型；最后比较这些模型在Adult数据集上的预测结果（分析代码均基于Python语言，相关工具和库包可参见附录 \ref{apd:tools}）。
+在这次大作业中，我将对Adult数据集进行全面的分析：首先探索数据集中各特征的分布信息；再划分数据集，尝试多种分类模型；最后比较这些模型在Adult数据集上的预测结果（分析代码均基于Python语言，相关工具和库包可参见附录 \ref{apd:tools}）\footnote{本次大作业以及以往小作业的代码可参见我的github仓库：\href{https://github.com/shinshiner/CS245-Data-Science}{https://github.com/shinshiner/CS245-Data-Science}}。
 
 \section{探索Adult数据集}
 
@@ -455,7 +455,9 @@ Adult数据集的分类目标为居民收入，分为两类：<=50K\$以及>50K\
 	\end{tabular}
 \end{table}
 
-经过网格搜索后，我得到的最佳决策树模型的参数为：{criterion: entropy, splitter: best, max\_features: 总特征数, max\_depth: 9, presort: True}；该模型在测试集上的平均f1-score为0.83。
+经过网格搜索后，我得到的最佳决策树模型的参数为：\{criterion: entropy, splitter: best, max\_features: 总特征数, max\_depth: 9, presort: True\}；该模型在测试集上的平均f1-score为0.83。
+
+对于经过Z-score标准化的Adult数据集，网格搜索的结果为：\{criterion: entropy, splitter: best, max\_features: 总特征数, max\_depth: 9, presort: True\}，测试集上的平均f1-score为xxx。
 
 \vspace{0.01\linewidth}
 最终通过网格搜索筛选出的最佳决策树模型可视化见图 \ref{fig:dt-best-vis}。
@@ -469,11 +471,11 @@ Adult数据集的分类目标为居民收入，分为两类：<=50K\$以及>50K\
 
 \subsection{SVM}
 
-从表 \ref{tab:baselines1} 和表 \ref{tab:baselines2}来看，SVM的二分类能力并没有完全展现出来，并且难以收敛。在这一节中，我将尝试改变SVM模型的多个关键参数，尽可能改善其表现。
+从表 \ref{tab:baselines1} 和表 \ref{tab:baselines2}来看，SVM的二分类能力并没有完全展现出来，并且难以收敛。在这一节中，我将尝试改变SVM模型的多个关键参数，尽可能改善其表现（模型表现均基于5折交叉验证）。
 
 \subsubsection{核函数}
 
-原始的SVM属于线性分类器，核函数的引入将SVM的应用推广到了非线性数据上。不同的核函数所需要的计算量和性能均有较大差别，我在Adult数据集上尝试应用四种常用的核函数：rbf核函数，多项式核函数（poly kernel），sigmoid核函数以及线性核函数，各模型相应的表现见图 \ref{fig:svm-kernel1} 及图 \ref{fig:svm-kernel2}（基于5折交叉验证）。
+原始的SVM属于线性分类器，核函数的引入将SVM的应用推广到了非线性数据上。不同的核函数所需要的计算量和性能均有较大差别，我在Adult数据集上尝试应用四种常用的核函数：rbf核函数，多项式核函数（poly kernel），sigmoid核函数以及线性核函数，各模型相应的表现见图 \ref{fig:svm-kernel1} 及图 \ref{fig:svm-kernel2}。
 
 \begin{figure}[H]
 	\centering
@@ -517,6 +519,8 @@ SVM在面对轻微的线性不可分数据时，可以通过引入惩罚系数$C
 	\label{fig:penalty}
 \end{figure}
 
+上图结果表明，过低的惩罚系数$C$对SVM在Adult数据集上的分类性能没有改善作用，0.6-1.0之间的$C$能够略微改善SVM的性能，而过大的$C$会让SVM趋于过拟合，泛化能力逐渐降低。
+
 \subsubsection{Gamma ($\gamma$)}
 
 rbf核的数学表达形式为：
@@ -542,6 +546,10 @@ $\gamma$是rbf核函数的一个重要参数，在sklearn中，其默认值为�
 
 	\end{tabular}
 \end{table}
+
+\subsubsection{小结}
+
+经过以上的探索，我得到了SVM模型在Adult数据集分类上表现较佳的一组参数：\{核函数：rbf，惩罚参数：1.0，$\gamma$：xxx，是否进行Z-score标准化：否\}，相应的SVM模型在测试集上的f1-score为：xxx。
 
 \subsection{MLP}
 
@@ -594,20 +602,49 @@ $\gamma$是rbf核函数的一个重要参数，在sklearn中，其默认值为�
 	\label{fig:optim1}
 \end{figure}
 
+根据上图结果，adam \cite{adam}、lbfgs与sgd三种优化算法均能使MLP在Adult数据集上取得较佳的分类表现，但adam的效果明显优于lbfgs与sgd，为探究其中的原因，我查阅了相关资料和原论文，认为图中反映出adam算法的巨大优势有着其坚实的理论依据。
+
+\vspace{0.01\linewidth}
+作为最常用的优化算法，adam能够利用较少的计算资源有效处理高噪声或稀疏的梯度分布，除此之外，其在优化的过程中能够通过计算梯度的一阶矩估计和二阶矩估计，为不同的参数设计独立的自适应性学习率。
+
 \subsubsection{学习率}
 
-在MLP的参数更新过程中，学习率决定了参数更新的速率，过大的学习率会导致模型进入局部最小值，而学习率过小则会减缓模型的学习速度。在本节中，我采用类似于 \ref{sec:penalty}小节的方式，对基于xxx优化算法的MLP模型在不同学习率下的分类效果进行探索（图 \ref{fig:lr}。
+在MLP的参数更新过程中，学习率决定了参数更新的速率，过大的学习率会导致模型进入局部最小值，而学习率过小则会减缓模型的学习速度。在本节中，我采用类似于 \ref{sec:penalty}小节的方式，对基于adam优化算法的MLP模型在不同学习率下的分类效果进行探索（图 \ref{fig:lr}），由于adam算法能够自适应地改变学习率，此处的学习率即指\textbf{初始学习率}。
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.75\linewidth]{img/mlp_lr.png}
-	\caption{不同学习率下MLP模型的分类表现}
+	\caption{不同初始学习率下MLP模型的分类表现}
 	\label{fig:lr}
 \end{figure}
 
+容易看出，除了过大的学习率有降低MLP性能的趋势外，MLP在其余学习率下的表现并无太大差别，考虑到实际应用时的时间占用，我认为0.03是基于adam优化算法的MLP模型在Adult数据集分类问题下较佳的学习率。
+
+\subsubsection{小结}
+
+经过以上的探索，我得到了MLP模型在Adult数据集分类上表现较佳的一组参数：\{激活函数：relu，优化算法：adam，学习率：0.03，是否进行Z-score标准化：是\}，相应的MLP模型在测试集上的f1-score为：xxx。
+
 \subsection{模型集成}
 
-从以上几节的结果分析，决策树模型在Adult数据集上的分类效果弱于SVM和MLP，因此，我尝试使用bagging和boosting两种模型集成的方法改善决策树模型的分类效果。结果参见图 \ref{fig:model-plus}。
+从以上几节的结果分析，决策树模型在Adult数据集上的分类效果弱于SVM和MLP。一般地，从一系列模型$M_1, M_2, ... , M_k$创建组合模型$M^*$，可以有效提高原模型的效果。相比于SVM和MLP，决策树模型训练时速度快、占用计算空间和资源较少，适合进行模型集成。
+
+\vspace{0.01\linewidth}
+因此，在本节中，我使用bagging和boosting两种模型集成的方法尝试改善决策树模型的分类效果。结果参见图 \ref{fig:model-plus}。
+
+\begin{figure}[H]
+	\centering
+	\subfigure[bagging]{
+		\includegraphics[width=0.31\linewidth]{img/mlp_optimizer_ntr.png}
+	}
+	\subfigure[boosting（SAMME）]{
+		\includegraphics[width=0.31\linewidth]{img/mlp_optimizer_nt.png}
+	}
+	\subfigure[boosting（SAMME.R）]{
+		\includegraphics[width=0.31\linewidth]{img/mlp_optimizer_nt.png}
+	}
+	\caption{集成后的决策树模型的分类表现}
+	\label{fig:model-plus}
+\end{figure}
 
 \subsection{三种分类模型效果对比}
 \label{sec:compare}

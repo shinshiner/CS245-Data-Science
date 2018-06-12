@@ -15,6 +15,10 @@ V.~Nair and G.~E. Hinton, ``Rectified linear units improve restricted boltzmann
 ``Cs231n: Convolutional neural networks for visual recognition.''
   \url{http://cs231n.github.io/neural-networks-3/}.
 
+\bibitem{adam}
+D.~Kingma and J.~Ba, ``Adam: A method for stochastic optimization,'' {\em arXiv
+  preprint arXiv:1412.6980}, 2014.
+
 \bibitem{python}
 ``Python.'' \url{https://www.python.org/}.
 
