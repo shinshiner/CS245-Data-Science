@@ -59,7 +59,7 @@
 近年来，人们逐渐从信息化时代迈向了数据时代，各种数据爆炸式地增长，数据消费也在日益增多，大量的信息、知识和利润隐藏在这些数据中。如何更有效地利用这些数据，已经成为这个时代下人们共同探索的问题之一。
 
 \vspace{0.01\linewidth}
-在这次大作业中，我将对Adult数据集进行全面的分析：首先探索数据集中各特征的分布信息；再划分数据集，尝试多种分类模型；最后比较这些模型在Adult数据集上的预测结果（分析代码均基于Python语言，相关工具和库包可参见附录 \ref{apd:tools}）\footnote{本次大作业以及以往小作业的代码可参见我的github仓库：\href{https://github.com/shinshiner/CS245-Data-Science}{https://github.com/shinshiner/CS245-Data-Science}}。
+在这次大作业中，我将对Adult数据集进行全面的分析：首先探索数据集中各特征的分布信息；再划分数据集，尝试多种分类模型；最后比较这些模型在Adult数据集上的预测结果（我的分析代码均基于Python语言，所使用的相关工具和库包可参见附录 \ref{apd:tools}）\footnote{本次大作业以及以往小作业的代码可参见我的github仓库：\href{https://github.com/shinshiner/CS245-Data-Science}{https://github.com/shinshiner/CS245-Data-Science}}。
 
 \section{探索Adult数据集}
 
@@ -121,10 +121,10 @@ Adult数据集的每个实例包含14个属性，其含义、数据类型、取�
 	\end{tabular}
 \end{table}
 
-\subsection{数据预处理}
+\subsection{数据预处理（检查和清洗）}
 
 \vspace{0.01\linewidth}
-我首先使用pandas库读取Adult数据集，将其存储为pandas库中的DataFrame格式，随机打印出其中几个实例，对该数据集进行初步的观察，结果如下。
+在这一节中，我将对Adult数据集进行数据检查和清洗。我首先使用pandas库读取Adult数据集，将其存储为pandas库中的DataFrame格式，随机打印出其中几个实例，对该数据集进行初步的观察，结果如下。
 
 \vspace{0.015\linewidth}
 	\begin{lstlisting}[
@@ -183,7 +183,7 @@ Adult数据集的每个实例包含14个属性，其含义、数据类型、取�
 \subsubsection{数值型特征的分布}
 \label{sec:num_feature}
 
-Adult数据集中的数值型特征为：age, fnlwgt, education-num, capital-gain, capital-loss以及hours-per-week。我首先统计其均值、标准差等数字特征，相应结果如表 \ref{tab:num_feature_avg}所示。
+Adult数据集中的数值型特征为：age, fnlwgt, education-num, capital-gain, capital-loss以及hours-per-week。为探索这些特征的分布情况，我首先统计其均值、最值、标准差等数字特征，相应结果如表 \ref{tab:num_feature_avg}所示。
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.5}
@@ -206,7 +206,12 @@ Adult数据集中的数值型特征为：age, fnlwgt, education-num, capital-gai
 	\end{tabular}
 \end{table}
 
-上表的数据大致反映了各特征的分布情况，为更加直观地探索各数值型特征的分布趋势，我作出了相应的概率核密度分布图（高斯核），见图 \ref{fig:num_feature_dis}。
+上表的数据从数值层面大致反映了各数值特征的分布情况，为更加直观地探索其分布趋势，我作出了相应的概率核密度分布图（基于高斯核 (公式 \ref{eqn:gauss})），见图 \ref{fig:num_feature_dis}。
+
+\begin{equation}
+	\label{eqn:gauss}
+	K(x) = \dfrac{1}{\sqrt{2\pi}\sigma}e^{-\dfrac{x^2}{2\sigma^2}}
+\end{equation}
 
 \begin{figure}[H]
 	\centering
@@ -233,7 +238,7 @@ Adult数据集中的数值型特征为：age, fnlwgt, education-num, capital-gai
 \end{figure}
 
 \vspace{0.01\linewidth}
-容易看出，Adult数据集的6个数值型特征接近于正态分布。通过进一步的观察，我发现capital-gain和capital-loss这两个特征的大部分取值均分布在0附近，仅通过概率核密度图无法了解两特征其余取值的分布情况。为更精确、详细地探索其分布，我做出了两特征对数值（$log(x + 1)$）下相应的直方图（图 \ref{fig:cap-in-out}）。
+容易看出，Adult数据集的6个数值型特征接近于正态分布。通过进一步的观察，我发现capital-gain和capital-loss这两个特征的大部分取值均分布在0附近，仅通过概率核密度图无法了解两特征其余取值的分布情况。为更精确、详细地探索其分布，我做出了两特征取对数值（$log (x + 1)$）下相应的直方图（图 \ref{fig:cap-in-out}）。
 
 \begin{figure}[H]
 	\centering
@@ -289,19 +294,26 @@ Adult数据集中的类别型特征包含：workclass, education, marital-status
 	\label{fig:class_feature_dis2}
 \end{figure}
 
-从图 \ref{fig:native-country}及图 \ref{fig:race}中可以看出，Adult数据集中的大部分成年人都来自于美国，且为白色人种，我认为这一点对于Adult数据集其余特征的分布有着重要的影响。
+从图 \ref{fig:native-country}及图 \ref{fig:race}中可以看出，Adult数据集中的大部分成年人都来自于美国，且为白色人种，我认为这一点对于Adult数据集其余特征（如教育程度、工作类型等）的分布有着重要的影响。
 
 \subsubsection{所有属性的分布直方图}
 
 直方图是统计学中最常用的统计报告图之一，能够对数据分布进行精确且直观的图形表示。
 
 \vspace{0.01\linewidth}
-对数据集特征分布的探索，一种图片能够反映的信息是有限的，如概率核密度图仅统计分布信息，无法表示具体的数值。为更加全面地呈现出Adult数据集中所有属性（包括特征和分类目标）的分布，我作出每个属性的直方图，并将其排列在一起。限于篇幅，我将其放在附录 \ref{apd:attri}中\footnote{更多特征分布图可参见附录 \ref{apd:dis_detail}}。
+对数据集特征分布的探索，一种统计图能够反映的信息是有限的，如概率核密度图仅统计分布信息，无法表示具体的数值。为更加全面地呈现出Adult数据集中所有属性（包括特征和分类目标）的分布，我作出每个属性的直方图，并将其排列在一起以方便对照。限于篇幅，我将其放在附录 \ref{apd:attri}中\footnote{更多特征分布图可参见附录 \ref{apd:dis_detail}}。
 
 \subsection{Adult数据集中各特征的相关性}
 \label{sec:cof}
 
-探索完Adult数据集中各特征的分布后，我开始探索特征之间的相关性。我选择相关系数作为相关性的判断标准。为方便计算，我将类别型特征数字化，即用0至$n-1$（n表示该特征对应的类数）表示各类，14个特征相关性的直观表示可参见图 \ref{fig:heat}。
+探索完Adult数据集中各特征的分布后，我开始探索特征之间的相关性。我选择相关系数（公式 \ref{eqn:cof}）作为相关性的判断标准。为方便计算，我将类别型特征数值化，即用0至$n-1$（n表示该特征对应的类数）表示各类，14个特征相关性的直观表示可参见图 \ref{fig:heat}。
+
+\begin{equation}
+	\label{eqn:cof}
+	r(X, Y) = \dfrac{Cov(X, Y)}{\sqrt{Var[X]Var[Y]}}
+\end{equation}
+
+$Cov$与$Var$分别表示协方差矩阵与方差。
 
 \begin{figure}[H]
 	\centering
@@ -310,7 +322,7 @@ Adult数据集中的类别型特征包含：workclass, education, marital-status
 	\label{fig:heat}
 \end{figure}
 
-从上图中容易发现，半数特征之间都有着一定的相关性，特别的是，education和education-num特征之间有着较强的相关性。从常识分析，有着相同教育程度的成年人也应具有相同的受教育时间，为验证这一猜测，我打印出100个实例的education和education-num，部分结果如表 \ref{tab:guess}。
+从上图中容易发现，半数特征之间都有着一定的相关性。较特别的是，education和education-num特征之间有着较强的相关性。从常识分析，有着相同教育程度的成年人也应具有相同的受教育时间，为验证这一猜测，我打印出100个实例的education和education-num，部分结果如表 \ref{tab:guess}。
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
@@ -318,7 +330,7 @@ Adult数据集中的类别型特征包含：workclass, education, marital-status
 	\label{tab:guess}
 	\centering
 	
-	\begin{tabular}{c||c|c}
+	\begin{tabular}{c|c|c}
 		\centering
 		 & education & education-num \\
 		\hline
@@ -348,7 +360,7 @@ Adult数据集中的类别型特征包含：workclass, education, marital-status
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.85\linewidth]{img/cof_heat_anno.png}
+	\includegraphics[width=0.925\linewidth]{img/cof_heat_anno.png}
 	\caption{Adult数据集特征相关系数热度图（含相关系数值）}
 	\label{fig:heat2}
 \end{figure}
@@ -405,11 +417,14 @@ Adult数据集中的类别型特征包含：workclass, education, marital-status
 对数据集的划分一般有两种方法：一是直接按照一定的比例将数据划分为训练集和测试集（需保证训练集和测试集中的类分布大致相同）；二是使用分层交叉验证，将数据随机等分为$k$个不相交子集，执行$k$次训练与测试，根据$k$次迭代的平均表现评价模型的性能。
 
 \vspace{0.01\linewidth}
-本次作业中，为使评价结果更加精确，我主要使用分层交叉验证方法划分数据集，只在训练基线分类模型（baseline）时使用直接划分训练集和测试集的方法。
+本次作业中，为使评价结果更加鲁棒，我主要使用分层交叉验证方法划分数据集，只在训练基线分类模型（baseline）时使用直接划分训练集和测试集的方法。
 
 \subsection{构造分类模型}
 
-在机器学习领域，用于分类的算法种类繁多，基本的分类算法包括了逻辑回归（Logistic Regression）、K近邻（KNN）、决策树、支持向量机（SVM）以及多层感知机（MLP）等。考虑到Adult数据集的特征维数并不高，且分类目标简单（二分类），我在本次作业中选择使用决策树、SVM以及MLP三种分类模型（图 \ref{fig:model-init}）。除使用单独模型进行分类外，我尝试应用了模型集成的方法以提高相应的分类效果。
+在机器学习领域，用于分类的算法种类繁多，基本的分类算法包括了逻辑回归（Logistic Regression）、朴素贝叶斯（Naive Bayes）、K近邻（KNN）、决策树（Decision Tree）、支持向量机（SVM）以及多层感知机（MLP）等。
+
+\vspace{0.01\linewidth}
+考虑到Adult数据集的特征维数并不高，且分类目标简单（二分类），我在本次作业中选择使用决策树、SVM以及MLP三种分类模型（图 \ref{fig:model-init}）。除使用单独模型进行分类外，我尝试应用了模型集成的方法以提高相应的分类效果。
 
 \begin{figure}[H]
 	\centering
@@ -439,21 +454,28 @@ Adult数据集中的类别型特征包含：workclass, education, marital-status
 其中$\mu$和$\sigma$分别代表原数据的均值和标准差。
 
 \vspace{0.01\linewidth}
-对于分类问题的数值型特征，经Z-score标准化后符合标准正态分布，即$N(0, 1)$，可以有效避免因数值过大导致的模型偏差，并能够加快模型的学习速率，这些优势在SVM和MLP等模型中表现得更加明显。
+对于分类问题的数值型特征，经Z-score标准化后符合标准正态分布，即$N(0, 1)$，可以有效避免因数值过大导致的模型偏差，并能够加快模型的学习速率，这些优势在MLP模型中表现得更加明显。
 
 \vspace{0.01\linewidth}
-除此之外，\ref{sec:num_feature}小节的结果表明，Adult数据集里的数值型特征大多近似服从正态分布，在这个条件下，Z-score标准化能够取得更良好的效果。若特征的分布与正态分布相差较大，则Z-score标准化反而会破坏原数据的分布，造成额外的偏差。
+除此之外，\ref{sec:num_feature}小节的结果表明，Adult数据集里的数值型特征大多近似服从正态分布，在这个条件下，Z-score标准化能够取得更良好的效果。若特征的分布与正态分布相差较大，则Z-score标准化反而会造成额外的偏差。
 
 \subsubsection{向量化}
 
-Adult数据集中存在8个类别型特征，且除教育程度外，这些特征的类别之间并无大小关系，如性别的男女之间不存在大小的区别。为方便模型的训练，我将教育程度（education）这个冗余的特征直接删除，将其余类别型特征从字符串转化为one-hot向量。经过向量化处理后的数据，每个实例包含88维特征。
+Adult数据集中存在8个类别型特征，且除教育程度外，这些特征的类别之间并无大小关系，如性别的男女之间不存在大小的区别。为方便模型的训练，我将教育程度（education）这个冗余的特征直接删除，将其余类别型特征从字符串转化为one-hot向量（如图 \ref{fig:onehot}）。经过向量化处理后的数据，每个实例包含88维特征。
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.35\linewidth]{img/onehot.png}
+	\caption{One-hot向量}
+	\label{fig:onehot}
+\end{figure}
 
 \vspace{0.01\linewidth}
 类似于 \ref{sec:cof} 小节，我同样作出各特征之间相关性的热度图，从图 \ref{fig:heat3}中可以清晰地分辨出特征的相关性：大部分相关性集中于图的左上角，而国籍特征较为独立（含具体相关系数的热度图见附录 \ref{apd:heat}）。
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.85\linewidth]{img/cof_heat2.png}
+	\includegraphics[width=0.925\linewidth]{img/cof_heat2.png}
 	\caption{Adult数据集特征向量化后的相关系数热度图}
 	\label{fig:heat3}
 \end{figure}
@@ -467,11 +489,12 @@ Adult数据集的分类目标为居民收入，分为两类：<=50K\$以及>50K\
 
 对于分类问题，评价分类性能的标准一般有3个：精确度（precision），召回率（recall）以及f1-score。其在二分类问题中的定义如下。
 
-假设二分类问题的结果为：
-
+\vspace{0.01\linewidth}
+假设某二分类问题的结果为：
 
 \begin{table}[H]
 	\centering
+	\renewcommand\arraystretch{1.35}
 	\begin{tabular}{c|c|c}
 		& 正类 &  负类 \\
 		\hline
@@ -503,8 +526,9 @@ Adult数据集的分类目标为居民收入，分为两类：<=50K\$以及>50K\
 
 \begin{table}[H]
 	\centering
+	\renewcommand\arraystretch{1.35}
 	\begin{tabular}{c|c}
-		模型（算法） & 错误率（1-精确度） \\
+		模型（算法） & 错误率（1 - 精确度） \\
 		\hline
 		\hline
 	
@@ -607,10 +631,10 @@ Adult数据集的分类目标为居民收入，分为两类：<=50K\$以及>50K\
 经过网格搜索后，我得到的最佳决策树模型的参数为：\{criterion: entropy, splitter: best, max\_features: 总特征数, max\_depth: 9, presort: True\}；该模型在测试集上的平均f1-score为0.83。
 
 \vspace{0.01\linewidth}
-对于经过Z-score标准化的Adult数据集，网格搜索的结果与未标准化时并没有差别。
+对于经过Z-score标准化的Adult数据集，网格搜索的结果与未标准化时并没有差别，即最佳参数和相应f1-score均相同。
 
 \vspace{0.01\linewidth}
-最终通过网格搜索筛选出的最佳决策树模型的混淆矩阵及模型本身部分可视化分别见图 \ref{fig:cm}， \ref{fig:dt-best-vis}。
+最终通过网格搜索筛选出的最佳决策树模型的混淆矩阵及模型本身部分可视化可分别参见图 \ref{fig:cm}， \ref{fig:dt-best-vis}。
 
 \begin{figure}[H]
 	\centering
@@ -637,7 +661,7 @@ Adult数据集的分类目标为居民收入，分为两类：<=50K\$以及>50K\
 
 \subsubsection{核函数}
 
-原始的SVM属于线性分类器，核函数的引入将SVM的应用推广到了非线性数据上。不同的核函数所需要的计算量和性能均有较大差别，我在Adult数据集上尝试应用四种常用的核函数：rbf核函数，多项式核函数（poly kernel），sigmoid核函数以及线性核函数，各模型相应的表现见图 \ref{fig:svm-kernel1} 及图 \ref{fig:svm-kernel2}。
+原始的SVM属于线性分类器，核函数的引入将SVM的应用推广到了非线性数据上。不同的核函数所需要的计算量和性能均有较大差别，我在Adult数据集上尝试应用四种常用的核函数：rbf核函数，多项式核函数（poly kernel），sigmoid核函数以及线性核函数，各模型相应的表现见图 \ref{fig:svm-kernel1}。
 
 \begin{figure}[H]
 	\centering
@@ -658,7 +682,13 @@ Adult数据集的分类目标为居民收入，分为两类：<=50K\$以及>50K\
 \end{figure}
 
 \vspace{0.01\linewidth}
-从上图中容易看出，对于未经Z-score标准化后的数据，SVM模型在使用rbf核时分类效果较佳，而其余核函数的分类效果极差，甚至低于空模型；而对于Z-score标准化后的数据，linear和sigmoid核函数的表现略有提高，但训练均极不稳定，向空模型的方向收敛。因此之后的实验均基于未Z-score标准化后的数据使用rbf核进行。
+从上图中容易看出，对于未经Z-score标准化后的数据，SVM模型在使用rbf核时分类效果较佳，而其余核函数的分类效果极差，甚至低于空模型；而对于Z-score标准化后的数据，linear和sigmoid核函数的表现略有提高，但训练均极不稳定，向空模型的方向收敛。
+
+\vspace{0.01\linewidth}
+除此之外，SVM在未标准化的数据上虽然收敛速度较快，经过不到1,000次迭代即可收敛，但其核函数的运算需要花费较多时间，因此SVM模型在Adult数据集上训练所需的时间远远超过决策树和MLP。
+
+\vspace{0.01\linewidth}
+根据本节实验的结果，之后的实验均基于未Z-score标准化后的数据使用rbf核进行。
 
 \subsubsection{惩罚系数}
 \label{sec:penalty}
@@ -672,6 +702,7 @@ SVM在面对轻微的线性不可分数据时，可以通过引入惩罚系数$C
 	L = \dfrac{1}{2}w^Tw+C\sum\limits_{n=1}^{N}\xi_n,
 \end{equation}
 
+\vspace{0.01\linewidth}
 适当的惩罚系数可以极大地改善SVM的分类性能。我使用类似于网格搜索的方式，遍历了各数量级的$C$取值，相应的结果可参见图 \ref{fig:penalty}。
 
 \begin{figure}[H]
@@ -681,7 +712,7 @@ SVM在面对轻微的线性不可分数据时，可以通过引入惩罚系数$C
 	\label{fig:penalty}
 \end{figure}
 
-上图结果表明，过低的惩罚系数$C$对SVM在Adult数据集上的分类性能没有改善作用，0.6-1.0之间的$C$能够略微改善SVM的性能，而过大的$C$会让SVM趋于过拟合，泛化能力逐渐降低。
+上图结果表明，过低的惩罚系数$C$对SVM在Adult数据集上的分类性能并没有改善作用，0.6-1.0之间的$C$能够略微改善SVM的性能，而过大的$C$会让SVM趋于过拟合，泛化能力逐渐降低。
 
 \subsubsection{Gamma ($\gamma$)}
 
@@ -694,7 +725,7 @@ rbf核的数学表达形式为：
 $\gamma$是rbf核函数的一个重要参数，在sklearn中，其默认值为：$\dfrac{1}{\mbox{特征总维数}}$，在Adult数据集上即为$1/104=0.096$。我利用类似网格搜索的方式探索了各数量级下的$\gamma$对应的SVM模型的分类表现（表 \ref{tab:gammma}）。
 
 \begin{table}[H]
-	\renewcommand\arraystretch{1.35}
+	\renewcommand\arraystretch{1.25}
 	\caption{不同数量级的$\gamma$对应的SVM模型的分类表现}
 	\label{tab:gammma}
 	\centering
@@ -719,15 +750,15 @@ $\gamma$是rbf核函数的一个重要参数，在sklearn中，其默认值为�
 	\end{tabular}
 \end{table}
 
-上表结果说明，
+上表结果说明，$\gamma$取值为6 $\times 10^{-6}$时，SVM的分类性能较佳，而$\gamma$取值过大时，SVM将出现过拟合现象。
 
 \subsubsection{小结}
 
-经过以上的探索，我得到了SVM模型在Adult数据集分类上表现较佳的一组参数：\{核函数：rbf，惩罚参数：1.0，$\gamma$：xxx，是否进行Z-score标准化：否\}，相应的SVM模型在测试集上的f1-score为：xxx。
+经过以上的探索，我得到了SVM模型在Adult数据集分类上表现较佳的一组参数：\{核函数：rbf，惩罚参数：1.0，$\gamma$：6 $\times 10^{-6}$，是否进行Z-score标准化：否\}，相应的SVM模型在测试集上的f1-score为：0.84。
 
 \subsection{MLP}
 
-从MLP基线模型（表 \ref{tab:baselines1}， \ref{tab:baselines2}）的性能分析，MLP的性能相比决策树模型稍逊。我认为较大的原因在于MLP模型的默认参数并不适合Adult数据集，因此，在本节中，我将对MLP中不同的组件（激活函数，优化算法等）对其在Adult数据集上分类性能的影响进行探究。
+从MLP基线模型（表 \ref{tab:baselines1}， \ref{tab:baselines2}）的性能分析，MLP的性能相比决策树模型稍逊。我认为较大的原因在于MLP模型的默认参数并不适合Adult数据集，因此，在本节中，我将 从MLP中不同的组件（激活函数，优化算法等）入手，探究MLP在Adult数据集上的分类性能。
 
 \subsubsection{激活函数}
 
@@ -751,11 +782,11 @@ $\gamma$是rbf核函数的一个重要参数，在sklearn中，其默认值为�
 	\label{fig:mlp-activate1}
 \end{figure}
 
-上图结果表明，相比于sigmoid和tanh，relu激活函数在Adult数据集下的分类表现更佳。同时，MLP在经过Z-score标准化后的Adult数据集上能取得更好的分类效果，不仅提高了整体的分类f1-score，更有效地避免了使用relu激活函数时进入局部最小值的情况。因此，之后MLP部分的实验均基于Z-score标准化后的Adult数据集进行。
+上图结果表明，相比于sigmoid和tanh，relu激活函数在Adult数据集下的分类表现更佳。同时，MLP在经过Z-score标准化后的Adult数据集上能取得更好的分类效果，不仅提高了整体的分类f1-score，更有效地改善了梯度分布，避免了使用relu激活函数时进入局部最小值的情况。因此，之后MLP部分的实验均基于Z-score标准化后的Adult数据集进行。
 
 \subsubsection{优化算法}
 
-优化算法作用于MLP更新参数时，对于同样的梯度分布，不同的优化算法的优化路径存在着极大的差别，图 \ref{fig:optim-ref} 形象地说明了这一点。因此，探究不同优化算法下MLP的分类性能是很有必要的，详细结果可参见图 \ref{fig:optim1}。
+优化算法作用于MLP更新参数时。对于同样的梯度分布，不同的优化算法的优化路径存在着极大的差别，图 \ref{fig:optim-ref} 形象地说明了这一点。因此，探究不同优化算法下MLP的分类性能是很有必要的，详细结果可参见图 \ref{fig:optim1}。
 
 \begin{figure}[H]
 	\centering
@@ -779,11 +810,11 @@ $\gamma$是rbf核函数的一个重要参数，在sklearn中，其默认值为�
 根据上图结果，adam \cite{adam}、lbfgs与sgd三种优化算法均能使MLP在Adult数据集上取得较佳的分类表现，但adam的效果明显优于lbfgs与sgd，为探究其中的原因，我查阅了相关资料和原论文，认为图中反映出adam算法的巨大优势有着其坚实的理论依据。
 
 \vspace{0.01\linewidth}
-作为最常用的优化算法，adam能够利用较少的计算资源有效处理高噪声或稀疏的梯度分布，除此之外，其在优化的过程中能够通过计算梯度的一阶矩估计和二阶矩估计，为不同的参数设计独立的自适应性学习率。
+作为最常用的优化算法，adam能够利用较少的计算资源有效处理高噪声或稀疏的梯度分布，除此之外，其在优化的过程中能够通过计算梯度的一阶矩估计和二阶矩估计，为不同的参数设计独立的自适应性学习率，避免MLP在训练后期因过大的学习率进入局部最小值。
 
 \subsubsection{学习率}
 
-在MLP的参数更新过程中，学习率决定了参数更新的速率，过大的学习率会导致模型进入局部最小值，而学习率过小则会减缓模型的学习速度。在本节中，我采用类似于 \ref{sec:penalty}小节的方式，对基于adam优化算法的MLP模型在不同学习率下的分类效果进行探索（图 \ref{fig:lr}），由于adam算法能够自适应地改变学习率，此处的学习率即指\textbf{初始学习率}。
+在MLP的参数更新过程中，学习率决定了参数更新的速率，过大的学习率会导致模型进入局部最小值，而学习率过小则会减缓模型的学习速度，带来额外的时间开销。在本节中，我采用类似于 \ref{sec:penalty}小节的方式，对基于adam优化算法的MLP模型在不同学习率下的分类效果进行探索（图 \ref{fig:lr}），由于adam算法能够自适应地改变学习率，此处的学习率即指\textbf{初始学习率}。
 
 \begin{figure}[H]
 	\centering
@@ -796,7 +827,7 @@ $\gamma$是rbf核函数的一个重要参数，在sklearn中，其默认值为�
 
 \subsubsection{小结}
 
-经过以上的探索，我得到了MLP模型在Adult数据集分类上表现较佳的一组参数：\{激活函数：relu，优化算法：adam，学习率：0.03，是否进行Z-score标准化：是\}，相应的MLP模型在测试集上的f1-score为：xxx。
+经过以上的探索，我得到了MLP模型在Adult数据集分类上表现较佳的一组参数：\{激活函数：relu，优化算法：adam，学习率：0.03，是否进行Z-score标准化：是\}，相应的MLP模型在测试集上的f1-score为：0.85。
 
 \subsection{模型集成}
 
@@ -840,17 +871,17 @@ $\gamma$是rbf核函数的一个重要参数，在sklearn中，其默认值为�
 	\label{fig:model-plus2}
 \end{figure}
 
-\subsection{三种分类模型效果对比}
+\subsection{分类模型效果对比}
 \label{sec:compare}
 
-通过第 \ref{sec:model-single}小节的实验，我对决策树、SVM和MLP三种模型在Adult数据集上的分类效果有了大致的了解。在本节中，我将探索三种分类模型在不同条件下对Adult数据集的分类效果。
+通过第 \ref{sec:model-single}小节的实验，我对决策树、SVM和MLP三种模型以及集成决策树模型在Adult数据集上的分类效果有了大致的了解。在本节中，我将探索这些分类模型在不同条件下对Adult数据集的分类效果。
 
 \subsubsection{Z-score标准化}
 
-在前文的探索过程中，我已分别得到了三种模型在Z-score标准化前后的数据上的分类表现，在本节中我将这些结果进行一个直观的表示，方便观察在Adult数据集下，Z-score标准化对于三种模型的适合程度，如表 \ref{tab:norm}。
+在前文的探索过程中，我已分别得到了这些模型在Z-score标准化前后的数据上的分类表现，在本节中我将这些结果进行一个直观的表示，方便观察在Adult数据集下，Z-score标准化对于这些模型的适合程度，如表 \ref{tab:norm}。
 
 \begin{table}[H]
-	\renewcommand\arraystretch{1.35}
+	\renewcommand\arraystretch{1.5}
 	\caption{三种分类模型在Z-score标准化前后的数据上的分类表现}
 	\label{tab:norm}
 	\centering
@@ -863,10 +894,13 @@ $\gamma$是rbf核函数的一个重要参数，在sklearn中，其默认值为�
 		
 		决策树 & 0.83 & 0.83 \\
 		SVM & & \\
-		MLP & & \\	
+		MLP & & \\
+		bagging集成决策树 & 0.84 & 0.84 \\
 
 	\end{tabular}
 \end{table}
+
+结果表明，对Adult数据集进行Z-score标准化，能够改善MLP的分类效果；对决策树模型的分类效果没有明显的影响；但会降低SVM的分类效果。
 
 \subsubsection{PCA}
 
@@ -885,9 +919,10 @@ $\gamma$是rbf核函数的一个重要参数，在sklearn中，其默认值为�
 		\hline
 		
 		协方差总和 & 0.995091 & 0.999985 & 0.999999 \\
-		决策树 & 0.83 & 0.83 & \\
-		SVM & & & \\
-		MLP & & & \\
+		决策树 & 0.83 & 0.83 & 0.83 \\
+		SVM & 0.84 & 0.84 & 0.84 \\
+		MLP & 0.85 & 0.85 & 0.85 \\
+		bagging集成决策树 & 0.84 & 0.84 & 0.84 \\
 
 	\end{tabular}
 \end{table}
@@ -911,7 +946,7 @@ $\gamma$是rbf核函数的一个重要参数，在sklearn中，其默认值为�
 
 \subsubsection{最佳性能对比}
 
-根据 \ref{sec:model-single} 与 \ref{sec:compare}小节的实验结果，三种模型均存在一个最佳的f1-score值，一定程度上代表其在Adult数据集上分类能力的极限（由于模型的参数空间极其巨大，无法保证该值是否为全局最优，但在一定程度上能反映该模型的最佳性能），对比参见表 \ref{tab:final_compare}。
+根据第 \ref{sec:model-single} 与 \ref{sec:compare}小节的实验结果，三种模型均存在一个最佳的f1-score值，一定程度上代表其在Adult数据集上分类能力的极限（由于模型的参数空间极其巨大，无法保证该值是否为全局最优，但在一定程度上能反映该模型的最佳性能），对比参见表 \ref{tab:final_compare}。
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
@@ -926,8 +961,9 @@ $\gamma$是rbf核函数的一个重要参数，在sklearn中，其默认值为�
 		\hline
 		
 		决策树 & 0.85 & 0.83 \\
-		SVM & & \\
-		MLP & & \\	
+		SVM & 0.87 & 0.84 \\
+		MLP & 0.86 & 0.85 \\
+		bagging集成决策树 & 0.97 & 0.84 \\
 
 	\end{tabular}
 \end{table}
@@ -979,14 +1015,20 @@ $\gamma$是rbf核函数的一个重要参数，在sklearn中，其默认值为�
 Adult数据集是一个中等规模，存在少部分缺失值的二分类数据集，共48842个实例（3620个包含缺失值），每个实例包含14个特征，其中8个为类别型特征，6个为数值型特征。各类别型特征的分布差异较大，数值型特征的分布近似于正态分布。
 
 \vspace{0.01\linewidth}
-对Adult数据集特征的相关性分析表明，半数特征之间都存在着一定的相关性，同时数据集中存在冗余的特征（education和education-num），也存在和其余特征几乎完全独立的特征（fnlwgt）。
+对Adult数据集特征的相关性分析表明，半数特征之间都存在着一定的相关性，同时数据集中存在大量冗余的特征，较为明显的有education和education-num，其余冗余的特征经过PCA降维后可提取出2-3维的有效特征。相关性分析同时表明，数据集中存在和其余特征几乎完全独立的特征（fnlwgt）。
 
 \vspace{0.01\linewidth}
-我使用了决策树、SVM和MLP三种分类模型对Adult数据集进行分类，并根据f1-score为分类效果衡量标准，对模型的参数进行微调。结果表明，xxx的分类效果最佳，最高的f1-score可达到xxx，而xxx模型所消耗的时间最少，平均不到xxx秒。除使用单独模型进行分类外，我还对决策树模型进行了模型集成（bagging和boosting），集成后的模型能够稍微提高分类性能。
+我使用了决策树、SVM和MLP三种分类模型对Adult数据集进行分类，并根据f1-score为分类效果衡量标准，对模型的参数进行微调。结果表明，MLP的分类效果最佳，在测试集上最高的平均f1-score可达到0.85，而决策树模型所消耗的时间最少，平均不到0.4秒。
 
-\section{致谢}
+\vspace{0.01\linewidth}
+除使用单独模型进行分类外，我还对决策树模型进行了模型集成（bagging和boosting），经过bagging和boosting（SAMME）集成后的模型能够稍微提高分类性能，但仍无法超过MLP模型。通过boosting（SAMME.R）集成的决策树模型出现过拟合情况。
 
-一个学期转眼即过，这门课程也接近尾声。我认为这门课和我以前上的绝大多数课都不同，陆老师在课堂上不仅有理论上简明易懂的讲解，更用大量的实例向我们展示了如何将这些理论运用到实际中去，这正是以往许多课程没有提供的。经过这一学期对这门课程的学习，我不知不觉地在应用知识中提升了对理论知识的理解，同时也感到自己的工程能力有了提升。
+\section{课程感想 \& 致谢}
+
+一个学期转眼即过，这门课程也接近尾声。我认为这门课和我以前上的绝大多数课都不同，陆老师在课堂上不仅有理论上简明易懂的讲解，更用大量的实例向我们展示了如何将这些理论运用到实际中去，这正是以往许多课程没有提供的。
+
+\vspace{0.01\linewidth}
+经过这一学期对这门课程的学习，我不知不觉地在应用知识中提升了对理论知识的理解，同时也感到自己的工程能力有了提升。我感觉到身边有些同学和我一样，希望能够在校时就对工业界有直观的了解，因此希望陆老师可以在以后的教学中添加一些项目实例，这样对我们的帮助应该会更大。
 
 \vspace{0.01\linewidth}
 最后，我要感谢陆老师在课堂上的精妙讲解和实例示范，感谢陆老师和助教在这门课程上对我的帮助！

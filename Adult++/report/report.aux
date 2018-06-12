@@ -25,7 +25,7 @@
 \newlabel{tab:basic-info}{{1}{1}{Adult数据集的基本信息\relax }{table.caption.1}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Adult数据集的基本信息\relax }}{1}{table.caption.2}}
 \newlabel{tab:feature-info}{{2}{1}{Adult数据集的基本信息\relax }{table.caption.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}数据预处理}{2}{subsection.2.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}数据预处理（检查和清洗）}{2}{subsection.2.2}}
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Adult数据集缺失值分布\relax }}{2}{table.caption.3}}
 \newlabel{tab:nan}{{3}{2}{Adult数据集缺失值分布\relax }{table.caption.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Adult数据集中各特征的分布}{2}{subsection.2.3}}
@@ -33,6 +33,7 @@
 \newlabel{sec:num_feature}{{2.3.1}{3}{数值型特征的分布}{subsubsection.2.3.1}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Adult数据集数值型特征的数字特征\relax }}{3}{table.caption.4}}
 \newlabel{tab:num_feature_avg}{{4}{3}{Adult数据集数值型特征的数字特征\relax }{table.caption.4}{}}
+\newlabel{eqn:gauss}{{1}{3}{数值型特征的分布}{equation.2.1}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Adult数据集数值型特征概率核密度分布\relax }}{3}{figure.caption.5}}
 \newlabel{fig:num_feature_dis}{{1}{3}{Adult数据集数值型特征概率核密度分布\relax }{figure.caption.5}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces capital-in和capital-out的分布直方图\relax }}{4}{figure.caption.6}}
@@ -49,6 +50,7 @@
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.3}所有属性的分布直方图}{5}{subsubsection.2.3.3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Adult数据集中各特征的相关性}{5}{subsection.2.4}}
 \newlabel{sec:cof}{{2.4}{5}{Adult数据集中各特征的相关性}{subsection.2.4}{}}
+\newlabel{eqn:cof}{{2}{5}{Adult数据集中各特征的相关性}{equation.2.2}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Adult数据集特征相关系数热度图\relax }}{6}{figure.caption.9}}
 \newlabel{fig:heat}{{5}{6}{Adult数据集特征相关系数热度图\relax }{figure.caption.9}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces 部分实例的education和education-num\relax }}{6}{table.caption.10}}
@@ -63,8 +65,10 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}数据预处理}{8}{subsection.3.3}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Z-score标准化（规范化）}{8}{subsubsection.3.3.1}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}向量化}{8}{subsubsection.3.3.2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Adult数据集特征向量化后的相关系数热度图\relax }}{9}{figure.caption.13}}
-\newlabel{fig:heat3}{{8}{9}{Adult数据集特征向量化后的相关系数热度图\relax }{figure.caption.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces One-hot向量\relax }}{8}{figure.caption.13}}
+\newlabel{fig:onehot}{{8}{8}{One-hot向量\relax }{figure.caption.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Adult数据集特征向量化后的相关系数热度图\relax }}{9}{figure.caption.14}}
+\newlabel{fig:heat3}{{9}{9}{Adult数据集特征向量化后的相关系数热度图\relax }{figure.caption.14}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}分类目标修正}{9}{subsubsection.3.3.3}}
 \newlabel{sec:fix-target}{{3.3.3}{9}{分类目标修正}{subsubsection.3.3.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4}分类性能评价标准}{9}{subsection.3.4}}
@@ -73,67 +77,67 @@
 \@writefile{toc}{\contentsline {section}{\numberline {4}各分类模型的预测结果比较}{10}{section.4}}
 \newlabel{sec:model-single}{{4}{10}{各分类模型的预测结果比较}{section.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}现有模型效果调查}{10}{subsection.4.1}}
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces 传统分类模型在Adult数据集上的分类效果\relax }}{10}{table.caption.15}}
-\newlabel{tab:bench}{{6}{10}{传统分类模型在Adult数据集上的分类效果\relax }{table.caption.15}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}基线模型（baseline）}{10}{subsection.4.2}}
-\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces 基线模型在Adult数据集上的性能（0.8-0.2比例的训练集-测试集分割）\relax }}{11}{table.caption.16}}
-\newlabel{tab:baselines1}{{7}{11}{基线模型在Adult数据集上的性能（0.8-0.2比例的训练集-测试集分割）\relax }{table.caption.16}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces 基线模型在Adult数据集上的性能（5折分层交叉验证）\relax }}{11}{table.caption.17}}
-\newlabel{tab:baselines2}{{8}{11}{基线模型在Adult数据集上的性能（5折分层交叉验证）\relax }{table.caption.17}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces 传统分类模型在Adult数据集上的分类效果\relax }}{10}{table.caption.16}}
+\newlabel{tab:bench}{{6}{10}{传统分类模型在Adult数据集上的分类效果\relax }{table.caption.16}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}基线模型（baseline）}{11}{subsection.4.2}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces 基线模型在Adult数据集上的性能（0.8-0.2比例的训练集-测试集分割）\relax }}{11}{table.caption.17}}
+\newlabel{tab:baselines1}{{7}{11}{基线模型在Adult数据集上的性能（0.8-0.2比例的训练集-测试集分割）\relax }{table.caption.17}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces 基线模型在Adult数据集上的性能（5折分层交叉验证）\relax }}{11}{table.caption.18}}
+\newlabel{tab:baselines2}{{8}{11}{基线模型在Adult数据集上的性能（5折分层交叉验证）\relax }{table.caption.18}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}决策树模型}{11}{subsection.4.3}}
-\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces 对决策树模型网格搜索的参数及范围\relax }}{11}{table.caption.18}}
-\newlabel{tab:dt-gs-para}{{9}{11}{对决策树模型网格搜索的参数及范围\relax }{table.caption.18}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces 最佳决策树模型的混淆矩阵\relax }}{12}{figure.caption.19}}
-\newlabel{fig:cm}{{9}{12}{最佳决策树模型的混淆矩阵\relax }{figure.caption.19}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces 最佳决策树模型的部分可视化\relax }}{12}{figure.caption.20}}
-\newlabel{fig:dt-best-vis}{{10}{12}{最佳决策树模型的部分可视化\relax }{figure.caption.20}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces 对决策树模型网格搜索的参数及范围\relax }}{11}{table.caption.19}}
+\newlabel{tab:dt-gs-para}{{9}{11}{对决策树模型网格搜索的参数及范围\relax }{table.caption.19}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces 最佳决策树模型的混淆矩阵\relax }}{12}{figure.caption.20}}
+\newlabel{fig:cm}{{10}{12}{最佳决策树模型的混淆矩阵\relax }{figure.caption.20}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces 最佳决策树模型的部分可视化\relax }}{12}{figure.caption.21}}
+\newlabel{fig:dt-best-vis}{{11}{12}{最佳决策树模型的部分可视化\relax }{figure.caption.21}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.4}SVM}{12}{subsection.4.4}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.1}核函数}{12}{subsubsection.4.4.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces 不同核函数下SVM模型的分类表现\relax }}{13}{figure.caption.21}}
-\newlabel{fig:svm-kernel1}{{11}{13}{不同核函数下SVM模型的分类表现\relax }{figure.caption.21}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces 不同核函数下SVM模型的分类表现\relax }}{13}{figure.caption.22}}
+\newlabel{fig:svm-kernel1}{{12}{13}{不同核函数下SVM模型的分类表现\relax }{figure.caption.22}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.2}惩罚系数}{13}{subsubsection.4.4.2}}
 \newlabel{sec:penalty}{{4.4.2}{13}{惩罚系数}{subsubsection.4.4.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces 不同惩罚系数下SVM模型的分类表现\relax }}{14}{figure.caption.22}}
-\newlabel{fig:penalty}{{12}{14}{不同惩罚系数下SVM模型的分类表现\relax }{figure.caption.22}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces 不同惩罚系数下SVM模型的分类表现\relax }}{14}{figure.caption.23}}
+\newlabel{fig:penalty}{{13}{14}{不同惩罚系数下SVM模型的分类表现\relax }{figure.caption.23}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.3}Gamma ($\gamma $)}{14}{subsubsection.4.4.3}}
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces 不同数量级的$\gamma $对应的SVM模型的分类表现\relax }}{14}{table.caption.24}}
+\newlabel{tab:gammma}{{10}{14}{不同数量级的$\gamma $对应的SVM模型的分类表现\relax }{table.caption.24}{}}
 \citation{relu}
-\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces 不同数量级的$\gamma $对应的SVM模型的分类表现\relax }}{15}{table.caption.23}}
-\newlabel{tab:gammma}{{10}{15}{不同数量级的$\gamma $对应的SVM模型的分类表现\relax }{table.caption.23}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.4}小结}{15}{subsubsection.4.4.4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.5}MLP}{15}{subsection.4.5}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.1}激活函数}{15}{subsubsection.4.5.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces 不同激活函数下MLP模型的分类表现\relax }}{15}{figure.caption.25}}
+\newlabel{fig:mlp-activate1}{{14}{15}{不同激活函数下MLP模型的分类表现\relax }{figure.caption.25}{}}
 \citation{optim_example}
 \citation{optim_example}
-\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces 不同激活函数下MLP模型的分类表现\relax }}{16}{figure.caption.24}}
-\newlabel{fig:mlp-activate1}{{13}{16}{不同激活函数下MLP模型的分类表现\relax }{figure.caption.24}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.2}优化算法}{16}{subsubsection.4.5.2}}
 \citation{adam}
-\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces 不同优化算法的优化效果对比 \cite  {optim_example}\relax }}{17}{figure.caption.25}}
-\newlabel{fig:optim-ref}{{14}{17}{不同优化算法的优化效果对比 \cite {optim_example}\relax }{figure.caption.25}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces 不同优化算法下MLP模型的分类表现\relax }}{17}{figure.caption.26}}
-\newlabel{fig:optim1}{{15}{17}{不同优化算法下MLP模型的分类表现\relax }{figure.caption.26}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.3}学习率}{17}{subsubsection.4.5.3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces 不同初始学习率下MLP模型的分类表现\relax }}{18}{figure.caption.27}}
-\newlabel{fig:lr}{{16}{18}{不同初始学习率下MLP模型的分类表现\relax }{figure.caption.27}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.4}小结}{18}{subsubsection.4.5.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}模型集成}{18}{subsection.4.6}}
-\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces 集成后的决策树模型的分类表现\relax }}{18}{figure.caption.28}}
-\newlabel{fig:model-plus}{{17}{18}{集成后的决策树模型的分类表现\relax }{figure.caption.28}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces 三种集成方式下子模型提取的特征（或权重与错误率关系）可视化\relax }}{19}{figure.caption.29}}
-\newlabel{fig:model-plus2}{{18}{19}{三种集成方式下子模型提取的特征（或权重与错误率关系）可视化\relax }{figure.caption.29}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}三种分类模型效果对比}{19}{subsection.4.7}}
-\newlabel{sec:compare}{{4.7}{19}{三种分类模型效果对比}{subsection.4.7}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.7.1}Z-score标准化}{19}{subsubsection.4.7.1}}
-\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces 三种分类模型在Z-score标准化前后的数据上的分类表现\relax }}{19}{table.caption.30}}
-\newlabel{tab:norm}{{11}{19}{三种分类模型在Z-score标准化前后的数据上的分类表现\relax }{table.caption.30}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.7.2}PCA}{19}{subsubsection.4.7.2}}
-\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces 决策树、SVM和MLP在降维后测试集上的分类表现\relax }}{20}{table.caption.31}}
-\newlabel{tab:pca1}{{12}{20}{决策树、SVM和MLP在降维后测试集上的分类表现\relax }{table.caption.31}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.7.3}最佳性能对比}{20}{subsubsection.4.7.3}}
-\@writefile{lot}{\contentsline {table}{\numberline {13}{\ignorespaces 三种分类模型在Adult数据集下的最佳分类性能\relax }}{20}{table.caption.32}}
-\newlabel{tab:final_compare}{{13}{20}{三种分类模型在Adult数据集下的最佳分类性能\relax }{table.caption.32}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}对Adult数据集的分析结论}{20}{section.5}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}致谢}{20}{section.6}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.2}优化算法}{16}{subsubsection.4.5.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces 不同优化算法的优化效果对比 \cite  {optim_example}\relax }}{16}{figure.caption.26}}
+\newlabel{fig:optim-ref}{{15}{16}{不同优化算法的优化效果对比 \cite {optim_example}\relax }{figure.caption.26}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces 不同优化算法下MLP模型的分类表现\relax }}{16}{figure.caption.27}}
+\newlabel{fig:optim1}{{16}{16}{不同优化算法下MLP模型的分类表现\relax }{figure.caption.27}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.3}学习率}{16}{subsubsection.4.5.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces 不同初始学习率下MLP模型的分类表现\relax }}{17}{figure.caption.28}}
+\newlabel{fig:lr}{{17}{17}{不同初始学习率下MLP模型的分类表现\relax }{figure.caption.28}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.4}小结}{17}{subsubsection.4.5.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}模型集成}{17}{subsection.4.6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces 集成后的决策树模型的分类表现\relax }}{17}{figure.caption.29}}
+\newlabel{fig:model-plus}{{18}{17}{集成后的决策树模型的分类表现\relax }{figure.caption.29}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces 三种集成方式下子模型提取的特征（或权重与错误率关系）可视化\relax }}{18}{figure.caption.30}}
+\newlabel{fig:model-plus2}{{19}{18}{三种集成方式下子模型提取的特征（或权重与错误率关系）可视化\relax }{figure.caption.30}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}分类模型效果对比}{18}{subsection.4.7}}
+\newlabel{sec:compare}{{4.7}{18}{分类模型效果对比}{subsection.4.7}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.7.1}Z-score标准化}{18}{subsubsection.4.7.1}}
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces 三种分类模型在Z-score标准化前后的数据上的分类表现\relax }}{18}{table.caption.31}}
+\newlabel{tab:norm}{{11}{18}{三种分类模型在Z-score标准化前后的数据上的分类表现\relax }{table.caption.31}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.7.2}PCA}{18}{subsubsection.4.7.2}}
+\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces 决策树、SVM和MLP在降维后测试集上的分类表现\relax }}{19}{table.caption.32}}
+\newlabel{tab:pca1}{{12}{19}{决策树、SVM和MLP在降维后测试集上的分类表现\relax }{table.caption.32}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.7.3}最佳性能对比}{19}{subsubsection.4.7.3}}
+\@writefile{lot}{\contentsline {table}{\numberline {13}{\ignorespaces 三种分类模型在Adult数据集下的最佳分类性能\relax }}{19}{table.caption.33}}
+\newlabel{tab:final_compare}{{13}{19}{三种分类模型在Adult数据集下的最佳分类性能\relax }{table.caption.33}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}对Adult数据集的分析结论}{19}{section.5}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}课程感想 \& 致谢}{20}{section.6}}
 \citation{python}
 \citation{notebook}
 \citation{numpy}
@@ -141,29 +145,29 @@
 \citation{matplotlib}
 \citation{scipy}
 \citation{sklearn}
-\@writefile{toc}{\contentsline {section}{\numberline {A}附录}{22}{appendix.A}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}作业中使用的工具及库包}{22}{subsection.A.1}}
-\newlabel{apd:tools}{{A.1}{22}{作业中使用的工具及库包}{subsection.A.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {14}{\ignorespaces 本作业中使用的库包\relax }}{22}{table.caption.33}}
-\newlabel{tab:import}{{14}{22}{本作业中使用的库包\relax }{table.caption.33}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Adult数据集特征分布补充资料}{22}{subsection.A.2}}
-\newlabel{apd:dis_detail}{{A.2}{22}{Adult数据集特征分布补充资料}{subsection.A.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.2.1}Adult数据集所有属性分布直方图}{22}{subsubsection.A.2.1}}
-\newlabel{apd:attri}{{A.2.1}{22}{Adult数据集所有属性分布直方图}{subsubsection.A.2.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces Adult数据集所有属性的分布直方图\relax }}{22}{figure.caption.34}}
-\newlabel{fig:all_features}{{19}{22}{Adult数据集所有属性的分布直方图\relax }{figure.caption.34}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.2.2}native-country特征的详细分布}{23}{subsubsection.A.2.2}}
-\newlabel{apd:native-country}{{A.2.2}{23}{native-country特征的详细分布}{subsubsection.A.2.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces Adult数据集native-country特征分布（除United-States）\relax }}{23}{figure.caption.35}}
-\newlabel{fig:class_feature_dis_detail}{{20}{23}{Adult数据集native-country特征分布（除United-States）\relax }{figure.caption.35}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {21}{\ignorespaces hours-per-week和education-num特征箱线图\relax }}{23}{figure.caption.36}}
-\newlabel{fig:box}{{21}{23}{hours-per-week和education-num特征箱线图\relax }{figure.caption.36}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.2.3}Adult数据集特征向量化后的相关系数热度图（含相关系数，电子版可放大后观看）}{24}{subsubsection.A.2.3}}
-\newlabel{apd:heat}{{A.2.3}{24}{Adult数据集特征向量化后的相关系数热度图（含相关系数，电子版可放大后观看）}{subsubsection.A.2.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {22}{\ignorespaces Adult数据集特征向量化后的相关系数热度图（含相关系数）\relax }}{24}{figure.caption.37}}
-\newlabel{fig:heat4}{{22}{24}{Adult数据集特征向量化后的相关系数热度图（含相关系数）\relax }{figure.caption.37}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.2.4}各类别型特征下的详细类名}{24}{subsubsection.A.2.4}}
-\newlabel{apd:classes}{{A.2.4}{24}{各类别型特征下的详细类名}{subsubsection.A.2.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}附录}{21}{appendix.A}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}作业中使用的工具及库包}{21}{subsection.A.1}}
+\newlabel{apd:tools}{{A.1}{21}{作业中使用的工具及库包}{subsection.A.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {14}{\ignorespaces 本作业中使用的库包\relax }}{21}{table.caption.34}}
+\newlabel{tab:import}{{14}{21}{本作业中使用的库包\relax }{table.caption.34}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Adult数据集特征分布补充资料}{21}{subsection.A.2}}
+\newlabel{apd:dis_detail}{{A.2}{21}{Adult数据集特征分布补充资料}{subsection.A.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.2.1}Adult数据集所有属性分布直方图}{21}{subsubsection.A.2.1}}
+\newlabel{apd:attri}{{A.2.1}{21}{Adult数据集所有属性分布直方图}{subsubsection.A.2.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces Adult数据集所有属性的分布直方图\relax }}{21}{figure.caption.35}}
+\newlabel{fig:all_features}{{20}{21}{Adult数据集所有属性的分布直方图\relax }{figure.caption.35}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.2.2}native-country特征的详细分布}{22}{subsubsection.A.2.2}}
+\newlabel{apd:native-country}{{A.2.2}{22}{native-country特征的详细分布}{subsubsection.A.2.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {21}{\ignorespaces Adult数据集native-country特征分布（除United-States）\relax }}{22}{figure.caption.36}}
+\newlabel{fig:class_feature_dis_detail}{{21}{22}{Adult数据集native-country特征分布（除United-States）\relax }{figure.caption.36}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {22}{\ignorespaces hours-per-week和education-num特征箱线图\relax }}{22}{figure.caption.37}}
+\newlabel{fig:box}{{22}{22}{hours-per-week和education-num特征箱线图\relax }{figure.caption.37}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.2.3}Adult数据集特征向量化后的相关系数热度图（含相关系数，电子版可放大后观看）}{23}{subsubsection.A.2.3}}
+\newlabel{apd:heat}{{A.2.3}{23}{Adult数据集特征向量化后的相关系数热度图（含相关系数，电子版可放大后观看）}{subsubsection.A.2.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {23}{\ignorespaces Adult数据集特征向量化后的相关系数热度图（含相关系数）\relax }}{23}{figure.caption.38}}
+\newlabel{fig:heat4}{{23}{23}{Adult数据集特征向量化后的相关系数热度图（含相关系数）\relax }{figure.caption.38}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.2.4}各类别型特征下的详细类名}{23}{subsubsection.A.2.4}}
+\newlabel{apd:classes}{{A.2.4}{23}{各类别型特征下的详细类名}{subsubsection.A.2.4}{}}
 \bibstyle{ieeetr}
 \bibdata{bio}
 \bibcite{Dataset}{1}
