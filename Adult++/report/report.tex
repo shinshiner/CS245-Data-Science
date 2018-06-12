@@ -484,17 +484,17 @@ Adult数据集的分类目标为居民收入，分为两类：<=50K\$以及>50K\
 		\includegraphics[width=0.41\linewidth]{img/svm_kernel_t.png}
 	}
 	\subfigure[训练集（标准化）]{
-		\includegraphics[width=0.41\linewidth]{img/mlp.png}
+		\includegraphics[width=0.41\linewidth]{img/svm_kernel_ntr.png}
 	}
 	\subfigure[测试集（标准化）]{
-		\includegraphics[width=0.41\linewidth]{img/mlp.png}
+		\includegraphics[width=0.41\linewidth]{img/svm_kernel_nt.png}
 	}
 	\caption{不同核函数下SVM模型的分类表现}
 	\label{fig:svm-kernel1}
 \end{figure}
 
 \vspace{0.01\linewidth}
-从上图中也可看出，SVM模型在相同的参数下，对于xxx标准化后的数据分类效果更佳，因此之后的实验均基于xxx标准化后的数据进行。
+从上图中容易看出，对于未经Z-score标准化后的数据，SVM模型在使用rbf核时分类效果较佳，而其余核函数的分类效果极差，甚至低于空模型；而对于Z-score标准化后的数据，linear和sigmoid核函数的表现略有提高，但训练均极不稳定，向空模型的方向收敛。因此之后的实验均基于未Z-score标准化后的数据使用rbf核进行。
 
 \subsubsection{惩罚系数}
 \label{sec:penalty}
@@ -509,6 +509,39 @@ SVM在面对轻微的线性不可分数据时，可以通过引入惩罚系数$C
 \end{equation}
 
 适当的惩罚系数可以极大地改善SVM的分类性能。我使用类似于网格搜索的方式，遍历了各数量级的$C$取值，相应的结果可参见图 \ref{fig:penalty}。
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\linewidth]{img/svm_penalty.png}
+	\caption{不同惩罚系数下SVM模型的分类表现}
+	\label{fig:penalty}
+\end{figure}
+
+\subsubsection{Gamma ($\gamma$)}
+
+rbf核的数学表达形式为：
+
+\begin{equation}
+	K(x_i, x_j)=exp(-\gamma\|x_i-x_j\|^2), \gamma>0
+\end{equation}
+
+$\gamma$是rbf核函数的一个重要参数，在sklearn中，其默认值为：$\dfrac{1}{\mbox{特征总维数}}$，在Adult数据集上即为$1/104=0.096$。我利用类似网格搜索的方式探索了各数量级下的$\gamma$对应的SVM模型的分类表现（表 \ref{tab:gammma}）。
+
+\begin{table}[H]
+	\renewcommand\arraystretch{1.35}
+	\caption{不同数量级的$\gamma$对应的SVM模型的分类表现}
+	\label{tab:gammma}
+	\centering
+	
+	\begin{tabular}{c|c|c}
+		\centering
+		$\gamma$ & 训练集f1-score & 测试集f1-score \\
+		\hline
+		\hline
+		
+
+	\end{tabular}
+\end{table}
 
 \subsection{MLP}
 
