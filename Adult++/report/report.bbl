@@ -3,6 +3,10 @@
 \bibitem{Dataset}
 D.~Dheeru and E.~Karra~Taniskidou, ``{UCI} machine learning repository,'' 2017.
 
+\bibitem{bench}
+``adult.names.''
+  \url{http://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.names}.
+
 \bibitem{sklearn}
 ``scikit-learn.'' \url{http://scikit-learn.org/stable/}.
 
