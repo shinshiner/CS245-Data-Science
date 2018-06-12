@@ -291,12 +291,12 @@ Adult数据集中的类别型特征包含：workclass, education, marital-status
 
 从图 \ref{fig:native-country}及图 \ref{fig:race}中可以看出，Adult数据集中的大部分成年人都来自于美国，且为白色人种，我认为这一点对于Adult数据集其余特征的分布有着重要的影响。
 
-\subsubsection{所有属性的分布直方图\footnote{更多特征分布图可参见附录 \ref{dis_detail}}
+\subsubsection{所有属性的分布直方图}
 
 直方图是统计学中最常用的统计报告图之一，能够对数据分布进行精确且直观的图形表示。
 
 \vspace{0.01\linewidth}
-对数据集特征分布的探索，一种图片能够反映的信息是有限的，如概率核密度图仅统计分布信息，无法表示具体的数值。为更加全面地呈现出Adult数据集中所有属性（包括特征和分类目标）的分布，我作出每个属性的直方图，并将其排列在一起。限于篇幅，我将其放在附录 \ref{apd:attri}中。
+对数据集特征分布的探索，一种图片能够反映的信息是有限的，如概率核密度图仅统计分布信息，无法表示具体的数值。为更加全面地呈现出Adult数据集中所有属性（包括特征和分类目标）的分布，我作出每个属性的直方图，并将其排列在一起。限于篇幅，我将其放在附录 \ref{apd:attri}中\footnote{更多特征分布图可参见附录 \ref{apd:dis_detail}}。
 
 \subsection{Adult数据集中各特征的相关性}
 \label{sec:cof}
@@ -610,15 +610,22 @@ Adult数据集的分类目标为居民收入，分为两类：<=50K\$以及>50K\
 对于经过Z-score标准化的Adult数据集，网格搜索的结果与未标准化时并没有差别。
 
 \vspace{0.01\linewidth}
-最终通过网格搜索筛选出的最佳决策树模型的部分可视化见图 \ref{fig:dt-best-vis}。
+最终通过网格搜索筛选出的最佳决策树模型的混淆矩阵及模型本身部分可视化分别见图 \ref{fig:cm}， \ref{fig:dt-best-vis}。
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\linewidth]{img/dt_cm.png}
+	\caption{最佳决策树模型的混淆矩阵}
+	\label{fig:cm}
+\end{figure}
 
 \begin{figure}[H]
 	\centering
 	\subfigure[决策树左部]{
-		\includegraphics[width=0.85\linewidth]{img/svm_kernel_tr.png}
+		\includegraphics[width=0.85\linewidth]{img/dt_left.png}
 	}
 	\subfigure[决策树右部]{
-		\includegraphics[width=0.85\linewidth]{img/svm_kernel_t.png}
+		\includegraphics[width=0.85\linewidth]{img/dt_right.png}
 	}
 	\caption{最佳决策树模型的部分可视化}
 	\label{fig:dt-best-vis}
@@ -824,10 +831,10 @@ $\gamma$是rbf核函数的一个重要参数，在sklearn中，其默认值为�
 		\includegraphics[width=0.31\linewidth]{img/bagging_feature_10.png}
 	}
 	\subfigure[boosting（SAMME）]{
-		\includegraphics[width=0.31\linewidth]{img/boosting_kline_samme.png}
+		\includegraphics[width=0.31\linewidth]{img/boosting-weight-error-10.png}
 	}
 	\subfigure[boosting（SAMME.R）]{
-		\includegraphics[width=0.31\linewidth]{img/boosting_kline_sammer.png}
+		\includegraphics[width=0.31\linewidth]{img/boosting-weight-error-10-r.png}
 	}
 	\caption{三种集成方式下子模型提取的特征（或权重与错误率关系）可视化}
 	\label{fig:model-plus2}
@@ -1012,7 +1019,7 @@ Adult数据集是一个中等规模，存在少部分缺失值的二分类数据
 	\end{table}
 	
 	\subsection{Adult数据集特征分布补充资料}
-	\label{dis_detail}
+	\label{apd:dis_detail}
 	
 	\subsubsection{Adult数据集所有属性分布直方图}
 	\label{apd:attri}
@@ -1031,9 +1038,21 @@ Adult数据集是一个中等规模，存在少部分缺失值的二分类数据
 	\vspace{-0.02\linewidth}
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.75\linewidth]{img/native_country_dis2.pdf}
+		\includegraphics[width=0.80\linewidth]{img/native_country_dis2.pdf}
 		\caption{Adult数据集native-country特征分布（除United-States）}
 		\label{fig:class_feature_dis_detail}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\subfigure[hours-per-week]{
+			\includegraphics[width=0.45\linewidth]{img/hours_per_week_box.pdf}
+		}
+		\subfigure[education-num]{
+			\includegraphics[width=0.45\linewidth]{img/edu_num_box.pdf}
+		}
+		\caption{hours-per-week和education-num特征箱线图}
+		\label{fig:box}
 	\end{figure}
 	
 	\subsubsection{Adult数据集特征向量化后的相关系数热度图（含相关系数，电子版可放大后观看）}
