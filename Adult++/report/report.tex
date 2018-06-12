@@ -377,9 +377,10 @@ Adult数据集的分类目标为居民收入，分为两类：<=50K\$以及>50K\
 \end{equation}
 
 \vspace{-0.03\linewidth}
-一般地，在大规模的数据集下，精确度和召回率会相互制约，出现一高一低的现象，而f1-score可以兼顾二者，有效减少因一者过大带来的误差。因此，在本次作业的实验中，我主要以f1-score作为分类性能的主要评价标准，精确度和召回率则在训练基线模型时作为参考标准。
+一般地，在大规模的数据集下，精确度和召回率会相互制约，出现一高一低的现象，而f1-score可以兼顾二者，有效减少因一者过大带来的误差。因此，在本次作业的实验中，我主要以\textbf{f1-score}作为分类性能的主要评价标准，精确度和召回率则在训练基线模型时作为参考标准。
 
 \section{各分类模型的预测结果比较}
+\label{sec:model-single}
 
 \subsection{基线模型（baseline）}
 
@@ -474,10 +475,29 @@ Adult数据集的分类目标为居民收入，分为两类：<=50K\$以及>50K\
 
 原始的SVM属于线性分类器，核函数的引入将SVM的应用推广到了非线性数据上。不同的核函数所需要的计算量和性能均有较大差别，我在Adult数据集上尝试应用四种常用的核函数：rbf核函数，多项式核函数（poly kernel），sigmoid核函数以及线性核函数，各模型相应的表现见图 \ref{fig:svm-kernel1} 及图 \ref{fig:svm-kernel2}（基于5折交叉验证）。
 
+\begin{figure}[H]
+	\centering
+	\subfigure[训练集]{
+		\includegraphics[width=0.41\linewidth]{img/svm_kernel_tr.png}
+	}
+	\subfigure[测试集]{
+		\includegraphics[width=0.41\linewidth]{img/svm_kernel_t.png}
+	}
+	\subfigure[训练集（标准化）]{
+		\includegraphics[width=0.41\linewidth]{img/mlp.png}
+	}
+	\subfigure[测试集（标准化）]{
+		\includegraphics[width=0.41\linewidth]{img/mlp.png}
+	}
+	\caption{不同核函数下SVM模型的分类表现}
+	\label{fig:svm-kernel1}
+\end{figure}
+
 \vspace{0.01\linewidth}
 从上图中也可看出，SVM模型在相同的参数下，对于xxx标准化后的数据分类效果更佳，因此之后的实验均基于xxx标准化后的数据进行。
 
 \subsubsection{惩罚系数}
+\label{sec:penalty}
 
 SVM在面对轻微的线性不可分数据时，可以通过引入惩罚系数$C$，将原有的优化目标
 \begin{equation}
@@ -498,20 +518,76 @@ SVM在面对轻微的线性不可分数据时，可以通过引入惩罚系数$C
 
 激活函数作用于MLP隐藏层中的每个神经元上，为MLP引入非线性因素，若缺少激活函数，神经网络的表达能力将极其有限。因此，激活函数是整个MLP中重要的组件之一。常用的激活函数包括relu \cite{{relu}}， tanh以及sigmoid等，相应的预测表现见图 \ref{fig:mlp-activate1}。
 
+\begin{figure}[H]
+	\centering
+	\subfigure[训练集]{
+		\includegraphics[width=0.41\linewidth]{img/mlp_activation_tr.png}
+	}
+	\subfigure[测试集]{
+		\includegraphics[width=0.41\linewidth]{img/mlp_activation_t.png}
+	}
+	\subfigure[训练集（标准化）]{
+		\includegraphics[width=0.41\linewidth]{img/mlp_activation_ntr.png}
+	}
+	\subfigure[测试集（标准化）]{
+		\includegraphics[width=0.41\linewidth]{img/mlp_activation_nt.png}
+	}
+	\caption{不同激活函数下MLP模型的分类表现}
+	\label{fig:mlp-activate1}
+\end{figure}
+
+上图结果表明，相比于sigmoid和tanh，relu激活函数在Adult数据集下的分类表现更佳。同时，MLP在经过Z-score标准化后的Adult数据集上能取得更好的分类效果，不仅提高了整体的分类f1-score，更有效地避免了使用relu激活函数时进入局部最小值的情况。因此，之后MLP部分的实验均基于Z-score标准化后的Adult数据集进行。
+
 \subsubsection{优化算法}
 
-优化算法作用于MLP更新参数时，对于同样的梯度分布，不同的优化算法的优化路径存在着极大的差别，图 \ref{fig:optim-ref} \cite{optim_example} 形象地说明了这一点。因此，探究不同优化算法下MLP的分类性能是很有必要的，详细结果可参见图 \ref{fig:optim1}。
+优化算法作用于MLP更新参数时，对于同样的梯度分布，不同的优化算法的优化路径存在着极大的差别，图 \ref{fig:optim-ref} 形象地说明了这一点。因此，探究不同优化算法下MLP的分类性能是很有必要的，详细结果可参见图 \ref{fig:optim1}。
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\linewidth]{img/optim_example.png}
-	\caption{不同优化算法的优化效果对比}
+	\caption{不同优化算法的优化效果对比 \cite{optim_example}}
 	\label{fig:optim-ref}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\subfigure[训练集（标准化）]{
+		\includegraphics[width=0.41\linewidth]{img/mlp_optimizer_ntr.png}
+	}
+	\subfigure[测试集（标准化）]{
+		\includegraphics[width=0.41\linewidth]{img/mlp_optimizer_nt.png}
+	}
+	\caption{不同优化算法下MLP模型的分类表现}
+	\label{fig:optim1}
+\end{figure}
+
+\subsubsection{学习率}
+
+在MLP的参数更新过程中，学习率决定了参数更新的速率，过大的学习率会导致模型进入局部最小值，而学习率过小则会减缓模型的学习速度。在本节中，我采用类似于 \ref{sec:penalty}小节的方式，对基于xxx优化算法的MLP模型在不同学习率下的分类效果进行探索（图 \ref{fig:lr}。
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\linewidth]{img/mlp_lr.png}
+	\caption{不同学习率下MLP模型的分类表现}
+	\label{fig:lr}
 \end{figure}
 
 \subsection{模型集成}
 
+从以上几节的结果分析，决策树模型在Adult数据集上的分类效果弱于SVM和MLP，因此，我尝试使用bagging和boosting两种模型集成的方法改善决策树模型的分类效果。结果参见图 \ref{fig:model-plus}。
+
 \subsection{三种分类模型效果对比}
+\label{sec:compare}
+
+通过 \ref{sec:model-single}小节的实验，我对决策树、SVM和MLP三种模型在Adult数据集上的分类效果有了大致的了解。在本节中，我将探索三种分类模型在不同条件下对Adult数据集的分类效果。
+
+\subsubsection{Z-score标准化}
+
+\subsubsection{PCA}
+
+\subsubsection{最佳性能对比}
+
+根据 \ref{sec:model-single} 与 \ref{sec:compare}小节的实验结果，三种模型均存在一个最佳的f1-score值，一定程度上代表其在Adult数据集上分类能力的极限（由于模型的参数空间极其巨大，无法保证该值是否为全局最优，但在一定程度上能反映该模型的最佳性能），对比参见表 \ref{tab:final_compare}。
 
 %\begin{figure}[H]
 %	\centering
@@ -559,6 +635,8 @@ SVM在面对轻微的线性不可分数据时，可以通过引入惩罚系数$C
 
 Adult数据集是一个中等规模，存在少部分缺失值的二分类数据集，共48842个实例，每个实例包含14个特征，其中8个为类别型特征，6个为数值型特征。各类别型特征的分布差异较大，数值型特征的分布近似于正态分布。
 
+\vspace{0.01\linewidth}
+我使用了决策树、SVM和MLP三种分类模型对Adult数据集进行分类，对模型的参数进行微调后，xxx的分类效果最佳，最高的f1-score可达到xxx，而xxx模型所消耗的时间最少，平均不到xxx秒。
 \newpage
 \begin{appendix}
 	\section{附录}
