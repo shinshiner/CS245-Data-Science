@@ -54,12 +54,15 @@
 
 \begin{document}
 
+\tableofcontents
+
+\newpage
 \section{引言}
 
 近年来，人们逐渐从信息化时代迈向了数据时代，各种数据爆炸式地增长，数据消费也在日益增多，大量的信息、知识和利润隐藏在这些数据中。如何更有效地利用这些数据，已经成为这个时代下人们共同探索的问题之一。
 
 \vspace{0.01\linewidth}
-在这次大作业中，我将对Adult数据集进行全面的分析：首先探索数据集中各特征的分布信息；再划分数据集，尝试多种分类模型；最后比较这些模型在Adult数据集上的预测结果（我的分析代码均基于Python语言，所使用的相关工具和库包可参见附录 \ref{apd:tools}）\footnote{本次大作业以及以往小作业的代码可参见我的github仓库：\href{https://github.com/shinshiner/CS245-Data-Science}{https://github.com/shinshiner/CS245-Data-Science}}。
+在这次大作业中，我将对Adult数据集进行全面的分析：首先探索数据集中各特征的分布信息；再划分数据集，尝试多种分类模型；最后比较这些模型在Adult数据集上的预测结果（我的分析代码均基于Python语言，所使用的相关工具和库包可参见附录 \ref{apd:tools}）\footnote{本次大作业以及以往小作业的代码可参见我的github仓库：\href{https://github.com/shinshiner/CS245-Data-Science}{https://github.com/shinshiner/CS245-Data-Science}，代码已固定随机数种子，理论上可复现}。
 
 \section{探索Adult数据集}
 
@@ -70,7 +73,7 @@ Adult数据集 \cite{Dataset} 也称人口普查收入（Census Income）数据�
 
 %\vspace{0.01\linewidth}
 \begin{table}[H]
-	\renewcommand\arraystretch{1.35}
+	\renewcommand\arraystretch{1.25}
 	\caption{Adult数据集的基本信息}
 	\label{tab:basic-info}
 	\centering
@@ -893,8 +896,8 @@ $\gamma$是rbf核函数的一个重要参数，在sklearn中，其默认值为�
 		\hline
 		
 		决策树 & 0.83 & 0.83 \\
-		SVM & & \\
-		MLP & & \\
+		SVM & 0.84 & 0.52 \\
+		MLP & 0.83 & 0.85 \\
 		bagging集成决策树 & 0.84 & 0.84 \\
 
 	\end{tabular}
@@ -1018,7 +1021,7 @@ Adult数据集是一个中等规模，存在少部分缺失值的二分类数据
 对Adult数据集特征的相关性分析表明，半数特征之间都存在着一定的相关性，同时数据集中存在大量冗余的特征，较为明显的有education和education-num，其余冗余的特征经过PCA降维后可提取出2-3维的有效特征。相关性分析同时表明，数据集中存在和其余特征几乎完全独立的特征（fnlwgt）。
 
 \vspace{0.01\linewidth}
-我使用了决策树、SVM和MLP三种分类模型对Adult数据集进行分类，并根据f1-score为分类效果衡量标准，对模型的参数进行微调。结果表明，MLP的分类效果最佳，在测试集上最高的平均f1-score可达到0.85，而决策树模型所消耗的时间最少，平均不到0.4秒。
+我使用了决策树、SVM和MLP三种分类模型对Adult数据集进行分类，并将f1-score作为分类效果的衡量标准，对模型的参数进行微调。结果表明，MLP的分类效果最佳，在测试集上最高的平均f1-score可达到0.85，而决策树模型所消耗的时间最少，平均不到0.4秒。
 
 \vspace{0.01\linewidth}
 除使用单独模型进行分类外，我还对决策树模型进行了模型集成（bagging和boosting），经过bagging和boosting（SAMME）集成后的模型能够稍微提高分类性能，但仍无法超过MLP模型。通过boosting（SAMME.R）集成的决策树模型出现过拟合情况。
