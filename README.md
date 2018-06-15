@@ -13,6 +13,7 @@ SJTU2 CS45 Data Science
 * [sklearn](http://scikit-learn.org/stable/)
 * [stats](https://pypi.org/project/stats/)
 * [xlwt](https://pypi.org/project/xlwt/)
+* [seaborn](http://seaborn.pydata.org/)
 
 ## 2. Contents
 
